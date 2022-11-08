@@ -29,6 +29,7 @@ Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();
   Rcpp::NumericVector nv(n);
+  LN::set_relative_precision_of_to_double(0.000000000000001);
   for(size_t i = 0; i < n; i++) {
     nv(i) = CGAL::to_double<LN>(lv[i]);
   }
