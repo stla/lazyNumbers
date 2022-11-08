@@ -23,6 +23,10 @@ as.lazyMatrix.matrix <- function(M) {
   new("lazyMatrix", xptr = nm2lmx(M), nrow = nrow(M), ncol = ncol(M))
 }
 
+as.lazyMatrix.numeric <- function(x) {
+  as.lazyMatrix.matrix(as.matrix(x))
+}
+
 #' @exportS3Method as.double lazyMatrix
 as.double.lazyMatrix <- function(x, ...) {
   lmx2nm(x@xptr)
