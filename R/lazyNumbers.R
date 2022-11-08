@@ -3,14 +3,17 @@
 #' @param x a numeric vector
 #' @return An external pointer having class \code{lazyNumber}.
 #' @export
+#' @name lazyNumber
 as.lazyNumber <- function(x) UseMethod("as.lazyNumber")
+
+#' @rdname lazyNumber
+#' @export
+ln <- function(x) as.lazyNumber(x)
 
 as.lazyNumber.lazyNumber <- function(x) x
 
 as.lazyNumber.numeric <- function(x) {
-  y <- nv2lvx(x)
-  class(y) <- "lazyNumber"
-  y
+  new("lazyNumber", xptr = nv2lvx(x), length = length(x))
 }
 
 as.lazyNumber.integer <- function(x) {
@@ -19,5 +22,5 @@ as.lazyNumber.integer <- function(x) {
 
 #' @exportS3Method as.double lazyNumber
 as.double.lazyNumber <- function(x, ...) {
-  lvx2nv(x)
+  lvx2nv(x@xptr)
 }
