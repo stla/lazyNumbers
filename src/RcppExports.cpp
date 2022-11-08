@@ -78,6 +78,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// minus_lmx
+lazyMatrixXPtr minus_lmx(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_minus_lmx(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(minus_lmx(lmx));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lvx_plus_lvx
 lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2);
 RcppExport SEXP _lazyNumbers_lvx_plus_lvx(SEXP lvx1SEXP, SEXP lvx2SEXP) {
@@ -87,6 +98,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx1(lvx1SEXP);
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx2(lvx2SEXP);
     rcpp_result_gen = Rcpp::wrap(lvx_plus_lvx(lvx1, lvx2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lmx_plus_lmx
+lazyMatrixXPtr lmx_plus_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2);
+RcppExport SEXP _lazyNumbers_lmx_plus_lmx(SEXP lmx1SEXP, SEXP lmx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx1(lmx1SEXP);
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx2(lmx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lmx_plus_lmx(lmx1, lmx2));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -211,7 +234,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lvx2nv", (DL_FUNC) &_lazyNumbers_lvx2nv, 1},
     {"_lazyNumbers_lmx2nm", (DL_FUNC) &_lazyNumbers_lmx2nm, 1},
     {"_lazyNumbers_minus_lvx", (DL_FUNC) &_lazyNumbers_minus_lvx, 1},
+    {"_lazyNumbers_minus_lmx", (DL_FUNC) &_lazyNumbers_minus_lmx, 1},
     {"_lazyNumbers_lvx_plus_lvx", (DL_FUNC) &_lazyNumbers_lvx_plus_lvx, 2},
+    {"_lazyNumbers_lmx_plus_lmx", (DL_FUNC) &_lazyNumbers_lmx_plus_lmx, 2},
     {"_lazyNumbers_lvx_minus_lvx", (DL_FUNC) &_lazyNumbers_lvx_minus_lvx, 2},
     {"_lazyNumbers_lvx_times_lvx", (DL_FUNC) &_lazyNumbers_lvx_times_lvx, 2},
     {"_lazyNumbers_lvx_dividedby_lvx", (DL_FUNC) &_lazyNumbers_lvx_dividedby_lvx, 2},

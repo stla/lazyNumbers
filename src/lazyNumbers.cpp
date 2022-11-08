@@ -76,6 +76,13 @@ lazyVectorXPtr minus_lvx(lazyVectorXPtr lvx) {
 }
 
 // [[Rcpp::export]]
+lazyMatrixXPtr minus_lmx(lazyMatrixXPtr lmx) {
+  lazyMatrix lmin = *(lmx.get());
+  lazyMatrix lm = - lmin;
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
 lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
   lazyVector lv1 = *(lvx1.get());
   lazyVector lv2 = *(lvx2.get());
@@ -103,6 +110,14 @@ lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     Rcpp::stop("Incompatible lengths.");
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyMatrixXPtr lmx_plus_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
+  lazyMatrix lm1 = *(lmx1.get());
+  lazyMatrix lm2 = *(lmx2.get());
+  lazyMatrix lm = lm1 + lm2;
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
 // [[Rcpp::export]]

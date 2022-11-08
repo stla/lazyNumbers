@@ -25,8 +25,16 @@ minus_lvx <- function(lvx) {
     .Call(`_lazyNumbers_minus_lvx`, lvx)
 }
 
+minus_lmx <- function(lmx) {
+    .Call(`_lazyNumbers_minus_lmx`, lmx)
+}
+
 lvx_plus_lvx <- function(lvx1, lvx2) {
     .Call(`_lazyNumbers_lvx_plus_lvx`, lvx1, lvx2)
+}
+
+lmx_plus_lmx <- function(lmx1, lmx2) {
+    .Call(`_lazyNumbers_lmx_plus_lmx`, lmx1, lmx2)
 }
 
 lvx_minus_lvx <- function(lvx1, lvx2) {
