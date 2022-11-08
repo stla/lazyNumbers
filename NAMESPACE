@@ -2,6 +2,7 @@
 
 S3method(as.double,lazyNumber)
 export(as.lazyNumber)
+export(intervals)
 export(lazynb)
 importFrom(Rcpp,evalCpp)
 importFrom(methods,new)

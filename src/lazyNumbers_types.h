@@ -10,6 +10,7 @@
 #include <CGAL/Lazy_exact_nt.h>
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
+#include <CGAL/Interval_nt.h>
 
 typedef CGAL::Lazy_exact_nt<CGAL::Quotient<CGAL::MP_Float>> LN;
 typedef std::vector<LN>                                     lazyVector;

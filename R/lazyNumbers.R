@@ -32,3 +32,21 @@ as.lazyNumber.integer <- function(x) {
 as.double.lazyNumber <- function(x, ...) {
   lvx2nv(x@xptr)
 }
+
+#' @title Intervals for lazy numbers
+#' @description For each element in a \code{lazyNumber} object, this function 
+#'   returns an interval containing the lazy number.
+#'
+#' @param x a \code{lazyNumber} object
+#'
+#' @return A numeric matrix with two columns and \code{x@length} rows.
+#' @export
+#'
+#' @examples
+#' library(lazyNumbers)
+#' x <- lazynb(22) / lazynb(7)
+#' print(intervals(x), digits = 17L)
+intervals <- function(x) {
+  stopifnot(inherits(x, "lazyNumber"))
+  intervals_lvx(x@xptr)
+}

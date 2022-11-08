@@ -1,6 +1,20 @@
 #include "lazyNumbers_types.h"
 
 // [[Rcpp::export]]
+Rcpp::NumericMatrix intervals_lvx(lazyVectorXPtr lvx) {
+  lazyVector lv = *(lvx.get());
+  const size_t n = lv.size();
+  Rcpp::NumericMatrix intervals(2, n);
+  for(size_t i = 0; i < n; i++) {
+    CGAL::Interval_nt<true> interval = lv[i].interval();
+    Rcpp::NumericVector col_i = 
+      Rcpp::NumericVector::create(interval.inf(), interval.sup());
+    intervals(Rcpp::_, i) = col_i;
+  }
+  return Rcpp::transpose(intervals);
+}
+
+// [[Rcpp::export]]
 lazyVectorXPtr nv2lvx(Rcpp::NumericVector nv) {
   const size_t n = nv.size();
   lazyVector lv(n);
