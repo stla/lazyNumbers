@@ -7,3 +7,8 @@ setClass(
   "lazyNumber",
   slots = c(xptr = "externalptr", length = "integer")
 )
+
+setClass(
+  "lazyMatrix",
+  slots = c(xptr = "externalptr", nrow = "integer", ncol = "integer")
+)
