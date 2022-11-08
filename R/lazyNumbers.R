@@ -8,7 +8,7 @@ as.lazyNumber <- function(x) UseMethod("as.lazyNumber")
 
 #' @rdname lazyNumber
 #' @export
-ln <- function(x) as.lazyNumber(x)
+lazynb <- function(x) as.lazyNumber(x)
 
 as.lazyNumber.lazyNumber <- function(x) x
 

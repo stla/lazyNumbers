@@ -14,7 +14,7 @@ floating-point arithmetic:
 
 ``` r
 library(lazyNumbers)
-x <- ln(1) - ln(7) * ln(0.1)
+x <- lazynb(1) - lazynb(7) * lazynb(0.1)
 as.double(x) == 0.3
 ## [1] TRUE
 ```

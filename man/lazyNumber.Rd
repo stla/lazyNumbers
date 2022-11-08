@@ -3,18 +3,18 @@
 \name{lazyNumber}
 \alias{lazyNumber}
 \alias{as.lazyNumber}
-\alias{ln}
+\alias{lazynb}
 \title{Lazy numbers}
 \usage{
 as.lazyNumber(x)
 
-ln(x)
+lazynb(x)
 }
 \arguments{
 \item{x}{a numeric vector}
 }
 \value{
-An external pointer having class \code{lazyNumber}.
+An object of class \code{lazyNumber}.
 }
 \description{
 Create a lazy number.
