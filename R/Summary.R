@@ -1,6 +1,6 @@
 setMethod(
   "Summary", "lazyNumber",
-  function(x) {
+  function(x, ..., na.rm = FALSE) {
     switch(.Generic,
            max    = new("lazyNumber", xptr = lazyMax(x@xptr), length = 1L),
            min    = new("lazyNumber", xptr = lazyMin(x@xptr), length = 1L),

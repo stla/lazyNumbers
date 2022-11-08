@@ -1,6 +1,6 @@
 #' @useDynLib lazyNumbers, .registration=TRUE
 #' @importFrom Rcpp evalCpp
-#' @importFrom methods setMethod setClass representation new
+#' @importFrom methods setMethod setClass new
 NULL
 
 setClass(
