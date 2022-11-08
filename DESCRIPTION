@@ -1,0 +1,19 @@
+Package: lazyNumbers
+Type: Package
+Title: What the Package Does in One 'Title Case' Line
+Version: 1.0
+Date: 2022-11-08
+Author: Your Name
+Maintainer: Your Name <your@email.com>
+Description: One paragraph description of what the package does as one or more
+        full sentences.
+License: GPL (>= 2)
+Imports: Rcpp (>= 1.0.9), methods
+LinkingTo: Rcpp, BH, RcppEigen, RcppCGAL
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+Collate: 
+    'aaa.R'
+    'Arith.R'
+    'RcppExports.R'
+    'lazyNumbers.R'
