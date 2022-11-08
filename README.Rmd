@@ -3,6 +3,10 @@ title: "lazyNumbers: exact floating-point arithmetic"
 output: github_document
 ---
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/stla/lazyNumbers/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stla/lazyNumbers/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 ```
