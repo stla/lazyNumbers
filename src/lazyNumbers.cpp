@@ -152,3 +152,53 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazySum(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  LN sum(0);
+  for(size_t i = 0; i < n; i++) {
+    sum += lvin[i];
+  }
+  lazyVector lv = {sum};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyProd(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  LN prod(1);
+  for(size_t i = 0; i < n; i++) {
+    prod *= lvin[i];
+  }
+  lazyVector lv = {prod};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyCumsum(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  lazyVector lv(n);
+  LN sum(0);
+  for(size_t i = 0; i < n; i++) {
+    sum += lvin[i];
+    lv[i] = sum;
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyCumprod(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  lazyVector lv(n);
+  LN prod(1);
+  for(size_t i = 0; i < n; i++) {
+    prod *= lvin[i];
+    lv[i] = prod;
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}

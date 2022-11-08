@@ -29,3 +29,19 @@ lvx_dividedby_lvx <- function(lvx1, lvx2) {
     .Call(`_lazyNumbers_lvx_dividedby_lvx`, lvx1, lvx2)
 }
 
+lazySum <- function(lvx) {
+    .Call(`_lazyNumbers_lazySum`, lvx)
+}
+
+lazyProd <- function(lvx) {
+    .Call(`_lazyNumbers_lazyProd`, lvx)
+}
+
+lazyCumsum <- function(lvx) {
+    .Call(`_lazyNumbers_lazyCumsum`, lvx)
+}
+
+lazyCumprod <- function(lvx) {
+    .Call(`_lazyNumbers_lazyCumprod`, lvx)
+}
+

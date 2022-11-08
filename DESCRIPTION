@@ -15,5 +15,6 @@ RoxygenNote: 7.2.1
 Collate: 
     'aaa.R'
     'Arith.R'
+    'Math.R'
     'RcppExports.R'
     'lazyNumbers.R'

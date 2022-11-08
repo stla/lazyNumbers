@@ -93,6 +93,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazySum
+lazyVectorXPtr lazySum(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazySum(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazySum(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyProd
+lazyVectorXPtr lazyProd(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyProd(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyProd(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyCumsum
+lazyVectorXPtr lazyCumsum(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyCumsum(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyCumsum(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyCumprod
+lazyVectorXPtr lazyCumprod(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyCumprod(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyCumprod(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_nv2lvx", (DL_FUNC) &_lazyNumbers_nv2lvx, 1},
@@ -102,6 +146,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lvx_minus_lvx", (DL_FUNC) &_lazyNumbers_lvx_minus_lvx, 2},
     {"_lazyNumbers_lvx_times_lvx", (DL_FUNC) &_lazyNumbers_lvx_times_lvx, 2},
     {"_lazyNumbers_lvx_dividedby_lvx", (DL_FUNC) &_lazyNumbers_lvx_dividedby_lvx, 2},
+    {"_lazyNumbers_lazySum", (DL_FUNC) &_lazyNumbers_lazySum, 1},
+    {"_lazyNumbers_lazyProd", (DL_FUNC) &_lazyNumbers_lazyProd, 1},
+    {"_lazyNumbers_lazyCumsum", (DL_FUNC) &_lazyNumbers_lazyCumsum, 1},
+    {"_lazyNumbers_lazyCumprod", (DL_FUNC) &_lazyNumbers_lazyCumprod, 1},
     {NULL, NULL, 0}
 };
 
