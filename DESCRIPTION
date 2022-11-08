@@ -12,6 +12,7 @@ Imports: Rcpp (>= 1.0.9), methods
 LinkingTo: Rcpp, BH, RcppEigen, RcppCGAL
 Encoding: UTF-8
 RoxygenNote: 7.2.1
+SystemRequirements: C++ 17, gmp, mpfr
 Collate: 
     'aaa.R'
     'Arith.R'

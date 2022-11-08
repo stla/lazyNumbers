@@ -137,6 +137,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyMax
+lazyVectorXPtr lazyMax(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyMax(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyMax(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyMin
+lazyVectorXPtr lazyMin(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyMin(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyMin(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyRange
+lazyVectorXPtr lazyRange(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyRange(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyRange(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_nv2lvx", (DL_FUNC) &_lazyNumbers_nv2lvx, 1},
@@ -150,6 +183,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyProd", (DL_FUNC) &_lazyNumbers_lazyProd, 1},
     {"_lazyNumbers_lazyCumsum", (DL_FUNC) &_lazyNumbers_lazyCumsum, 1},
     {"_lazyNumbers_lazyCumprod", (DL_FUNC) &_lazyNumbers_lazyCumprod, 1},
+    {"_lazyNumbers_lazyMax", (DL_FUNC) &_lazyNumbers_lazyMax, 1},
+    {"_lazyNumbers_lazyMin", (DL_FUNC) &_lazyNumbers_lazyMin, 1},
+    {"_lazyNumbers_lazyRange", (DL_FUNC) &_lazyNumbers_lazyRange, 1},
     {NULL, NULL, 0}
 };
 

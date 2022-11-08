@@ -1,4 +1,6 @@
 #' @include aaa.R
+NULL
+
 setMethod(
   "+", 
   signature(e1 = "lazyNumber", e2 = "missing"), 

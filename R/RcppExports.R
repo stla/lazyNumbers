@@ -45,3 +45,15 @@ lazyCumprod <- function(lvx) {
     .Call(`_lazyNumbers_lazyCumprod`, lvx)
 }
 
+lazyMax <- function(lvx) {
+    .Call(`_lazyNumbers_lazyMax`, lvx)
+}
+
+lazyMin <- function(lvx) {
+    .Call(`_lazyNumbers_lazyMin`, lvx)
+}
+
+lazyRange <- function(lvx) {
+    .Call(`_lazyNumbers_lazyRange`, lvx)
+}
+
