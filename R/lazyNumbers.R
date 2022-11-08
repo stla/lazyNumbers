@@ -4,6 +4,11 @@
 #' @return An object of class \code{lazyNumber}.
 #' @export
 #' @name lazyNumber
+#' @examples
+#' library(lazyNumbers)
+#' 1 - 7 * 0.1 == 0.3 # FALSE
+#' x <- lazynb(1) - lazynb(7) * lazynb(0.1)
+#' as.double(x) == 0.3 # TRUE
 as.lazyNumber <- function(x) UseMethod("as.lazyNumber")
 
 #' @rdname lazyNumber
