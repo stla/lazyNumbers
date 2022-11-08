@@ -36,10 +36,26 @@ lazyVectorXPtr minus_lvx(lazyVectorXPtr lvx) {
 lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
   lazyVector lv1 = *(lvx1.get());
   lazyVector lv2 = *(lvx2.get());
-  const size_t n = lv1.size();
-  lazyVector lv(n);
-  for(size_t i = 0; i < n; i++) {
-    lv[i] = lv1[i] + lv2[i];
+  const size_t n1 = lv1.size();
+  const size_t n2 = lv2.size();
+  lazyVector lv;
+  if(n1 == n2) {
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      lv.emplace_back(lv1[i] + lv2[i]);
+    }
+  } else if(n1 == 1) {
+    lv.reserve(n2);
+    for(size_t i = 0; i < n2; i++) {
+      lv.emplace_back(lv1[0] + lv2[i]);
+    }
+  } else if(n2 == 1) {
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      lv.emplace_back(lv1[i] + lv2[0]);
+    }
+  } else {
+    Rcpp::stop("Incompatible lengths.");
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
@@ -48,10 +64,26 @@ lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
 lazyVectorXPtr lvx_minus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
   lazyVector lv1 = *(lvx1.get());
   lazyVector lv2 = *(lvx2.get());
-  const size_t n = lv1.size();
-  lazyVector lv(n);
-  for(size_t i = 0; i < n; i++) {
-    lv[i] = lv1[i] - lv2[i];
+  const size_t n1 = lv1.size();
+  const size_t n2 = lv2.size();
+  lazyVector lv;
+  if(n1 == n2) {
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      lv.emplace_back(lv1[i] - lv2[i]);
+    }
+  } else if(n1 == 1) {
+    lv.reserve(n2);
+    for(size_t i = 0; i < n2; i++) {
+      lv.emplace_back(lv1[0] - lv2[i]);
+    }
+  } else if(n2 == 1) {
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      lv.emplace_back(lv1[i] - lv2[0]);
+    }
+  } else {
+    Rcpp::stop("Incompatible lengths.");
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
@@ -60,10 +92,26 @@ lazyVectorXPtr lvx_minus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
 lazyVectorXPtr lvx_times_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
   lazyVector lv1 = *(lvx1.get());
   lazyVector lv2 = *(lvx2.get());
-  const size_t n = lv1.size();
-  lazyVector lv(n);
-  for(size_t i = 0; i < n; i++) {
-    lv[i] = lv1[i] * lv2[i];
+  const size_t n1 = lv1.size();
+  const size_t n2 = lv2.size();
+  lazyVector lv;
+  if(n1 == n2) {
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      lv.emplace_back(lv1[i] * lv2[i]);
+    }
+  } else if(n1 == 1) {
+    lv.reserve(n2);
+    for(size_t i = 0; i < n2; i++) {
+      lv.emplace_back(lv1[0] * lv2[i]);
+    }
+  } else if(n2 == 1) {
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      lv.emplace_back(lv1[i] * lv2[0]);
+    }
+  } else {
+    Rcpp::stop("Incompatible lengths.");
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
@@ -72,10 +120,35 @@ lazyVectorXPtr lvx_times_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
 lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
   lazyVector lv1 = *(lvx1.get());
   lazyVector lv2 = *(lvx2.get());
-  const size_t n = lv1.size();
-  lazyVector lv(n);
-  for(size_t i = 0; i < n; i++) {
-    lv[i] = lv1[i] / lv2[i];
+  const size_t n1 = lv1.size();
+  const size_t n2 = lv2.size();
+  lazyVector lv;
+  if(n1 == n2) {
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      if(lv2[i] == 0) {
+        Rcpp::stop("Division by zero.");
+      }
+      lv.emplace_back(lv1[i] / lv2[i]);
+    }
+  } else if(n1 == 1) {
+    lv.reserve(n2);
+    for(size_t i = 0; i < n2; i++) {
+      if(lv2[i] == 0) {
+        Rcpp::stop("Division by zero.");
+      }
+      lv.emplace_back(lv1[0] / lv2[i]);
+    }
+  } else if(n2 == 1) {
+    if(lv2[0] == 0) {
+      Rcpp::stop("Division by zero.");
+    }
+    lv.reserve(n1);
+    for(size_t i = 0; i < n1; i++) {
+      lv.emplace_back(lv1[i] / lv2[0]);
+    }
+  } else {
+    Rcpp::stop("Incompatible lengths.");
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }

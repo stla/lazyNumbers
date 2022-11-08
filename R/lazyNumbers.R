@@ -1,7 +1,7 @@
 #' @title Lazy numbers
 #' @description Create a lazy number.
 #' @param x a numeric vector
-#' @return An external pointer having class \code{lazyNumber}.
+#' @return An object of class \code{lazyNumber}.
 #' @export
 #' @name lazyNumber
 as.lazyNumber <- function(x) UseMethod("as.lazyNumber")
