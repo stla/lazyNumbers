@@ -1,0 +1,16 @@
+#ifndef _HEADER_
+#define _HEADER_
+#endif
+
+#include <Rcpp.h>
+
+#define CGAL_EIGEN3_ENABLED 1
+
+#include <CGAL/number_utils.h>
+#include <CGAL/Lazy_exact_nt.h>
+#include <CGAL/MP_Float.h>
+#include <CGAL/Quotient.h>
+
+typedef CGAL::Lazy_exact_nt<CGAL::Quotient<CGAL::MP_Float>> LN;
+typedef std::vector<LN>                                     lazyVector;
+typedef Rcpp::XPtr<lazyVector>                              lazyVectorXPtr;
