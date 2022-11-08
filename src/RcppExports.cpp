@@ -125,6 +125,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lmx_minus_lmx
+lazyMatrixXPtr lmx_minus_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2);
+RcppExport SEXP _lazyNumbers_lmx_minus_lmx(SEXP lmx1SEXP, SEXP lmx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx1(lmx1SEXP);
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx2(lmx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lmx_minus_lmx(lmx1, lmx2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lvx_times_lvx
 lazyVectorXPtr lvx_times_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2);
 RcppExport SEXP _lazyNumbers_lvx_times_lvx(SEXP lvx1SEXP, SEXP lvx2SEXP) {
@@ -137,6 +149,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lmx_cwtimes_lmx
+lazyMatrixXPtr lmx_cwtimes_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2);
+RcppExport SEXP _lazyNumbers_lmx_cwtimes_lmx(SEXP lmx1SEXP, SEXP lmx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx1(lmx1SEXP);
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx2(lmx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lmx_cwtimes_lmx(lmx1, lmx2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lmx_times_lmx
+lazyMatrixXPtr lmx_times_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2);
+RcppExport SEXP _lazyNumbers_lmx_times_lmx(SEXP lmx1SEXP, SEXP lmx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx1(lmx1SEXP);
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx2(lmx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lmx_times_lmx(lmx1, lmx2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lvx_dividedby_lvx
 lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2);
 RcppExport SEXP _lazyNumbers_lvx_dividedby_lvx(SEXP lvx1SEXP, SEXP lvx2SEXP) {
@@ -146,6 +182,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx1(lvx1SEXP);
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx2(lvx2SEXP);
     rcpp_result_gen = Rcpp::wrap(lvx_dividedby_lvx(lvx1, lvx2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lmx_dividedby_lmx
+lazyMatrixXPtr lmx_dividedby_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2);
+RcppExport SEXP _lazyNumbers_lmx_dividedby_lmx(SEXP lmx1SEXP, SEXP lmx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx1(lmx1SEXP);
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx2(lmx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lmx_dividedby_lmx(lmx1, lmx2));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -238,8 +286,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lvx_plus_lvx", (DL_FUNC) &_lazyNumbers_lvx_plus_lvx, 2},
     {"_lazyNumbers_lmx_plus_lmx", (DL_FUNC) &_lazyNumbers_lmx_plus_lmx, 2},
     {"_lazyNumbers_lvx_minus_lvx", (DL_FUNC) &_lazyNumbers_lvx_minus_lvx, 2},
+    {"_lazyNumbers_lmx_minus_lmx", (DL_FUNC) &_lazyNumbers_lmx_minus_lmx, 2},
     {"_lazyNumbers_lvx_times_lvx", (DL_FUNC) &_lazyNumbers_lvx_times_lvx, 2},
+    {"_lazyNumbers_lmx_cwtimes_lmx", (DL_FUNC) &_lazyNumbers_lmx_cwtimes_lmx, 2},
+    {"_lazyNumbers_lmx_times_lmx", (DL_FUNC) &_lazyNumbers_lmx_times_lmx, 2},
     {"_lazyNumbers_lvx_dividedby_lvx", (DL_FUNC) &_lazyNumbers_lvx_dividedby_lvx, 2},
+    {"_lazyNumbers_lmx_dividedby_lmx", (DL_FUNC) &_lazyNumbers_lmx_dividedby_lmx, 2},
     {"_lazyNumbers_lazySum", (DL_FUNC) &_lazyNumbers_lazySum, 1},
     {"_lazyNumbers_lazyProd", (DL_FUNC) &_lazyNumbers_lazyProd, 1},
     {"_lazyNumbers_lazyCumsum", (DL_FUNC) &_lazyNumbers_lazyCumsum, 1},

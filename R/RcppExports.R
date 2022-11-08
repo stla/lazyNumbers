@@ -41,12 +41,28 @@ lvx_minus_lvx <- function(lvx1, lvx2) {
     .Call(`_lazyNumbers_lvx_minus_lvx`, lvx1, lvx2)
 }
 
+lmx_minus_lmx <- function(lmx1, lmx2) {
+    .Call(`_lazyNumbers_lmx_minus_lmx`, lmx1, lmx2)
+}
+
 lvx_times_lvx <- function(lvx1, lvx2) {
     .Call(`_lazyNumbers_lvx_times_lvx`, lvx1, lvx2)
 }
 
+lmx_cwtimes_lmx <- function(lmx1, lmx2) {
+    .Call(`_lazyNumbers_lmx_cwtimes_lmx`, lmx1, lmx2)
+}
+
+lmx_times_lmx <- function(lmx1, lmx2) {
+    .Call(`_lazyNumbers_lmx_times_lmx`, lmx1, lmx2)
+}
+
 lvx_dividedby_lvx <- function(lvx1, lvx2) {
     .Call(`_lazyNumbers_lvx_dividedby_lvx`, lvx1, lvx2)
+}
+
+lmx_dividedby_lmx <- function(lmx1, lmx2) {
+    .Call(`_lazyNumbers_lmx_dividedby_lmx`, lmx1, lmx2)
 }
 
 lazySum <- function(lvx) {
