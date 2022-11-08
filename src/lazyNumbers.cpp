@@ -60,13 +60,15 @@ lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
+    LN ln1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
-      lv.emplace_back(lv1[0] + lv2[i]);
+      lv.emplace_back(ln1 + lv2[i]);
     }
   } else if(n2 == 1) {
     lv.reserve(n1);
+    LN ln2 = lv2[0];
     for(size_t i = 0; i < n1; i++) {
-      lv.emplace_back(lv1[i] + lv2[0]);
+      lv.emplace_back(lv1[i] + ln2);
     }
   } else {
     Rcpp::stop("Incompatible lengths.");
@@ -88,13 +90,15 @@ lazyVectorXPtr lvx_minus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
+    LN ln1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
-      lv.emplace_back(lv1[0] - lv2[i]);
+      lv.emplace_back(ln1 - lv2[i]);
     }
   } else if(n2 == 1) {
     lv.reserve(n1);
+    LN ln2 = lv2[0];
     for(size_t i = 0; i < n1; i++) {
-      lv.emplace_back(lv1[i] - lv2[0]);
+      lv.emplace_back(lv1[i] - ln2);
     }
   } else {
     Rcpp::stop("Incompatible lengths.");
@@ -116,13 +120,15 @@ lazyVectorXPtr lvx_times_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
+    LN ln1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
-      lv.emplace_back(lv1[0] * lv2[i]);
+      lv.emplace_back(ln1 * lv2[i]);
     }
   } else if(n2 == 1) {
     lv.reserve(n1);
+    LN ln2 = lv2[0];
     for(size_t i = 0; i < n1; i++) {
-      lv.emplace_back(lv1[i] * lv2[0]);
+      lv.emplace_back(lv1[i] * ln2);
     }
   } else {
     Rcpp::stop("Incompatible lengths.");
