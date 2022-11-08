@@ -19,7 +19,7 @@ lazyVectorXPtr nv2lvx(Rcpp::NumericVector nv) {
   const size_t n = nv.size();
   lazyVector lv(n);
   for(size_t i = 0; i < n; i++) {
-    lv[i] = LN(nv(i));
+    lv[i] = lazyScalar(nv(i));
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
@@ -31,7 +31,7 @@ lazyMatrixXPtr nm2lmx(Rcpp::NumericMatrix nm) {
   lazyMatrix lm(nrow, ncol);
   for(size_t i = 0; i < nrow; i++) {
     for(size_t j = 0; j < ncol; j++) {
-      lm(i, j) = LN(nm(i, j));
+      lm(i, j) = lazyScalar(nm(i, j));
     }
   }
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
@@ -42,9 +42,9 @@ Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();
   Rcpp::NumericVector nv(n);
-  LN::set_relative_precision_of_to_double(0.000000000000001);
+  lazyScalar::set_relative_precision_of_to_double(0.000000000000001);
   for(size_t i = 0; i < n; i++) {
-    nv(i) = CGAL::to_double<LN>(lv[i]);
+    nv(i) = CGAL::to_double<lazyScalar>(lv[i]);
   }
   return nv;
 }
@@ -55,10 +55,10 @@ Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx) {
   const size_t nrow = lm.rows();
   const size_t ncol = lm.cols();
   Rcpp::NumericMatrix nm(nrow, ncol);
-  LN::set_relative_precision_of_to_double(0.000000000000001);
+  lazyScalar::set_relative_precision_of_to_double(0.000000000000001);
   for(size_t i = 0; i < nrow; i++) {
     for(size_t j = 0; j < ncol; j++) {
-      nm(i, j) = CGAL::to_double<LN>(lm.coeff(i, j));
+      nm(i, j) = CGAL::to_double<lazyScalar>(lm.coeff(i, j));
     }
   }
   return nm;
@@ -96,13 +96,13 @@ lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
-    LN ln1 = lv1[0];
+    lazyScalar ln1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
       lv.emplace_back(ln1 + lv2[i]);
     }
   } else if(n2 == 1) {
     lv.reserve(n1);
-    LN ln2 = lv2[0];
+    lazyScalar ln2 = lv2[0];
     for(size_t i = 0; i < n1; i++) {
       lv.emplace_back(lv1[i] + ln2);
     }
@@ -134,13 +134,13 @@ lazyVectorXPtr lvx_minus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
-    LN ln1 = lv1[0];
+    lazyScalar ln1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
       lv.emplace_back(ln1 - lv2[i]);
     }
   } else if(n2 == 1) {
     lv.reserve(n1);
-    LN ln2 = lv2[0];
+    lazyScalar ln2 = lv2[0];
     for(size_t i = 0; i < n1; i++) {
       lv.emplace_back(lv1[i] - ln2);
     }
@@ -172,13 +172,13 @@ lazyVectorXPtr lvx_times_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
-    LN ln1 = lv1[0];
+    lazyScalar ln1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
       lv.emplace_back(ln1 * lv2[i]);
     }
   } else if(n2 == 1) {
     lv.reserve(n1);
-    LN ln2 = lv2[0];
+    lazyScalar ln2 = lv2[0];
     for(size_t i = 0; i < n1; i++) {
       lv.emplace_back(lv1[i] * ln2);
     }
@@ -220,7 +220,7 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
       }
       Quotient q1 = lv1[i].exact();
       Quotient q2 = lv2[i].exact();
-      LN q = LN(Quotient(
+      lazyScalar q = lazyScalar(Quotient(
         q1.numerator() * q2.denominator(), q1.denominator() * q2.numerator())
       );
       lv.emplace_back(q);
@@ -235,7 +235,7 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
         Rcpp::stop("Division by zero.");
       }
       Quotient q2 = lv2[i].exact();
-      LN q = LN(Quotient(
+      lazyScalar q = lazyScalar(Quotient(
         n1 * q2.denominator(), d1 * q2.numerator())
       );
       lv.emplace_back(q);
@@ -250,7 +250,7 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     CGAL::MP_Float d2 = q2.denominator();
     for(size_t i = 0; i < n1; i++) {
       Quotient q1 = lv1[i].exact();
-      LN q = LN(Quotient(
+      lazyScalar q = lazyScalar(Quotient(
         q1.numerator() * d2, q1.denominator() * n2
       ));
       lv.emplace_back(q);
@@ -273,7 +273,7 @@ lazyMatrixXPtr lmx_dividedby_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
 lazyVectorXPtr lazySum(lazyVectorXPtr lvx) {
   lazyVector lvin = *(lvx.get());
   const size_t n = lvin.size();
-  LN sum(0);
+  lazyScalar sum(0);
   for(size_t i = 0; i < n; i++) {
     sum += lvin[i];
   }
@@ -285,7 +285,7 @@ lazyVectorXPtr lazySum(lazyVectorXPtr lvx) {
 lazyVectorXPtr lazyProd(lazyVectorXPtr lvx) {
   lazyVector lvin = *(lvx.get());
   const size_t n = lvin.size();
-  LN prod(1);
+  lazyScalar prod(1);
   for(size_t i = 0; i < n; i++) {
     prod *= lvin[i];
   }
@@ -298,7 +298,7 @@ lazyVectorXPtr lazyCumsum(lazyVectorXPtr lvx) {
   lazyVector lvin = *(lvx.get());
   const size_t n = lvin.size();
   lazyVector lv(n);
-  LN sum(0);
+  lazyScalar sum(0);
   for(size_t i = 0; i < n; i++) {
     sum += lvin[i];
     lv[i] = sum;
@@ -311,7 +311,7 @@ lazyVectorXPtr lazyCumprod(lazyVectorXPtr lvx) {
   lazyVector lvin = *(lvx.get());
   const size_t n = lvin.size();
   lazyVector lv(n);
-  LN prod(1);
+  lazyScalar prod(1);
   for(size_t i = 0; i < n; i++) {
     prod *= lvin[i];
     lv[i] = prod;
@@ -323,9 +323,9 @@ lazyVectorXPtr lazyCumprod(lazyVectorXPtr lvx) {
 lazyVectorXPtr lazyMax(lazyVectorXPtr lvx) {
   lazyVector lvin = *(lvx.get());
   const size_t n = lvin.size();
-  LN max(lvin[0]);
+  lazyScalar max(lvin[0]);
   for(size_t i = 1; i < n; i++) {
-    LN candidate = lvin[i];
+    lazyScalar candidate = lvin[i];
     if(candidate > max) {
       max = candidate; 
     }
@@ -338,9 +338,9 @@ lazyVectorXPtr lazyMax(lazyVectorXPtr lvx) {
 lazyVectorXPtr lazyMin(lazyVectorXPtr lvx) {
   lazyVector lvin = *(lvx.get());
   const size_t n = lvin.size();
-  LN min(lvin[0]);
+  lazyScalar min(lvin[0]);
   for(size_t i = 1; i < n; i++) {
-    LN candidate = lvin[i];
+    lazyScalar candidate = lvin[i];
     if(candidate < min) {
       min = candidate; 
     }
@@ -353,10 +353,10 @@ lazyVectorXPtr lazyMin(lazyVectorXPtr lvx) {
 lazyVectorXPtr lazyRange(lazyVectorXPtr lvx) {
   lazyVector lvin = *(lvx.get());
   const size_t n = lvin.size();
-  LN min(lvin[0]);
-  LN max(lvin[0]);
+  lazyScalar min(lvin[0]);
+  lazyScalar max(lvin[0]);
   for(size_t i = 1; i < n; i++) {
-    LN candidate = lvin[i];
+    lazyScalar candidate = lvin[i];
     if(candidate < min) {
       min = candidate; 
     }
