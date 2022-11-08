@@ -17,4 +17,5 @@ Collate:
     'Arith.R'
     'Math.R'
     'RcppExports.R'
+    'Summary.R'
     'lazyNumbers.R'
