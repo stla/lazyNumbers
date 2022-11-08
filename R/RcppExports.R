@@ -9,8 +9,16 @@ nv2lvx <- function(nv) {
     .Call(`_lazyNumbers_nv2lvx`, nv)
 }
 
+nm2lmx <- function(nm) {
+    .Call(`_lazyNumbers_nm2lmx`, nm)
+}
+
 lvx2nv <- function(lvx) {
     .Call(`_lazyNumbers_lvx2nv`, lvx)
+}
+
+lmx2nm <- function(lmx) {
+    .Call(`_lazyNumbers_lmx2nm`, lmx)
 }
 
 minus_lvx <- function(lvx) {

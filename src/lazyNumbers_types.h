@@ -2,7 +2,7 @@
 #define _HEADER_
 #endif
 
-#include <Rcpp.h>
+#include <RcppEigen.h>
 
 #define CGAL_EIGEN3_ENABLED 1
 
@@ -12,7 +12,9 @@
 #include <CGAL/Quotient.h>
 #include <CGAL/Interval_nt.h>
 
-typedef CGAL::Quotient<CGAL::MP_Float> Quotient;
-typedef CGAL::Lazy_exact_nt<Quotient> LN;
-typedef std::vector<LN>                                     lazyVector;
-typedef Rcpp::XPtr<lazyVector>                              lazyVectorXPtr;
+typedef CGAL::Quotient<CGAL::MP_Float>                    Quotient;
+typedef CGAL::Lazy_exact_nt<Quotient>                     LN;
+typedef std::vector<LN>                                   lazyVector;
+typedef Rcpp::XPtr<lazyVector>                            lazyVectorXPtr;
+typedef Eigen::Matrix<LN, Eigen::Dynamic, Eigen::Dynamic> lazyMatrix;
+typedef Rcpp::XPtr<lazyMatrix>                            lazyMatrixXPtr;

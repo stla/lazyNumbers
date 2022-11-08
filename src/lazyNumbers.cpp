@@ -25,6 +25,19 @@ lazyVectorXPtr nv2lvx(Rcpp::NumericVector nv) {
 }
 
 // [[Rcpp::export]]
+lazyMatrixXPtr nm2lmx(Rcpp::NumericMatrix nm) {
+  const size_t nrow = nm.nrow();
+  const size_t ncol = nm.ncol();
+  lazyMatrix lm(nrow, ncol);
+  for(size_t i = 0; i < nrow; i++) {
+    for(size_t j = 0; j < ncol; j++) {
+      lm(i, j) = LN(nm(i, j));
+    }
+  }
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
 Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();
@@ -34,6 +47,21 @@ Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx) {
     nv(i) = CGAL::to_double<LN>(lv[i]);
   }
   return nv;
+}
+
+// [[Rcpp::export]]
+Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  const size_t nrow = lm.rows();
+  const size_t ncol = lm.cols();
+  Rcpp::NumericMatrix nm(nrow, ncol);
+  LN::set_relative_precision_of_to_double(0.000000000000001);
+  for(size_t i = 0; i < nrow; i++) {
+    for(size_t j = 0; j < ncol; j++) {
+      nm(i, j) = CGAL::to_double<LN>(lm.coeff(i, j));
+    }
+  }
+  return nm;
 }
 
 // [[Rcpp::export]]
