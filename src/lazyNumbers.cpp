@@ -202,3 +202,52 @@ lazyVectorXPtr lazyCumprod(lazyVectorXPtr lvx) {
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyMax(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  LN max(lvin[0]);
+  for(size_t i = 1; i < n; i++) {
+    LN candidate = lvin[i];
+    if(candidate > max) {
+      max = candidate; 
+    }
+  }
+  lazyVector lv = {max};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyMin(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  LN min(lvin[0]);
+  for(size_t i = 1; i < n; i++) {
+    LN candidate = lvin[i];
+    if(candidate < min) {
+      min = candidate; 
+    }
+  }
+  lazyVector lv = {min};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyRange(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  LN min(lvin[0]);
+  LN max(lvin[0]);
+  for(size_t i = 1; i < n; i++) {
+    LN candidate = lvin[i];
+    if(candidate < min) {
+      min = candidate; 
+    }
+    if(candidate > max) {
+      max = candidate; 
+    }
+  }
+  lazyVector lv = {min, max};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
