@@ -12,6 +12,7 @@
 #include <CGAL/Quotient.h>
 #include <CGAL/Interval_nt.h>
 
-typedef CGAL::Lazy_exact_nt<CGAL::Quotient<CGAL::MP_Float>> LN;
+typedef CGAL::Quotient<CGAL::MP_Float> Quotient;
+typedef CGAL::Lazy_exact_nt<Quotient> LN;
 typedef std::vector<LN>                                     lazyVector;
 typedef Rcpp::XPtr<lazyVector>                              lazyVectorXPtr;

@@ -6,7 +6,7 @@ Rcpp::NumericMatrix intervals_lvx(lazyVectorXPtr lvx) {
   const size_t n = lv.size();
   Rcpp::NumericMatrix intervals(2, n);
   for(size_t i = 0; i < n; i++) {
-    CGAL::Interval_nt<true> interval = lv[i].interval();
+    CGAL::Interval_nt<false> interval = lv[i].approx();
     Rcpp::NumericVector col_i = 
       Rcpp::NumericVector::create(interval.inf(), interval.sup());
     intervals(Rcpp::_, i) = col_i;
@@ -143,23 +143,42 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
       if(lv2[i] == 0) {
         Rcpp::stop("Division by zero.");
       }
-      lv.emplace_back(lv1[i] / lv2[i]);
+      Quotient q1 = lv1[i].exact();
+      Quotient q2 = lv2[i].exact();
+      LN q = LN(Quotient(
+        q1.numerator() * q2.denominator(), q1.denominator() * q2.numerator())
+      );
+      lv.emplace_back(q);
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
+    Quotient q1 = lv1[0].exact();
+    CGAL::MP_Float n1 = q1.numerator();
+    CGAL::MP_Float d1 = q1.denominator();
     for(size_t i = 0; i < n2; i++) {
       if(lv2[i] == 0) {
         Rcpp::stop("Division by zero.");
       }
-      lv.emplace_back(lv1[0] / lv2[i]);
+      Quotient q2 = lv2[i].exact();
+      LN q = LN(Quotient(
+        n1 * q2.denominator(), d1 * q2.numerator())
+      );
+      lv.emplace_back(q);
     }
   } else if(n2 == 1) {
     if(lv2[0] == 0) {
       Rcpp::stop("Division by zero.");
     }
     lv.reserve(n1);
+    Quotient q2 = lv2[0].exact();
+    CGAL::MP_Float n2 = q2.numerator();
+    CGAL::MP_Float d2 = q2.denominator();
     for(size_t i = 0; i < n1; i++) {
-      lv.emplace_back(lv1[i] / lv2[0]);
+      Quotient q1 = lv1[i].exact();
+      LN q = LN(Quotient(
+        q1.numerator() * d2, q1.denominator() * n2
+      ));
+      lv.emplace_back(q);
     }
   } else {
     Rcpp::stop("Incompatible lengths.");
