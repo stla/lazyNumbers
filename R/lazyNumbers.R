@@ -3,41 +3,45 @@
 #' @param x a numeric vector
 #' @return An object of class \code{lazyNumber}.
 #' @export
-#' @name lazyNumber
+#' @name lazyVector
 #' @examples
 #' library(lazyNumbers)
 #' 1 - 7 * 0.1 == 0.3 # FALSE
 #' x <- lazynb(1) - lazynb(7) * lazynb(0.1)
 #' as.double(x) == 0.3 # TRUE
-as.lazyNumber <- function(x) UseMethod("as.lazyNumber")
+as.lazyVector <- function(x) UseMethod("as.lazyVector")
 
-#' @rdname lazyNumber
+#' @rdname lazyVector
 #' @export
-lazynb <- function(x) as.lazyNumber(x)
+as.lazyNumber <- function(x) as.lazyVector(x)
 
-as.lazyNumber.lazyNumber <- function(x) x
+#' @rdname lazyVector
+#' @export
+lazynb <- function(x) as.lazyVector(x)
 
-as.lazyNumber.numeric <- function(x) {
+as.lazyVector.lazyVector <- function(x) x
+
+as.lazyVector.numeric <- function(x) {
   if(any(is.na(x) | is.infinite(x))) {
     stop("Found NA/NaN/Inf values in `x`.", call. = FALSE)
   }
-  new("lazyNumber", xptr = nv2lvx(x), length = length(x))
+  new("lazyVector", xptr = nv2lvx(x), length = length(x))
 }
 
-as.lazyNumber.integer <- function(x) {
-  as.lazyNumber.numeric(as.double(x))
+as.lazyVector.integer <- function(x) {
+  as.lazyVector.numeric(as.double(x))
 }
 
-#' @exportS3Method as.double lazyNumber
-as.double.lazyNumber <- function(x, ...) {
+#' @exportS3Method as.double lazyVector
+as.double.lazyVector <- function(x, ...) {
   lvx2nv(x@xptr)
 }
 
 #' @title Intervals for lazy numbers
-#' @description For each element in a \code{lazyNumber} object, this function 
-#'   returns an interval containing the lazy number.
+#' @description For each lazy number in a \code{lazyVector} object, this function 
+#'   returns an interval containing this lazy number.
 #'
-#' @param x a \code{lazyNumber} object
+#' @param x a \code{lazyVector} object
 #'
 #' @return A numeric matrix with two columns and \code{x@length} rows.
 #' @export
@@ -47,6 +51,6 @@ as.double.lazyNumber <- function(x, ...) {
 #' x <- lazynb(22) / lazynb(7)
 #' print(intervals(x), digits = 17L)
 intervals <- function(x) {
-  stopifnot(inherits(x, "lazyNumber"))
+  stopifnot(inherits(x, "lazyVector"))
   intervals_lvx(x@xptr)
 }

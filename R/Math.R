@@ -1,12 +1,12 @@
 setMethod(
-  "Math", "lazyNumber",
-  function(x){
+  "Math", "lazyVector",
+  function(x) {
     switch(
       .Generic,
-      cumprod = new("lazyNumber", xptr = lazyCumprod(x@xptr), length = x@length),
-      cumsum  = new("lazyNumber", xptr = lazyCumsum(x@xptr), length = x@length),
+      cumprod = new("lazyVector", xptr = lazyCumprod(x@xptr), length = x@length),
+      cumsum  = new("lazyVector", xptr = lazyCumsum(x@xptr), length = x@length),
       stop(gettextf(
-        "Function %s not defined for lazy numbers.", dQuote(.Generic)
+        "Function %s not defined for lazy vectors.", dQuote(.Generic)
       ))
     )
   }

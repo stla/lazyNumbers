@@ -4,7 +4,7 @@
 NULL
 
 setClass(
-  "lazyNumber",
+  "lazyVector",
   slots = c(xptr = "externalptr", length = "integer")
 )
 

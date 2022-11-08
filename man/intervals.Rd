@@ -7,14 +7,14 @@
 intervals(x)
 }
 \arguments{
-\item{x}{a \code{lazyNumber} object}
+\item{x}{a \code{lazyVector} object}
 }
 \value{
 A numeric matrix with two columns and \code{x@length} rows.
 }
 \description{
-For each element in a \code{lazyNumber} object, this function 
-  returns an interval containing the lazy number.
+For each lazy number in a \code{lazyVector} object, this function 
+  returns an interval containing this lazy number.
 }
 \examples{
 library(lazyNumbers)
