@@ -17,6 +17,10 @@ as.lazyNumber <- function(x) as.lazyVector(x)
 
 #' @rdname lazyVector
 #' @export
+lazyvec <- function(x) as.lazyVector(x)
+
+#' @rdname lazyVector
+#' @export
 lazynb <- function(x) as.lazyVector(x)
 
 as.lazyVector.lazyVector <- function(x) x

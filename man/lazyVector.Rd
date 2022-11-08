@@ -4,12 +4,15 @@
 \alias{lazyVector}
 \alias{as.lazyVector}
 \alias{as.lazyNumber}
+\alias{lazyvec}
 \alias{lazynb}
 \title{Lazy numbers}
 \usage{
 as.lazyVector(x)
 
 as.lazyNumber(x)
+
+lazyvec(x)
 
 lazynb(x)
 }
