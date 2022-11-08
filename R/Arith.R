@@ -102,8 +102,49 @@ setMethod(
   }
 )
 
+setMethod(
+  "%*%", 
+  signature(x = "lazyMatrix", y = "lazyMatrix"), 
+  function(x, y) {
+    stopifnot(x@ncol == y@nrow)
+    new(
+      "lazyMatrix", 
+      xptr = lmx_times_lmx(x@xptr, y@xptr), 
+      nrow = x@nrow, ncol = y@ncol
+    )
+  }
+)
+setMethod(
+  "%*%", 
+  signature(x = "lazyMatrix", y = "matrix"), 
+  function(x, y) {
+    x %*% as.lazyMatrix(y)
+  }
+)
+setMethod(
+  "%*%", 
+  signature(x = "matrix", y = "lazyMatrix"), 
+  function(x, y) {
+    as.lazyMatrix(x) %*% y
+  }
+)
+setMethod(
+  "%*%", 
+  signature(x = "lazyMatrix", y = "numeric"), 
+  function(x, y) {
+    x %*% as.lazyMatrix(y)
+  }
+)
+setMethod(
+  "%*%", 
+  signature(x = "numeric", y = "lazyMatrix"), 
+  function(x, y) {
+    as.lazyMatrix(x) %*% y
+  }
+)
+
 lazyMatrix_arith_lazyMatrix <- function(e1, e2) {
-  stopifnot(e1@row == e2@row, e1@col == e2@col)
+  stopifnot(e1@nrow == e2@nrow, e1@ncol == e2@ncol)
   switch(
     .Generic,
     "+" = new(
@@ -132,7 +173,7 @@ lazyMatrix_arith_lazyMatrix <- function(e1, e2) {
   )
 }
 
-lazyMatrix_arith_numeric <- function(e1, e2) {
+lazyMatrix_arith_matrix <- function(e1, e2) {
   m <- e1@nrow
   n <- e1@ncol
   if(length(e2) == 1L) {
@@ -150,7 +191,7 @@ lazyMatrix_arith_numeric <- function(e1, e2) {
   )
 }
 
-numeric_arith_lazyMatrix <- function(e1, e2) {
+matrix_arith_lazyMatrix <- function(e1, e2) {
   m <- e2@nrow
   n <- e2@ncol
   if(length(e1) == 1L) {
@@ -173,15 +214,23 @@ setMethod(
   signature(e1 = "lazyMatrix", e2 = "lazyMatrix"), 
   lazyMatrix_arith_lazyMatrix
 )
-
+setMethod(
+  "Arith", 
+  signature(e1 = "lazyMatrix", e2 = "matrix"), 
+  lazyMatrix_arith_matrix
+)
+setMethod(
+  "Arith", 
+  signature(e1 = "matrix", e2 = "lazyMatrix"), 
+  matrix_arith_lazyMatrix
+)
 setMethod(
   "Arith", 
   signature(e1 = "lazyMatrix", e2 = "numeric"), 
-  lazyMatrix_arith_numeric
+  lazyMatrix_arith_matrix
 )
-
 setMethod(
   "Arith", 
   signature(e1 = "numeric", e2 = "lazyMatrix"), 
-  numeric_arith_lazyMatrix
+  matrix_arith_lazyMatrix
 )
