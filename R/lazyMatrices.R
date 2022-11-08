@@ -6,6 +6,10 @@
 #' @name lazyMatrix
 #' @examples
 #' library(lazyNumbers)
+#' M <- lazymat(toeplitz(c(1, 2)))
+#' as.double(M + M)
+#' as.double(M * M)
+#' as.double(M %*% M)
 as.lazyMatrix <- function(M) UseMethod("as.lazyMatrix")
 
 #' @rdname lazyMatrix
