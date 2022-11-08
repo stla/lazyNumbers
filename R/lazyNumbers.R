@@ -18,6 +18,9 @@ lazynb <- function(x) as.lazyNumber(x)
 as.lazyNumber.lazyNumber <- function(x) x
 
 as.lazyNumber.numeric <- function(x) {
+  if(any(is.na(x) | is.infinite(x))) {
+    stop("Found NA/NaN/Inf values in `x`.", call. = FALSE)
+  }
   new("lazyNumber", xptr = nv2lvx(x), length = length(x))
 }
 
