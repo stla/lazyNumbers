@@ -265,7 +265,18 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
 lazyMatrixXPtr lmx_dividedby_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   lazyMatrix lm1 = *(lmx1.get());
   lazyMatrix lm2 = *(lmx2.get());
-  lazyMatrix lm = lm1.cwiseProduct(lm2.cwiseInverse());
+  const size_t nrow = lm1.rows();
+  const size_t ncol = lm1.cols();
+  lazyMatrix lm(nrow, ncol);
+  for(size_t i = 0; i < nrow; i++) {
+    for(size_t j = 0; j < ncol; j++) {
+      Quotient q1 = lm1.coeff(i, j).exact();
+      Quotient q2 = lm2.coeff(i, j).exact();
+      lm(i,j) = lazyScalar(Quotient(
+        q1.numerator() * q2.denominator(), q1.denominator() * q2.numerator())
+      );
+    }
+  }
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
