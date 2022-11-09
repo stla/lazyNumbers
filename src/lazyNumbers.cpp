@@ -415,16 +415,17 @@ lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx) {
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
 
-lazyScalar lazyScalarPower(lazyScalar x, int alpha){
+lazyScalar lazyScalarPower(lazyScalar x, int alpha) {
   if(alpha < 0) {
     Quotient q = x.exact();
     lazyScalar invx(Quotient(q.denominator(), q.numerator()));
     return lazyScalarPower(invx, -alpha);
   }
   lazyScalar result(1);
-  while(alpha){
-    if(alpha & 1)
+  while(alpha) {
+    if(alpha & 1) {
       result *= x;
+    }
     alpha >>= 1;
     x *= x;
   }
@@ -438,6 +439,17 @@ lazyVectorXPtr lazyPower(lazyVectorXPtr lvx, int alpha) {
   lazyVector lv(n);
   for(size_t i = 0; i < n; i++) {
     lv[i] = lazyScalarPower(lvin[i], alpha);
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyExtract(lazyVectorXPtr lvx, Rcpp::IntegerVector indices) {
+  lazyVector lvin = *(lvx.get());
+  size_t n = indices.size();
+  lazyVector lv(n);
+  for(size_t i = 0; i < n; i++) {
+    lv[i] = lvin[indices(i)];
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }

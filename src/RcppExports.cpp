@@ -341,6 +341,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyExtract
+lazyVectorXPtr lazyExtract(lazyVectorXPtr lvx, Rcpp::IntegerVector indices);
+RcppExport SEXP _lazyNumbers_lazyExtract(SEXP lvxSEXP, SEXP indicesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type indices(indicesSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyExtract(lvx, indices));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
@@ -372,6 +384,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_MlazyMin", (DL_FUNC) &_lazyNumbers_MlazyMin, 1},
     {"_lazyNumbers_MlazyRange", (DL_FUNC) &_lazyNumbers_MlazyRange, 1},
     {"_lazyNumbers_lazyPower", (DL_FUNC) &_lazyNumbers_lazyPower, 2},
+    {"_lazyNumbers_lazyExtract", (DL_FUNC) &_lazyNumbers_lazyExtract, 2},
     {NULL, NULL, 0}
 };
 

@@ -16,3 +16,7 @@ setClass(
 isInteger <- function(x) {
   is.numeric(x) && length(x) == 1L && !is.na(x) && as.integer(x) == x
 }
+
+isIndexVector <- function(x) {
+  is.numeric(x) && !anyNA(x) && all(floor(x) == x) && all(x >= 1)
+}

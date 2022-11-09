@@ -1,4 +1,4 @@
-#' @include aaa.R
+#' @include classes.R
 NULL
 
 #' @name lazyVector-unary

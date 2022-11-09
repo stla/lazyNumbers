@@ -24,7 +24,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.1
 SystemRequirements: C++ 17, gmp, mpfr
 Collate: 
-    'aaa.R'
+    'classes.R'
     'Arith.R'
     'Math.R'
     'RcppExports.R'
