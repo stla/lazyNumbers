@@ -113,3 +113,7 @@ MlazyRange <- function(lmx) {
     .Call(`_lazyNumbers_MlazyRange`, lmx)
 }
 
+lazyPower <- function(lvx, alpha) {
+    .Call(`_lazyNumbers_lazyPower`, lvx, alpha)
+}
+

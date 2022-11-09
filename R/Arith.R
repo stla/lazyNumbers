@@ -21,6 +21,11 @@ setMethod(
   }
 )
 
+lazyPow <- function(lvx, alpha) {
+  stopifnot(isInteger(alpha))
+  lazyPower(lvx, as.integer(alpha))
+}
+
 lazyVector_arith_lazyVector <- function(e1, e2) {
   switch(
     .Generic,
@@ -57,6 +62,7 @@ lazyVector_arith_numeric <- function(e1, e2) {
     "-" = e1 - as.lazyVector(e2),
     "*" = e1 * as.lazyVector(e2),
     "/" = e1 / as.lazyVector(e2),
+    "^" = new("lazyVector", xptr = lazyPow(e1@xptr, e2), length = e1@length),
     stop(gettextf(
       "Binary operator %s not defined for lazy vectors.", dQuote(.Generic)
     ))

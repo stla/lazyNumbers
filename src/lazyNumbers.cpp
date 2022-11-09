@@ -414,3 +414,30 @@ lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx) {
   lazyVector lv = {lm.minCoeff(), lm.maxCoeff()};
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+lazyScalar lazyScalarPower(lazyScalar x, int alpha){
+  if(alpha < 0) {
+    Quotient q = x.exact();
+    lazyScalar invx(Quotient(q.denominator(), q.numerator()));
+    return lazyScalarPower(invx, -alpha);
+  }
+  lazyScalar result(1);
+  while(alpha){
+    if(alpha & 1)
+      result *= x;
+    alpha >>= 1;
+    x *= x;
+  }
+  return result;
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyPower(lazyVectorXPtr lvx, int alpha) {
+  lazyVector lvin = *(lvx.get());
+  size_t n = lvin.size();
+  lazyVector lv(n);
+  for(size_t i = 0; i < n; i++) {
+    lv[i] = lazyScalarPower(lvin[i], alpha);
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}

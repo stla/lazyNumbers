@@ -329,6 +329,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyPower
+lazyVectorXPtr lazyPower(lazyVectorXPtr lvx, int alpha);
+RcppExport SEXP _lazyNumbers_lazyPower(SEXP lvxSEXP, SEXP alphaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    Rcpp::traits::input_parameter< int >::type alpha(alphaSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyPower(lvx, alpha));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
@@ -359,6 +371,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_MlazyMax", (DL_FUNC) &_lazyNumbers_MlazyMax, 1},
     {"_lazyNumbers_MlazyMin", (DL_FUNC) &_lazyNumbers_MlazyMin, 1},
     {"_lazyNumbers_MlazyRange", (DL_FUNC) &_lazyNumbers_MlazyRange, 1},
+    {"_lazyNumbers_lazyPower", (DL_FUNC) &_lazyNumbers_lazyPower, 2},
     {NULL, NULL, 0}
 };
 
