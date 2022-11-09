@@ -121,3 +121,7 @@ lazyExtract <- function(lvx, indices) {
     .Call(`_lazyNumbers_lazyExtract`, lvx, indices)
 }
 
+lazyReplace <- function(lvx1, indices, lvx2) {
+    .Call(`_lazyNumbers_lazyReplace`, lvx1, indices, lvx2)
+}
+

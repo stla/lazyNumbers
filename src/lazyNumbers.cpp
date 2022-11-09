@@ -453,3 +453,16 @@ lazyVectorXPtr lazyExtract(lazyVectorXPtr lvx, Rcpp::IntegerVector indices) {
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyReplace(
+    lazyVectorXPtr lvx1, Rcpp::IntegerVector indices, lazyVectorXPtr lvx2
+) {
+  lazyVector lv = *(lvx1.get());
+  lazyVector lv2 = *(lvx2.get());
+  size_t n = indices.size();
+  for(size_t i = 0; i < n; i++) {
+    lv[indices(i)] = lv2[i];
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
