@@ -378,3 +378,39 @@ lazyVectorXPtr lazyRange(lazyVectorXPtr lvx) {
   lazyVector lv = {min, max};
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+lazyVectorXPtr MlazyProd(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyScalar prod = lm.prod();
+  lazyVector lv = {prod};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr MlazySum(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyVector lv = {lm.sum()};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr MlazyMax(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyVector lv = {lm.maxCoeff()};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr MlazyMin(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyVector lv = {lm.minCoeff()};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyVector lv = {lm.minCoeff(), lm.maxCoeff()};
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}

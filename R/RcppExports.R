@@ -93,3 +93,23 @@ lazyRange <- function(lvx) {
     .Call(`_lazyNumbers_lazyRange`, lvx)
 }
 
+MlazyProd <- function(lmx) {
+    .Call(`_lazyNumbers_MlazyProd`, lmx)
+}
+
+MlazySum <- function(lmx) {
+    .Call(`_lazyNumbers_MlazySum`, lmx)
+}
+
+MlazyMax <- function(lmx) {
+    .Call(`_lazyNumbers_MlazyMax`, lmx)
+}
+
+MlazyMin <- function(lmx) {
+    .Call(`_lazyNumbers_MlazyMin`, lmx)
+}
+
+MlazyRange <- function(lmx) {
+    .Call(`_lazyNumbers_MlazyRange`, lmx)
+}
+

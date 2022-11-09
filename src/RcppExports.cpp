@@ -274,6 +274,61 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// MlazyProd
+lazyVectorXPtr MlazyProd(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_MlazyProd(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyProd(lmx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MlazySum
+lazyVectorXPtr MlazySum(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_MlazySum(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazySum(lmx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MlazyMax
+lazyVectorXPtr MlazyMax(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_MlazyMax(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyMax(lmx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MlazyMin
+lazyVectorXPtr MlazyMin(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_MlazyMin(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyMin(lmx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MlazyRange
+lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_MlazyRange(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyRange(lmx));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
@@ -299,6 +354,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyMax", (DL_FUNC) &_lazyNumbers_lazyMax, 1},
     {"_lazyNumbers_lazyMin", (DL_FUNC) &_lazyNumbers_lazyMin, 1},
     {"_lazyNumbers_lazyRange", (DL_FUNC) &_lazyNumbers_lazyRange, 1},
+    {"_lazyNumbers_MlazyProd", (DL_FUNC) &_lazyNumbers_MlazyProd, 1},
+    {"_lazyNumbers_MlazySum", (DL_FUNC) &_lazyNumbers_MlazySum, 1},
+    {"_lazyNumbers_MlazyMax", (DL_FUNC) &_lazyNumbers_MlazyMax, 1},
+    {"_lazyNumbers_MlazyMin", (DL_FUNC) &_lazyNumbers_MlazyMin, 1},
+    {"_lazyNumbers_MlazyRange", (DL_FUNC) &_lazyNumbers_MlazyRange, 1},
     {NULL, NULL, 0}
 };
 
