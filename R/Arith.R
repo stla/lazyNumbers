@@ -1,11 +1,18 @@
 #' @include aaa.R
 NULL
 
+#' @name lazyVector-unary
+#' @title Unary operators for lazy vectors
+#' @description Unary operators for lazy vectors.
+#' @aliases +,lazyVector,missing-method -,lazyVector,missing-method
+#' @param e1 object of class \code{lazyVector}
+#' @param e2 nothing
 setMethod(
   "+", 
   signature(e1 = "lazyVector", e2 = "missing"), 
   function(e1, e2) e1
 )
+#' @rdname lazyVector-unary
 setMethod(
   "-", 
   signature(e1 = "lazyVector", e2 = "missing"), 
@@ -89,11 +96,18 @@ setMethod(
 
 # lazy matrices ####
 
+#' @name lazyMatrix-unary
+#' @title Unary operators for lazy matrices
+#' @description Unary operators for lazy matrices.
+#' @aliases +,lazyMatrix,missing-method -,lazyMatrix,missing-method
+#' @param e1 object of class \code{lazyMatrix}
+#' @param e2 nothing
 setMethod(
   "+", 
   signature(e1 = "lazyMatrix", e2 = "missing"), 
   function(e1, e2) e1
 )
+#' @rdname lazyMatrix-unary 
 setMethod(
   "-", 
   signature(e1 = "lazyMatrix", e2 = "missing"), 
