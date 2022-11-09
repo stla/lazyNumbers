@@ -102,6 +102,11 @@ setMethod(
   }
 )
 
+#' @name lazyMatrix-product
+#' @title Matricial product of lazy matrices
+#' @description Matricial product of lazy matrices.
+#' @aliases %*%,lazyMatrix,lazyMatrix-method %*%,lazyMatrix,matrix-method %*%,lazyMatrix,numeric-method %*%,matrix,lazyMatrix-method %*%,numeric,lazyMatrix-method
+#' @param x,y objects of class \code{lazyMatrix}
 setMethod(
   "%*%", 
   signature(x = "lazyMatrix", y = "lazyMatrix"), 
