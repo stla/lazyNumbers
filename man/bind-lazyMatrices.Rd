@@ -4,12 +4,11 @@
 \alias{bind-lazyMatrices}
 \alias{cbind,lazyMatrix-method}
 \alias{rbind,lazyMatrix-method}
-\alias{rbind,ANY-method}
 \title{Concatenation of lazy matrices}
 \usage{
-\S4method{cbind}{ANY}(..., deparse.level = 1)
+\S4method{cbind}{lazyMatrix}(..., deparse.level = 1)
 
-\S4method{rbind}{ANY}(..., deparse.level = 1)
+\S4method{rbind}{lazyMatrix}(..., deparse.level = 1)
 }
 \arguments{
 \item{...}{some \code{lazyMatrix} objects}

@@ -489,6 +489,17 @@ lazyMatrixXPtr lazyColumnMatrix(lazyVectorXPtr lvx) {
 }
 
 // [[Rcpp::export]]
+lazyMatrixXPtr lazyRowMatrix(lazyVectorXPtr lvx) {
+  lazyVector lv = *(lvx.get());
+  size_t n = lv.size();
+  lazyMatrix lm(1, n);
+  for(size_t i = 0; i < n; i++) {
+    lm(0, i) = lv[i];
+  }
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
 lazyMatrixXPtr lazyRbind(
     lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2
 ) {
