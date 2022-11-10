@@ -1,7 +1,7 @@
 c_lv <- function(lv1, lv2) {
   xptr <- lazyConcat(lv1@xptr, lv2@xptr)
   l <- lv1@length + lv2@length
-  new("lazyVector", xptr = xptr, length = length)
+  new("lazyVector", xptr = xptr, length = l)
 }
 
 #' @name concat-lazyVectors
