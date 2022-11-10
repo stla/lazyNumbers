@@ -54,6 +54,7 @@ as.lazyRowMatrix <- function(lv) {
 #' @title Concatenation of lazy matrices
 #' @description Concatenate two \code{lazyMatrix} objects.
 #' @param x,y \code{lazyMatrix} objects
+#' @importFrom methods rbind2 cbind2
 setMethod(
   "cbind2",
   signature(x = "lazyMatrix", y = "missing"),
@@ -144,7 +145,7 @@ setMethod(
 )
 
 #' @name bind-lazyMatrices
-#' @aliases cbind,lazyMatrix-method rbind,lazyMatrix-method
+#' @aliases cbind rbind cbind,lazyMatrix-method rbind,lazyMatrix-method
 #' @title Concatenation of lazy matrices
 #' @description Concatenate two or more \code{lazyMatrix} objects.
 #' @param ... some \code{lazyMatrix} objects

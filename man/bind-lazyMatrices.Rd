@@ -2,6 +2,8 @@
 % Please edit documentation in R/Concat.R
 \name{bind-lazyMatrices}
 \alias{bind-lazyMatrices}
+\alias{cbind}
+\alias{rbind}
 \alias{cbind,lazyMatrix-method}
 \alias{rbind,lazyMatrix-method}
 \title{Concatenation of lazy matrices}
