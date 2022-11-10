@@ -466,3 +466,13 @@ lazyVectorXPtr lazyReplace(
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyConcat(
+    lazyVectorXPtr lvx1, lazyVectorXPtr lvx2
+) {
+  lazyVector lv = *(lvx1.get());
+  lazyVector lv2 = *(lvx2.get());
+  std::copy(lv2.begin(), lv2.end(), std::back_inserter(lv));
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
