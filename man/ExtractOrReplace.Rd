@@ -3,9 +3,12 @@
 \name{ExtractOrReplace}
 \alias{ExtractOrReplace}
 \alias{[,lazyVector,numeric,missing-method}
+\alias{[<-,lazyVector,numeric,missing,lazyVector-method}
 \title{Extract/replace in a lazy vector}
 \usage{
 \S4method{[}{lazyVector,numeric,missing}(x, i, j, drop)
+
+\S4method{[}{lazyVector,numeric,missing,lazyVector}(x, i, j) <- value
 }
 \arguments{
 \item{x}{a \code{lazyVector} object}
@@ -15,6 +18,8 @@
 \item{j}{nothing}
 
 \item{drop}{ignored}
+
+\item{value}{a \code{lazyVector} object}
 }
 \description{
 Extract or replace elements in a lazy vector.
