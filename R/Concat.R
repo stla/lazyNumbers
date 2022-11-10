@@ -53,8 +53,11 @@ as.lazyRowMatrix <- function(lv) {
 #' @aliases cbind2,lazyMatrix,missing-method cbind2,lazyMatrix,lazyMatrix-method cbind2,lazyVector,missing-method cbind2,lazyVector,lazyMatrix-method cbind2,lazyMatrix,lazyVector-method rbind2,lazyMatrix,missing-method rbind2,lazyMatrix,lazyMatrix-method rbind2,lazyVector,missing-method rbind2,lazyVector,lazyMatrix-method rbind2,lazyMatrix,lazyVector-method
 #' @title Concatenation of lazy matrices
 #' @description Concatenate two \code{lazyMatrix} objects.
-#' @param x,y \code{lazyMatrix} objects
+#' @param x,y \code{lazyMatrix} or \code{lazyVector} objects
+#' @return A \code{lazyMatrix} object.
 #' @importFrom methods rbind2 cbind2
+#' @exportMethod rbind2
+#' @exportMethod cbind2
 setMethod(
   "cbind2",
   signature(x = "lazyMatrix", y = "missing"),
@@ -150,6 +153,7 @@ setMethod(
 #' @description Concatenate two or more \code{lazyMatrix} objects.
 #' @param ... some \code{lazyMatrix} objects
 #' @param deparse.level ignored
+#' @return A \code{lazyMatrix} object.
 #' @exportMethod cbind
 #' @exportMethod rbind
 setMethod(

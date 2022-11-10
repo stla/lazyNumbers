@@ -7,6 +7,7 @@
 #' @param j nothing
 #' @param drop ignored
 #' @param value a \code{lazyVector} object
+#' @return A \code{lazyVector} object.
 setMethod(
   "[", 
   signature("lazyVector", i = "numeric", j = "missing", drop = "ANY"), 

@@ -21,6 +21,9 @@
 
 \item{value}{a \code{lazyVector} object}
 }
+\value{
+A \code{lazyVector} object.
+}
 \description{
 Extract or replace elements in a lazy vector.
 }

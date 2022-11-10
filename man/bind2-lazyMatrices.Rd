@@ -35,7 +35,10 @@
 \S4method{rbind2}{lazyMatrix,lazyVector}(x, y)
 }
 \arguments{
-\item{x, y}{\code{lazyMatrix} objects}
+\item{x, y}{\code{lazyMatrix} or \code{lazyVector} objects}
+}
+\value{
+A \code{lazyMatrix} object.
 }
 \description{
 Concatenate two \code{lazyMatrix} objects.

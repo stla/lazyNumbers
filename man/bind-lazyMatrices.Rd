@@ -17,6 +17,9 @@
 
 \item{deparse.level}{ignored}
 }
+\value{
+A \code{lazyMatrix} object.
+}
 \description{
 Concatenate two or more \code{lazyMatrix} objects.
 }

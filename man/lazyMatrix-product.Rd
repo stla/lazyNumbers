@@ -14,6 +14,9 @@
 \arguments{
 \item{x, y}{objects of class \code{lazyMatrix}}
 }
+\value{
+A \code{lazyMatrix} object.
+}
 \description{
 Matricial product of lazy matrices.
 }

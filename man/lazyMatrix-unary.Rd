@@ -15,6 +15,9 @@
 
 \item{e2}{nothing}
 }
+\value{
+A \code{lazyMatrix} object.
+}
 \description{
 Unary operators for lazy matrices.
 }

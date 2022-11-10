@@ -7,6 +7,7 @@ NULL
 #' @aliases +,lazyVector,missing-method -,lazyVector,missing-method
 #' @param e1 object of class \code{lazyVector}
 #' @param e2 nothing
+#' @return A \code{lazyVector} object.
 setMethod(
   "+", 
   signature(e1 = "lazyVector", e2 = "missing"), 
@@ -108,6 +109,7 @@ setMethod(
 #' @aliases +,lazyMatrix,missing-method -,lazyMatrix,missing-method
 #' @param e1 object of class \code{lazyMatrix}
 #' @param e2 nothing
+#' @return A \code{lazyMatrix} object.
 setMethod(
   "+", 
   signature(e1 = "lazyMatrix", e2 = "missing"), 
@@ -127,6 +129,7 @@ setMethod(
 #' @description Matricial product of lazy matrices.
 #' @aliases %*%,lazyMatrix,lazyMatrix-method %*%,lazyMatrix,matrix-method %*%,lazyMatrix,numeric-method %*%,matrix,lazyMatrix-method %*%,numeric,lazyMatrix-method
 #' @param x,y objects of class \code{lazyMatrix}
+#' @return A \code{lazyMatrix} object.
 setMethod(
   "%*%", 
   signature(x = "lazyMatrix", y = "lazyMatrix"), 
