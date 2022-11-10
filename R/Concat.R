@@ -50,7 +50,7 @@ as.lazyRowMatrix <- function(lv) {
 
 
 #' @name bind2-lazyMatrices
-#' @aliases cbind2,lazyMatrix,missing-method cbind2,lazyMatrix,lazyMatrix-method cbind2,lazyVector,missing-method cbind2,lazyVector,lazyMatrix-method cbind2,lazyMatrix,lazyVector-method rbind2,lazyMatrix,missing-method rbind2,lazyMatrix,lazyMatrix-method
+#' @aliases cbind2,lazyMatrix,missing-method cbind2,lazyMatrix,lazyMatrix-method cbind2,lazyVector,missing-method cbind2,lazyVector,lazyMatrix-method cbind2,lazyMatrix,lazyVector-method rbind2,lazyMatrix,missing-method rbind2,lazyMatrix,lazyMatrix-method rbind2,lazyVector,missing-method rbind2,lazyVector,lazyMatrix-method rbind2,lazyMatrix,lazyVector-method
 #' @title Concatenation of lazy matrices
 #' @description Concatenate two \code{lazyMatrix} objects.
 #' @param x,y \code{lazyMatrix} objects
@@ -110,9 +110,36 @@ setMethod(
 #' @rdname bind2-lazyMatrices
 setMethod(
   "rbind2",
+  signature(x = "lazyVector", y = "missing"),
+  function(x, y) {
+    as.lazyRowMatrix(x)
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
   signature(x = "lazyMatrix", y = "lazyMatrix"),
   function(x, y) {
     rbind_lm(x, y)
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "lazyVector", y = "lazyMatrix"),
+  function(x, y) {
+    rbind_lm(as.lazyRowMatrix(x), y)
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "lazyMatrix", y = "lazyVector"),
+  function(x, y) {
+    rbind_lm(x, as.lazyRowMatrix(y))
   }
 )
 
