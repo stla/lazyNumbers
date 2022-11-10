@@ -41,3 +41,23 @@ as.lazyMatrix.lazyVector <- function(lv) {
 as.double.lazyMatrix <- function(x, ...) {
   lmx2nm(x@xptr)
 }
+
+#' @title Determinant of lazy matrix
+#' @description Compute the determinant of a lazy matrix.
+#'
+#' @param M a \code{lazyMatrix} object corresponding to a square matrix
+#'
+#' @return A lazy number (\code{lazyVector} object with length 1).
+#' @export
+#'
+#' @examples
+#' M <- lazymat(toeplitz(c(3, 2, 1)))
+#' as.double(lazyDet(M))
+lazyDet <- function(M) {
+  stopifnot(inherits(M, "lazyMatrix"))
+  if(M@nrow != M@ncol) {
+    stop("The matrix is not square.")
+  }
+  detx <- lazyDeterminant(M@xptr)
+  new("lazyVector", xptr = detx, length = 1L)
+}

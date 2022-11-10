@@ -520,3 +520,11 @@ lazyMatrixXPtr lazyCbind(
   lm.rightCols(lm2.cols()) = lm2;
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
+
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyVector det = {lm.determinant()};
+  return lazyVectorXPtr(new lazyVector(det), false);
+}
