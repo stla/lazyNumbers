@@ -133,3 +133,11 @@ lazyColumnMatrix <- function(lvx) {
     .Call(`_lazyNumbers_lazyColumnMatrix`, lvx)
 }
 
+lazyRbind <- function(lmx1, lmx2) {
+    .Call(`_lazyNumbers_lazyRbind`, lmx1, lmx2)
+}
+
+lazyCbind <- function(lmx1, lmx2) {
+    .Call(`_lazyNumbers_lazyCbind`, lmx1, lmx2)
+}
+

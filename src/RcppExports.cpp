@@ -389,6 +389,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyRbind
+lazyMatrixXPtr lazyRbind(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2);
+RcppExport SEXP _lazyNumbers_lazyRbind(SEXP lmx1SEXP, SEXP lmx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx1(lmx1SEXP);
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx2(lmx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyRbind(lmx1, lmx2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lazyCbind
+lazyMatrixXPtr lazyCbind(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2);
+RcppExport SEXP _lazyNumbers_lazyCbind(SEXP lmx1SEXP, SEXP lmx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx1(lmx1SEXP);
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx2(lmx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyCbind(lmx1, lmx2));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
@@ -424,6 +448,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyReplace", (DL_FUNC) &_lazyNumbers_lazyReplace, 3},
     {"_lazyNumbers_lazyConcat", (DL_FUNC) &_lazyNumbers_lazyConcat, 2},
     {"_lazyNumbers_lazyColumnMatrix", (DL_FUNC) &_lazyNumbers_lazyColumnMatrix, 1},
+    {"_lazyNumbers_lazyRbind", (DL_FUNC) &_lazyNumbers_lazyRbind, 2},
+    {"_lazyNumbers_lazyCbind", (DL_FUNC) &_lazyNumbers_lazyCbind, 2},
     {NULL, NULL, 0}
 };
 

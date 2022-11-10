@@ -487,3 +487,25 @@ lazyMatrixXPtr lazyColumnMatrix(lazyVectorXPtr lvx) {
   }
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
+
+// [[Rcpp::export]]
+lazyMatrixXPtr lazyRbind(
+    lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2
+) {
+  lazyMatrix lm = *(lmx1.get());
+  lazyMatrix lm2 = *(lmx2.get());
+  lm.conservativeResize(lm.rows() + lm2.rows(), Eigen::NoChange);
+  lm.bottomRows(lm2.rows()) = lm2;
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
+lazyMatrixXPtr lazyCbind(
+    lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2
+) {
+  lazyMatrix lm = *(lmx1.get());
+  lazyMatrix lm2 = *(lmx2.get());
+  lm.conservativeResize(Eigen::NoChange, lm.cols() + lm2.cols());
+  lm.rightCols(lm2.cols()) = lm2;
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}

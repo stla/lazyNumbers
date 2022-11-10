@@ -28,7 +28,7 @@ as.lazyMatrix.matrix <- function(M) {
 }
 
 as.lazyMatrix.numeric <- function(x) {
-  as.lazyMatrix.matrix(as.matrix(as.double(x)))
+  as.lazyMatrix.matrix(as.matrix(x))
 }
 
 as.lazyMatrix.lazyVector <- function(lv) {
