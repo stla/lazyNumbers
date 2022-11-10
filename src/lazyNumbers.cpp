@@ -476,3 +476,14 @@ lazyVectorXPtr lazyConcat(
   std::copy(lv2.begin(), lv2.end(), std::back_inserter(lv));
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+lazyMatrixXPtr lazyColumnMatrix(lazyVectorXPtr lvx) {
+  lazyVector lv = *(lvx.get());
+  size_t n = lv.size();
+  lazyMatrix lm(n, 1);
+  for(size_t i = 0; i < n; i++) {
+    lm(i, 0) = lv[i];
+  }
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}

@@ -11,7 +11,7 @@ as.lazyMatrix(M)
 lazymat(M)
 }
 \arguments{
-\item{M}{a numeric matrix}
+\item{M}{a numeric matrix, a numeric vector, or a \code{lazyVector} object}
 }
 \value{
 An object of class \code{lazyMatrix}.

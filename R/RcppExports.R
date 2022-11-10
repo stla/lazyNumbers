@@ -129,3 +129,7 @@ lazyConcat <- function(lvx1, lvx2) {
     .Call(`_lazyNumbers_lazyConcat`, lvx1, lvx2)
 }
 
+lazyColumnMatrix <- function(lvx) {
+    .Call(`_lazyNumbers_lazyColumnMatrix`, lvx)
+}
+

@@ -378,6 +378,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyColumnMatrix
+lazyMatrixXPtr lazyColumnMatrix(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyColumnMatrix(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyColumnMatrix(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
@@ -412,6 +423,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyExtract", (DL_FUNC) &_lazyNumbers_lazyExtract, 2},
     {"_lazyNumbers_lazyReplace", (DL_FUNC) &_lazyNumbers_lazyReplace, 3},
     {"_lazyNumbers_lazyConcat", (DL_FUNC) &_lazyNumbers_lazyConcat, 2},
+    {"_lazyNumbers_lazyColumnMatrix", (DL_FUNC) &_lazyNumbers_lazyColumnMatrix, 1},
     {NULL, NULL, 0}
 };
 
