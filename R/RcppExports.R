@@ -149,6 +149,10 @@ lazyDeterminant <- function(lmx) {
     .Call(`_lazyNumbers_lazyDeterminant`, lmx)
 }
 
+lazyInverse <- function(lmx) {
+    .Call(`_lazyNumbers_lazyInverse`, lmx)
+}
+
 lazyTranspose <- function(lmx) {
     .Call(`_lazyNumbers_lazyTranspose`, lmx)
 }

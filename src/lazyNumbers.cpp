@@ -529,6 +529,13 @@ lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx) {
 }
 
 // [[Rcpp::export]]
+lazyMatrixXPtr lazyInverse(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyMatrix inv = lm.inverse();
+  return lazyMatrixXPtr(new lazyMatrix(inv), false);
+}
+
+// [[Rcpp::export]]
 lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx) {
   lazyMatrix lm = *(lmx.get());
   return lazyMatrixXPtr(new lazyMatrix(lm.transpose()), false);

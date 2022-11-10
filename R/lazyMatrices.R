@@ -61,3 +61,31 @@ lazyDet <- function(M) {
   detx <- lazyDeterminant(M@xptr)
   new("lazyVector", xptr = detx, length = 1L)
 }
+
+#' @title Inverse of lazy matrix
+#' @description Compute the inverse of a lazy matrix.
+#'
+#' @param M a \code{lazyMatrix} object corresponding to a square matrix
+#'
+#' @return A \code{lazyMatrix} object.
+#' @export
+#' 
+#' @note This function does not check the invertibility. If the matrix is 
+#'   not invertible, you will get some \code{NaN} in the result (after 
+#'   calling \code{as.double}).
+#'
+#' @examples
+#' library(lazyNumbers)
+#' set.seed(666L)
+#' M <- lazymat(matrix(rpois(9L, lambda = 4), nrow = 3L, ncol = 3L))
+#' invM <- lazyInv(M)
+#' I3 <- M %*% invM
+#' as.double(I3) == diag(3)
+lazyInv <- function(M) {
+  stopifnot(inherits(M, "lazyMatrix"))
+  if(M@nrow != M@ncol) {
+    stop("The matrix is not square.")
+  }
+  invx <- lazyInverse(M@xptr)
+  new("lazyMatrix", xptr = invx, nrow = M@nrow, ncol = M@ncol)
+}
