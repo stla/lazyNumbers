@@ -31,5 +31,6 @@ Collate:
     'Math.R'
     'RcppExports.R'
     'Summary.R'
+    'Transpose.R'
     'lazyMatrices.R'
     'lazyNumbers.R'
