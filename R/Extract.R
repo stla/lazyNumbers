@@ -15,7 +15,7 @@ setMethod(
     if(any(i) > x@length) {
       stop("Too large index.")
     }
-    lvx <- lazyExtract(x@xptr, as.integer(i))
+    lvx <- lazyExtract(x@xptr, as.integer(i) - 1L)
     new("lazyVector", xptr = lvx, length = length(i))
   }
 )
@@ -32,7 +32,7 @@ setReplaceMethod(
     if(length(i) != value@length) {
       stop("Incompatible lengths.")
     }
-    lvx <- lazyReplace(x@xptr, as.integer(i), value@xptr)
+    lvx <- lazyReplace(x@xptr, as.integer(i) - 1L, value@xptr)
     new("lazyVector", xptr = lvx, length = x@length)
   }
 )
