@@ -5,3 +5,6 @@ library(lazyNumbers)
 A <- lazymat(M)
 
 as.double(A[1:2, c(1,3)])
+
+as.double(A[2, ])
+as.double(A[2])

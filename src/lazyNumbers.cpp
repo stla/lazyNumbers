@@ -511,6 +511,11 @@ lazyMatrixXPtr MlazyExtract(
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
+// lazyVectorXPtr lazyCoeff(lazyMatrixXPtr lmx, int i, int j) {
+//   lazyMatrix 
+//   lazyVector lv = {};
+// }
+
 // [[Rcpp::export]]
 lazyVectorXPtr lazyReplace(
     lazyVectorXPtr lvx1, Rcpp::IntegerVector indices, lazyVectorXPtr lvx2
@@ -605,8 +610,8 @@ lazyVectorXPtr lazyFlatten(lazyMatrixXPtr lmx) {
   size_t m = lm.rows();
   size_t n = lm.cols();
   lv.reserve(m * n);
-  for(size_t i = 0; i < m; i++) {
-    for(size_t j = 0; j < n; j++){
+  for(size_t j = 0; j < n; j++) {
+    for(size_t i = 0; i < m; i++){
       lv.emplace_back(lm.coeff(i, j));
     }
   }

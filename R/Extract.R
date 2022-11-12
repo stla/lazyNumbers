@@ -47,7 +47,7 @@ setReplaceMethod(
 )
 
 #' @rdname Extract
-#' @aliases [,lazyMatrix,numeric,numeric-method
+#' @aliases [,lazyMatrix,numeric-method [,lazyMatrix,numeric,numeric-method [,lazyMatrix,numeric,missing-method [,lazyMatrix,missing,numeric-method
 #' @title Extract lazy submatrix
 #' @description Extract a submatrix of a lazy matrix.
 #' @param x a \code{lazyMatrix} object
@@ -69,5 +69,64 @@ setMethod(
     indices <- as.matrix(expand.grid(as.integer(i), as.integer(j))) - 1L
     lmx <- MlazyExtract(x@xptr, indices, length(i), length(j))
     new("lazyMatrix", xptr = lmx, nrow = length(i), ncol = length(j))
+  }
+)
+
+#' @rdname Extract
+setMethod(
+  "[", 
+  signature("lazyMatrix", i = "numeric", j = "missing", drop = "missing"), 
+  function(x, i, j, ..., drop) {
+    n_args <- nargs()
+    if(n_args == 3L) {
+      x[i, 1L:x@ncol]  
+    } else if(n_args == 2L) {
+      stopifnot(isIndexVector(i))
+      if(any(i > x@nrow * x@ncol)) {
+        stop("Too large index.")
+      }
+      lmx <- x@xptr
+      new(
+        "lazyVector", 
+        xptr = lazyExtract(lazyFlatten(lmx), i - 1L), 
+        length = length(i)
+      )
+    } else {
+      stop("Invalid arguments in subsetting.")
+    }
+  }
+)
+
+#' @rdname Extract
+setMethod(
+  "[", 
+  signature("lazyMatrix", i = "numeric", j = "missing", drop = "ANY"), 
+  function(x, i, j, ..., drop) {
+    n_args <- nargs()
+    if(n_args == 4L) {
+      x[i, 1L:x@ncol]  
+    } else if(n_args == 3L) {
+      stopifnot(isIndexVector(i))
+      if(any(i > x@nrow * x@ncol)) {
+        stop("Too large index.")
+      }
+      lmx <- x@xptr
+      new(
+        "lazyVector", 
+        xptr = lazyExtract(lazyFlatten(lmx), i - 1L), 
+        length = length(i)
+      )
+    } else {
+      stop("Invalid arguments in subsetting.")
+    }
+  }
+)
+
+#' @rdname Extract
+setMethod(
+  "[", 
+  signature("lazyMatrix", i = "missing", j = "numeric", drop = "ANY"), 
+  function(x, i, j, drop) {
+    x[1L:x@nrow, j]
   }
 )

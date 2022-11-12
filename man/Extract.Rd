@@ -4,14 +4,27 @@
 \alias{Extract}
 \alias{[,lazyVector,numeric,missing-method}
 \alias{[<-,lazyVector,numeric,missing,lazyVector-method}
+\alias{[,lazyMatrix,numeric,numeric,ANY-method}
+\alias{[,lazyMatrix,numeric-method}
 \alias{[,lazyMatrix,numeric,numeric-method}
+\alias{[,lazyMatrix,numeric,missing-method}
+\alias{[,lazyMatrix,missing,numeric-method}
+\alias{[,lazyMatrix,numeric,missing,missing-method}
+\alias{[,lazyMatrix,numeric,missing,ANY-method}
+\alias{[,lazyMatrix,missing,numeric,ANY-method}
 \title{Extract/replace in a lazy vector}
 \usage{
-\S4method{[}{lazyVector,numeric,missing}(x, i, j, drop)
+\S4method{[}{lazyVector,numeric,missing,ANY}(x, i, j, drop)
 
 \S4method{[}{lazyVector,numeric,missing,lazyVector}(x, i, j) <- value
 
-\S4method{[}{lazyMatrix,numeric,numeric}(x, i, j, drop)
+\S4method{[}{lazyMatrix,numeric,numeric,ANY}(x, i, j, drop)
+
+\S4method{[}{lazyMatrix,numeric,missing,missing}(x, i, j, ..., drop = TRUE)
+
+\S4method{[}{lazyMatrix,numeric,missing,ANY}(x, i, j, ..., drop = TRUE)
+
+\S4method{[}{lazyMatrix,missing,numeric,ANY}(x, i, j, drop)
 }
 \arguments{
 \item{x}{a \code{lazyMatrix} object}
