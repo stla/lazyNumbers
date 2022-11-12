@@ -84,7 +84,7 @@
 
 \S4method{rbind2}{lazyMatrix,numeric}(x, y)
 
-\S4method{cbind2}{numeric,lazyMatrix}(x, y)
+\S4method{rbind2}{numeric,lazyMatrix}(x, y)
 }
 \arguments{
 \item{x, y}{\code{lazyMatrix} or \code{lazyVector} objects}

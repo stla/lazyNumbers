@@ -494,6 +494,24 @@ lazyVectorXPtr lazyExtract(lazyVectorXPtr lvx, Rcpp::IntegerVector indices) {
 }
 
 // [[Rcpp::export]]
+lazyMatrixXPtr MlazyExtract(
+    lazyMatrixXPtr lmx, Rcpp::IntegerMatrix indices, int m, int n
+) {
+  lazyMatrix lmin = *(lmx.get());
+  Rcpp::IntegerVector is = indices(Rcpp::_, 0);
+  Rcpp::IntegerVector js = indices(Rcpp::_, 1);
+  lazyMatrix lm(m, n);
+  size_t k = 0;
+  for(int j = 0; j < n; j++) {
+    for(int i = 0; i < m; i++){
+      lm(i, j) = lmin.coeff(is(k), js(k));
+      k++;
+    }
+  }
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
 lazyVectorXPtr lazyReplace(
     lazyVectorXPtr lvx1, Rcpp::IntegerVector indices, lazyVectorXPtr lvx2
 ) {

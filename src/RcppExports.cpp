@@ -387,6 +387,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// MlazyExtract
+lazyMatrixXPtr MlazyExtract(lazyMatrixXPtr lmx, Rcpp::IntegerMatrix indices, int m, int n);
+RcppExport SEXP _lazyNumbers_MlazyExtract(SEXP lmxSEXP, SEXP indicesSEXP, SEXP mSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type indices(indicesSEXP);
+    Rcpp::traits::input_parameter< int >::type m(mSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyExtract(lmx, indices, m, n));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lazyReplace
 lazyVectorXPtr lazyReplace(lazyVectorXPtr lvx1, Rcpp::IntegerVector indices, lazyVectorXPtr lvx2);
 RcppExport SEXP _lazyNumbers_lazyReplace(SEXP lvx1SEXP, SEXP indicesSEXP, SEXP lvx2SEXP) {
@@ -537,6 +551,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyAbs", (DL_FUNC) &_lazyNumbers_lazyAbs, 1},
     {"_lazyNumbers_MlazyAbs", (DL_FUNC) &_lazyNumbers_MlazyAbs, 1},
     {"_lazyNumbers_lazyExtract", (DL_FUNC) &_lazyNumbers_lazyExtract, 2},
+    {"_lazyNumbers_MlazyExtract", (DL_FUNC) &_lazyNumbers_MlazyExtract, 4},
     {"_lazyNumbers_lazyReplace", (DL_FUNC) &_lazyNumbers_lazyReplace, 3},
     {"_lazyNumbers_lazyConcat", (DL_FUNC) &_lazyNumbers_lazyConcat, 2},
     {"_lazyNumbers_lazyColumnMatrix", (DL_FUNC) &_lazyNumbers_lazyColumnMatrix, 1},
