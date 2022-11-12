@@ -48,7 +48,7 @@ as.lazyRowMatrix <- function(lv) {
 
 
 #' @name bind2-lazyMatrices
-#' @aliases cbind2,lazyMatrix,missing-method cbind2,lazyMatrix,lazyMatrix-method cbind2,lazyVector,missing-method cbind2,lazyVector,lazyMatrix-method cbind2,lazyMatrix,lazyVector-method cbind2,lazyVector,lazyVector-method rbind2,lazyMatrix,missing-method rbind2,lazyMatrix,lazyMatrix-method rbind2,lazyVector,missing-method rbind2,lazyVector,lazyMatrix-method rbind2,lazyMatrix,lazyVector-method rbind2,lazyVector,lazyVector-method cbind2,lazyVector,numeric-method cbind2,numeric,lazyVector-method cbind2,lazyVector,matrix-method cbind2,matrix,lazyVector-method cbind2,lazyMatrix,matrix-method cbind2,matrix,lazyMatrix-method rbind2,lazyVector,numeric-method rbind2,numeric,lazyVector-method rbind2,lazyVector,matrix-method rbind2,matrix,lazyVector-method rbind2,lazyMatrix,matrix-method rbind2,matrix,lazyMatrix-method
+#' @aliases cbind2,lazyMatrix,missing-method cbind2,lazyMatrix,lazyMatrix-method cbind2,lazyVector,missing-method cbind2,lazyVector,lazyMatrix-method cbind2,lazyMatrix,lazyVector-method cbind2,lazyVector,lazyVector-method cbind2,lazyMatrix,numeric-method cbind2,numeric,lazyMatrix-method rbind2,lazyMatrix,missing-method rbind2,lazyMatrix,lazyMatrix-method rbind2,lazyVector,missing-method rbind2,lazyVector,lazyMatrix-method rbind2,lazyMatrix,lazyVector-method rbind2,lazyVector,lazyVector-method cbind2,lazyVector,numeric-method cbind2,numeric,lazyVector-method cbind2,lazyVector,matrix-method cbind2,matrix,lazyVector-method cbind2,lazyMatrix,matrix-method cbind2,matrix,lazyMatrix-method rbind2,lazyVector,numeric-method rbind2,numeric,lazyVector-method rbind2,lazyVector,matrix-method rbind2,matrix,lazyVector-method rbind2,lazyMatrix,matrix-method rbind2,matrix,lazyMatrix-method cbind2,lazyMatrix,numeric-method cbind2,numeric,lazyMatrix-method rbind2,lazyMatrix,numeric-method rbind2,numeric,lazyMatrix-method
 #' @title Concatenation of lazy matrices
 #' @description Concatenate two \code{lazyMatrix} objects.
 #' @param x,y \code{lazyMatrix} or \code{lazyVector} objects
@@ -164,6 +164,24 @@ setMethod(
 
 #' @rdname bind2-lazyMatrices
 setMethod(
+  "cbind2",
+  signature(x = "lazyMatrix", y = "numeric"),
+  function(x, y) {
+    cbind_lm(x, as.lazyMatrix.matrix(cbind(y)))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "cbind2",
+  signature(x = "numeric", y = "lazyMatrix"),
+  function(x, y) {
+    cbind_lm(as.lazyMatrix.matrix(cbind(x)), y)
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
   "rbind2",
   signature(x = "lazyMatrix", y = "missing"),
   function(x, y) {
@@ -221,7 +239,7 @@ setMethod(
   "rbind2",
   signature(x = "lazyVector", y = "numeric"),
   function(x, y) {
-    rbind2(x, as.lazyMatrix.matrix(rbind(y)))
+    rbind_lm(as.lazyRowMatrix(x), as.lazyMatrix.matrix(rbind(y)))
   }
 )
 
@@ -230,7 +248,7 @@ setMethod(
   "rbind2",
   signature(x = "numeric", y = "lazyVector"),
   function(x, y) {
-    rbind2(as.lazyMatrix.matrix(rbind(x)), y)
+    rbind_lm(as.lazyMatrix.matrix(rbind(x)), as.lazyRowMatrix(y))
   }
 )
 
@@ -267,6 +285,24 @@ setMethod(
   signature(x = "matrix", y = "lazyMatrix"),
   function(x, y) {
     rbind_lm(as.lazyMatrix.matrix(x), y)
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "lazyMatrix", y = "numeric"),
+  function(x, y) {
+    rbind_lm(x, as.lazyMatrix.matrix(rbind(y)))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "numeric", y = "lazyMatrix"),
+  function(x, y) {
+    cbind_lm(as.lazyMatrix.matrix(rbind(x)), y)
   }
 )
 
