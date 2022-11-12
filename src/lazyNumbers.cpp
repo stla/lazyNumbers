@@ -42,7 +42,7 @@ Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();
   Rcpp::NumericVector nv(n);
-  lazyScalar::set_relative_precision_of_to_double(0.000000000000001);
+  lazyScalar::set_relative_precision_of_to_double(0.0000000000000001);
   for(size_t i = 0; i < n; i++) {
     nv(i) = CGAL::to_double<lazyScalar>(lv[i]);
   }
@@ -55,7 +55,7 @@ Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx) {
   const size_t nrow = lm.rows();
   const size_t ncol = lm.cols();
   Rcpp::NumericMatrix nm(nrow, ncol);
-  lazyScalar::set_relative_precision_of_to_double(0.000000000000001);
+  lazyScalar::set_relative_precision_of_to_double(0.0000000000000001);
   for(size_t i = 0; i < nrow; i++) {
     for(size_t j = 0; j < ncol; j++) {
       nm(i, j) = CGAL::to_double<lazyScalar>(lm.coeff(i, j));

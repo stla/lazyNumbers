@@ -15,6 +15,7 @@ I5 <- M %*% lazyInv(M)
 as.double(I5) == diag(5)
 
 ############################
+library(lazyNumbers)
 set.seed(666L)
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 Ml <- lazymat(M)
@@ -29,3 +30,5 @@ for(i in 1:3) {
 }
 invM <- do.call(cbind, lvs)
 
+as.double(M %*% invM) == diag(3)
+as.double(invM %*% M) == diag(3)
