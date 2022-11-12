@@ -1,17 +1,16 @@
-#' @name Extract
-#' @aliases [,lazyVector,numeric,missing-method [<-,lazyVector,numeric,missing,lazyVector-method
+#' @name Subvector
+#' @aliases [,lazyVector,numeric-method [,lazyVector,numeric,ANY,ANY-method [<-,lazyVector,numeric,missing,lazyVector-method
 #' @title Extract/replace in a lazy vector
 #' @description Extract or replace elements in a lazy vector.
 #' @param x a \code{lazyVector} object
 #' @param i indices
 #' @param j nothing
-#' @param drop ignored
 #' @param value a \code{lazyVector} object
 #' @return A \code{lazyVector} object.
 setMethod(
   "[", 
-  signature("lazyVector", i = "numeric", j = "missing", drop = "ANY"), 
-  function(x, i, j, drop) {
+  signature("lazyVector", i = "numeric"), 
+  function(x, i) {
     if(isIndexVector(-i)) {
       if(any(i) < -x@length) {
         stop("Too large index.")
@@ -29,7 +28,7 @@ setMethod(
   }
 )
 
-#' @rdname Extract
+#' @rdname Subvector
 setReplaceMethod(
   "[", 
   signature("lazyVector", i = "numeric", j = "missing", value = "lazyVector"), 
@@ -46,19 +45,19 @@ setReplaceMethod(
   }
 )
 
-#' @rdname Extract
-#' @aliases [,lazyMatrix,numeric-method [,lazyMatrix,numeric,numeric-method [,lazyMatrix,numeric,missing-method [,lazyMatrix,missing,numeric-method
+#' @name Submatrix
+#' @aliases [,lazyMatrix,numeric-method [,lazyMatrix,numeric,numeric,ANY-method [,lazyMatrix,numeric,numeric-method [,lazyMatrix,numeric,missing-method [,lazyMatrix,missing,numeric-method
 #' @title Extract lazy submatrix
 #' @description Extract a submatrix of a lazy matrix.
 #' @param x a \code{lazyMatrix} object
 #' @param i,j indices
+#' @param ... ignored
 #' @param drop ignored
-#' @param value a \code{lazyMatrix} object
 #' @return A \code{lazyMatrix} object.
 setMethod(
   "[", 
   signature("lazyMatrix", i = "numeric", j = "numeric", drop = "ANY"), 
-  function(x, i, j, drop) {
+  function(x, i, j, ..., drop) {
     stopifnot(isIndexVector(i), isIndexVector(j))
     if(any(i > x@nrow)) {
       stop("Too large row index.")
@@ -72,7 +71,7 @@ setMethod(
   }
 )
 
-#' @rdname Extract
+#' @rdname Submatrix
 setMethod(
   "[", 
   signature("lazyMatrix", i = "numeric", j = "missing", drop = "missing"), 
@@ -97,7 +96,7 @@ setMethod(
   }
 )
 
-#' @rdname Extract
+#' @rdname Submatrix
 setMethod(
   "[", 
   signature("lazyMatrix", i = "numeric", j = "missing", drop = "ANY"), 
@@ -122,7 +121,7 @@ setMethod(
   }
 )
 
-#' @rdname Extract
+#' @rdname Submatrix
 setMethod(
   "[", 
   signature("lazyMatrix", i = "missing", j = "numeric", drop = "ANY"), 
