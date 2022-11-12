@@ -444,6 +444,20 @@ lazyVectorXPtr lazyPower(lazyVectorXPtr lvx, int alpha) {
 }
 
 // [[Rcpp::export]]
+lazyMatrixXPtr MlazyPower(lazyMatrixXPtr lmx, int alpha) {
+  lazyMatrix lmin = *(lmx.get());
+  size_t m = lmin.rows();
+  size_t n = lmin.cols();
+  lazyMatrix lm(m, n);
+  for(size_t i = 0; i < m; i++) {
+    for(size_t j = 0; j < n; j++) {
+      lm(i, j) = lazyScalarPower(lmin.coeff(i, j), alpha);
+    }
+  }
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
 lazyVectorXPtr lazyExtract(lazyVectorXPtr lvx, Rcpp::IntegerVector indices) {
   lazyVector lvin = *(lvx.get());
   size_t n = indices.size();

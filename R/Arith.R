@@ -103,6 +103,17 @@ setMethod(
 
 # lazy matrices ####
 
+MlazyPow <- function(lm, alpha) {
+  stopifnot(isInteger(alpha))
+  lmx <- lm@xptr
+  new(
+    "lazyMatrix", 
+    xptr = MlazyPower(lmx, as.integer(alpha)),
+    nrow = lm@nrow,
+    ncol = lm@ncol
+  )
+}
+
 #' @name lazyMatrix-unary
 #' @title Unary operators for lazy matrices
 #' @description Unary operators for lazy matrices.
@@ -219,6 +230,25 @@ lazyMatrix_arith_matrix <- function(e1, e2) {
   )
 }
 
+lazyMatrix_arith_numeric <- function(e1, e2) {
+  m <- e1@nrow
+  n <- e1@ncol
+  if(length(e2) == 1L) {
+    e2 <- matrix(e2, nrow = m, ncol = n)
+  }
+  switch(
+    .Generic,
+    "+" = e1 + as.lazyMatrix(e2),
+    "-" = e1 - as.lazyMatrix(e2),
+    "*" = e1 * as.lazyMatrix(e2),
+    "/" = e1 / as.lazyMatrix(e2),
+    "^" = MlazyPow(e1, e2),
+    stop(gettextf(
+      "Binary operator %s not defined for lazy matrices.", dQuote(.Generic)
+    ))
+  )
+}
+
 matrix_arith_lazyMatrix <- function(e1, e2) {
   m <- e2@nrow
   n <- e2@ncol
@@ -255,7 +285,7 @@ setMethod(
 setMethod(
   "Arith", 
   signature(e1 = "lazyMatrix", e2 = "numeric"), 
-  lazyMatrix_arith_matrix
+  lazyMatrix_arith_numeric
 )
 setMethod(
   "Arith", 

@@ -117,6 +117,10 @@ lazyPower <- function(lvx, alpha) {
     .Call(`_lazyNumbers_lazyPower`, lvx, alpha)
 }
 
+MlazyPower <- function(lmx, alpha) {
+    .Call(`_lazyNumbers_MlazyPower`, lmx, alpha)
+}
+
 lazyExtract <- function(lvx, indices) {
     .Call(`_lazyNumbers_lazyExtract`, lvx, indices)
 }
