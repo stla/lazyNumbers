@@ -62,6 +62,10 @@ as.double(u(30))
 ```
 
 
+## Blog post
+
+[The lazy numbers in R](https://laustep.github.io/stlahblog/posts/lazyNumbers.html)
+
 
 ## License
 

@@ -64,6 +64,11 @@ as.double(u(30))
 ## [1] 0.1428571
 ```
 
+## Blog post
+
+[The lazy numbers in
+R](https://laustep.github.io/stlahblog/posts/lazyNumbers.html)
+
 ## License
 
 This package is provided under the GPL-3 license but it uses the C++
