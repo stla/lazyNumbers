@@ -165,6 +165,7 @@ setMethod(
   }
 )
 
+
 #' @name bind-lazyMatrices
 #' @aliases cbind rbind cbind,lazyMatrix-method rbind,lazyMatrix-method
 #' @title Concatenation of lazy matrices

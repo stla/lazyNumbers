@@ -12,9 +12,17 @@ setMethod(
   "[", 
   signature("lazyVector", i = "numeric", j = "missing", drop = "ANY"), 
   function(x, i, j, drop) {
-    stopifnot(isIndexVector(i))
-    if(any(i) > x@length) {
-      stop("Too large index.")
+    if(isIndexVector(-i)) {
+      if(any(i) < -x@length) {
+        stop("Too large index.")
+      }
+      i <- setdiff(1L:x@length, -i)
+    } else if(isIndexVector(i)) {
+      if(any(i) > x@length) {
+        stop("Too large index.")
+      }
+    } else {
+      stop("Invalid indices.")
     }
     lvx <- lazyExtract(x@xptr, as.integer(i) - 1L)
     new("lazyVector", xptr = lvx, length = length(i))
