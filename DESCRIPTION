@@ -21,7 +21,7 @@ LinkingTo:
     RcppCGAL,
     RcppEigen
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 SystemRequirements: C++ 17, gmp, mpfr
 Collate: 
     'classes.R'

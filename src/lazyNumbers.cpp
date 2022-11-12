@@ -540,3 +540,14 @@ lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx) {
   lazyMatrix lm = *(lmx.get());
   return lazyMatrixXPtr(new lazyMatrix(lm.transpose()), false);
 }
+
+// // [[Rcpp::export]]
+// lazyVectorXPtr asLazyVector(lazyMatrixXPtr lmx) {
+//   lazyMatrix lm = *(lmx.get());
+//   lazyVector lv;
+//   lv.reserve(lm.rows() * lm.cols());
+//   for(lazyScalar x : lm.reshaped()) {
+//     lv.emplace_back(x);
+//   }
+//   return lazyVectorXPtr(new lazyVector(lv), false);
+// }
