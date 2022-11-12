@@ -25,8 +25,6 @@ setMethod(
 )
 
 
-setGeneric("cbind", signature = "...")
-setGeneric("rbind", signature = "...")
 
 cbind_lm <- function(lm1, lm2) {
   stopifnot(lm1@nrow == lm2@nrow)
@@ -50,7 +48,7 @@ as.lazyRowMatrix <- function(lv) {
 
 
 #' @name bind2-lazyMatrices
-#' @aliases cbind2,lazyMatrix,missing-method cbind2,lazyMatrix,lazyMatrix-method cbind2,lazyVector,missing-method cbind2,lazyVector,lazyMatrix-method cbind2,lazyMatrix,lazyVector-method cbind2,lazyVector,lazyVector-method rbind2,lazyMatrix,missing-method rbind2,lazyMatrix,lazyMatrix-method rbind2,lazyVector,missing-method rbind2,lazyVector,lazyMatrix-method rbind2,lazyMatrix,lazyVector-method rbind2,lazyVector,lazyVector-method
+#' @aliases cbind2,lazyMatrix,missing-method cbind2,lazyMatrix,lazyMatrix-method cbind2,lazyVector,missing-method cbind2,lazyVector,lazyMatrix-method cbind2,lazyMatrix,lazyVector-method cbind2,lazyVector,lazyVector-method rbind2,lazyMatrix,missing-method rbind2,lazyMatrix,lazyMatrix-method rbind2,lazyVector,missing-method rbind2,lazyVector,lazyMatrix-method rbind2,lazyMatrix,lazyVector-method rbind2,lazyVector,lazyVector-method cbind2,lazyVector,numeric-method cbind2,numeric,lazyVector-method cbind2,lazyVector,matrix-method cbind2,matrix,lazyVector-method cbind2,lazyMatrix,matrix-method cbind2,matrix,lazyMatrix-method rbind2,lazyVector,numeric-method rbind2,numeric,lazyVector-method rbind2,lazyVector,matrix-method rbind2,matrix,lazyVector-method rbind2,lazyMatrix,matrix-method rbind2,matrix,lazyMatrix-method
 #' @title Concatenation of lazy matrices
 #' @description Concatenate two \code{lazyMatrix} objects.
 #' @param x,y \code{lazyMatrix} or \code{lazyVector} objects
@@ -113,6 +111,59 @@ setMethod(
 
 #' @rdname bind2-lazyMatrices
 setMethod(
+  "cbind2",
+  signature(x = "lazyVector", y = "numeric"),
+  function(x, y) {
+    cbind_lm(as.lazyMatrix.lazyVector(x), as.lazyMatrix.matrix(cbind(y)))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "cbind2",
+  signature(x = "numeric", y = "lazyVector"),
+  function(x, y) {
+    cbind_lm(as.lazyMatrix.matrix(cbind(x)), as.lazyMatrix.lazyVector(y))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "cbind2",
+  signature(x = "lazyVector", y = "matrix"),
+  function(x, y) {
+    cbind_lm(as.lazyMatrix.lazyVector(x), as.lazyMatrix.matrix(y))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "cbind2",
+  signature(x = "matrix", y = "lazyVector"),
+  function(x, y) {
+    cbind_lm(as.lazyMatrix.matrix(x), as.lazyMatrix.lazyVector(y))
+  }
+)
+
+setMethod(
+  "cbind2",
+  signature(x = "lazyMatrix", y = "matrix"),
+  function(x, y) {
+    cbind_lm(x, as.lazyMatrix.matrix(y))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "cbind2",
+  signature(x = "matrix", y = "lazyMatrix"),
+  function(x, y) {
+    cbind_lm(as.lazyMatrix.matrix(x), y)
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
   "rbind2",
   signature(x = "lazyMatrix", y = "missing"),
   function(x, y) {
@@ -165,39 +216,101 @@ setMethod(
   }
 )
 
-
-#' @name bind-lazyMatrices
-#' @aliases cbind rbind cbind,lazyMatrix-method rbind,lazyMatrix-method
-#' @title Concatenation of lazy matrices
-#' @description Concatenate two or more \code{lazyMatrix} objects.
-#' @param ... some \code{lazyMatrix} objects
-#' @param deparse.level ignored
-#' @return A \code{lazyMatrix} object.
-#' @exportMethod cbind
-#' @exportMethod rbind
+#' @rdname bind2-lazyMatrices
 setMethod(
-  "cbind",
-  signature("lazyMatrix"),
-  function(..., deparse.level) {
-    if(nargs() <= 2L) {
-      cbind2(...)
-    } else {
-      xs <- list(...)
-      cbind2(xs[[1L]], do.call(Recall, xs[-1L]))
-    }
+  "rbind2",
+  signature(x = "lazyVector", y = "numeric"),
+  function(x, y) {
+    rbind2(x, as.lazyMatrix.matrix(rbind(y)))
   }
 )
 
-#' @rdname bind-lazyMatrices
+#' @rdname bind2-lazyMatrices
 setMethod(
-  "rbind",
-  signature("lazyMatrix"),
-  function(..., deparse.level) {
-    if(nargs() <= 2L) {
-      rbind2(...)
-    } else {
-      xs <- list(...)
-      rbind2(xs[[1L]], do.call(Recall, xs[-1L]))
-    }
+  "rbind2",
+  signature(x = "numeric", y = "lazyVector"),
+  function(x, y) {
+    rbind2(as.lazyMatrix.matrix(rbind(x)), y)
   }
 )
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "lazyVector", y = "matrix"),
+  function(x, y) {
+    rbind_lm(as.lazyMatrix.lazyVector(x), as.lazyMatrix.matrix(y))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "matrix", y = "lazyVector"),
+  function(x, y) {
+    rbind_lm(as.lazyMatrix.matrix(x), as.lazyMatrix.lazyVector(y))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "lazyMatrix", y = "matrix"),
+  function(x, y) {
+    rbind_lm(x, as.lazyMatrix.matrix(y))
+  }
+)
+
+#' @rdname bind2-lazyMatrices
+setMethod(
+  "rbind2",
+  signature(x = "matrix", y = "lazyMatrix"),
+  function(x, y) {
+    rbind_lm(as.lazyMatrix.matrix(x), y)
+  }
+)
+
+
+#' @exportS3Method cbind lazyVector
+cbind.lazyVector <- function(..., recursive = FALSE) {
+  nargs <- length(list(...))
+  if(nargs <= 2L) {
+    cbind2(...)
+  } else {
+    xs <- list(...)
+    cbind2(xs[[1L]], do.call(Recall, xs[-1L]))
+  }
+}
+
+#' @exportS3Method cbind lazyMatrix
+cbind.lazyMatrix <- function(..., recursive = FALSE) {
+  nargs <- length(list(...))
+  if(nargs <= 2L) {
+    cbind2(...)
+  } else {
+    xs <- list(...)
+    cbind2(xs[[1L]], do.call(Recall, xs[-1L]))
+  }
+}
+
+#' @exportS3Method rbind lazyVector
+rbind.lazyVector <- function(..., recursive = FALSE) {
+  nargs <- length(list(...))
+  if(nargs <= 2L) {
+    rbind2(...)
+  } else {
+    xs <- list(...)
+    rbind2(xs[[1L]], do.call(Recall, xs[-1L]))
+  }
+}
+
+#' @exportS3Method rbind lazyMatrix
+rbind.lazyMatrix <- function(..., recursive = FALSE) {
+  nargs <- length(list(...))
+  if(nargs <= 2L) {
+    rbind2(...)
+  } else {
+    xs <- list(...)
+    rbind2(xs[[1L]], do.call(Recall, xs[-1L]))
+  }
+}

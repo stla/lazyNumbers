@@ -14,6 +14,18 @@
 \alias{rbind2,lazyVector,lazyMatrix-method}
 \alias{rbind2,lazyMatrix,lazyVector-method}
 \alias{rbind2,lazyVector,lazyVector-method}
+\alias{cbind2,lazyVector,numeric-method}
+\alias{cbind2,numeric,lazyVector-method}
+\alias{cbind2,lazyVector,matrix-method}
+\alias{cbind2,matrix,lazyVector-method}
+\alias{cbind2,lazyMatrix,matrix-method}
+\alias{cbind2,matrix,lazyMatrix-method}
+\alias{rbind2,lazyVector,numeric-method}
+\alias{rbind2,numeric,lazyVector-method}
+\alias{rbind2,lazyVector,matrix-method}
+\alias{rbind2,matrix,lazyVector-method}
+\alias{rbind2,lazyMatrix,matrix-method}
+\alias{rbind2,matrix,lazyMatrix-method}
 \title{Concatenation of lazy matrices}
 \usage{
 \S4method{cbind2}{lazyMatrix,missing}(x, y)
@@ -28,6 +40,16 @@
 
 \S4method{cbind2}{lazyVector,lazyVector}(x, y)
 
+\S4method{cbind2}{lazyVector,numeric}(x, y)
+
+\S4method{cbind2}{numeric,lazyVector}(x, y)
+
+\S4method{cbind2}{lazyVector,matrix}(x, y)
+
+\S4method{cbind2}{matrix,lazyVector}(x, y)
+
+\S4method{cbind2}{matrix,lazyMatrix}(x, y)
+
 \S4method{rbind2}{lazyMatrix,missing}(x, y)
 
 \S4method{rbind2}{lazyVector,missing}(x, y)
@@ -39,6 +61,18 @@
 \S4method{rbind2}{lazyMatrix,lazyVector}(x, y)
 
 \S4method{rbind2}{lazyVector,lazyVector}(x, y)
+
+\S4method{rbind2}{lazyVector,numeric}(x, y)
+
+\S4method{rbind2}{numeric,lazyVector}(x, y)
+
+\S4method{rbind2}{lazyVector,matrix}(x, y)
+
+\S4method{rbind2}{matrix,lazyVector}(x, y)
+
+\S4method{rbind2}{lazyMatrix,matrix}(x, y)
+
+\S4method{rbind2}{matrix,lazyMatrix}(x, y)
 }
 \arguments{
 \item{x, y}{\code{lazyMatrix} or \code{lazyVector} objects}
