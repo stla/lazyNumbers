@@ -580,13 +580,17 @@ lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx) {
   return lazyMatrixXPtr(new lazyMatrix(lm.transpose()), false);
 }
 
-// // [[Rcpp::export]]
-// lazyVectorXPtr asLazyVector(lazyMatrixXPtr lmx) {
-//   lazyMatrix lm = *(lmx.get());
-//   lazyVector lv;
-//   lv.reserve(lm.rows() * lm.cols());
-//   for(lazyScalar x : lm.reshaped()) {
-//     lv.emplace_back(x);
-//   }
-//   return lazyVectorXPtr(new lazyVector(lv), false);
-// }
+// [[Rcpp::export]]
+lazyVectorXPtr lazyFlatten(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyVector lv;
+  size_t m = lm.rows();
+  size_t n = lm.cols();
+  lv.reserve(m * n);
+  for(size_t i = 0; i < m; i++) {
+    for(size_t j = 0; j < n; j++){
+      lv.emplace_back(lm.coeff(i, j));
+    }
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}

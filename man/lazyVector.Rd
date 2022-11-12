@@ -6,7 +6,7 @@
 \alias{as.lazyNumber}
 \alias{lazyvec}
 \alias{lazynb}
-\title{Lazy numbers}
+\title{Lazy vector}
 \usage{
 as.lazyVector(x)
 
@@ -17,13 +17,13 @@ lazyvec(x)
 lazynb(x)
 }
 \arguments{
-\item{x}{a numeric vector}
+\item{x}{a numeric vector or a lazy matrix (\code{lazyMatrix} object)}
 }
 \value{
-An object of class \code{lazyNumber}.
+An object of class \code{lazyVector}.
 }
 \description{
-Create a lazy number.
+Create a vector of lazy numbers.
 }
 \examples{
 library(lazyNumbers)

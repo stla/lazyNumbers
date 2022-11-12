@@ -1,7 +1,7 @@
-#' @title Lazy numbers
-#' @description Create a lazy number.
-#' @param x a numeric vector
-#' @return An object of class \code{lazyNumber}.
+#' @title Lazy vector
+#' @description Create a vector of lazy numbers.
+#' @param x a numeric vector or a lazy matrix (\code{lazyMatrix} object)
+#' @return An object of class \code{lazyVector}.
 #' @export
 #' @name lazyVector
 #' @examples
@@ -34,6 +34,14 @@ as.lazyVector.numeric <- function(x) {
 
 as.lazyVector.integer <- function(x) {
   as.lazyVector.numeric(as.double(x))
+}
+
+as.lazyVector.lazyMatrix <- function(x) {
+  new(
+    "lazyVector",
+    xptr = lazyFlatten(x@xptr),
+    length = x@nrow * x@ncol
+  )
 }
 
 #' @exportS3Method as.double lazyVector

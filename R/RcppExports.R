@@ -169,3 +169,7 @@ lazyTranspose <- function(lmx) {
     .Call(`_lazyNumbers_lazyTranspose`, lmx)
 }
 
+lazyFlatten <- function(lmx) {
+    .Call(`_lazyNumbers_lazyFlatten`, lmx)
+}
+
