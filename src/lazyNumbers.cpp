@@ -458,6 +458,31 @@ lazyMatrixXPtr MlazyPower(lazyMatrixXPtr lmx, int alpha) {
 }
 
 // [[Rcpp::export]]
+lazyVectorXPtr lazyAbs(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  size_t n = lvin.size();
+  lazyVector lv(n);
+  for(size_t i = 0; i < n; i++) {
+    lv[i] = CGAL::abs(lvin[i]);
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
+lazyMatrixXPtr MlazyAbs(lazyMatrixXPtr lmx) {
+  lazyMatrix lmin = *(lmx.get());
+  size_t m = lmin.rows();
+  size_t n = lmin.cols();
+  lazyMatrix lm(m, n);
+  for(size_t i = 0; i < m; i++) {
+    for(size_t j = 0; j < n; j++) {
+      lm(i, j) = CGAL::abs(lmin.coeff(i, j));
+    }
+  }
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
 lazyVectorXPtr lazyExtract(lazyVectorXPtr lvx, Rcpp::IntegerVector indices) {
   lazyVector lvin = *(lvx.get());
   size_t n = indices.size();
