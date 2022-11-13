@@ -50,26 +50,26 @@ as.double.lazyVector <- function(x, ...) {
 }
 
 
-setGeneric("asNumeric", function(x, prec) {
-  stop("`asNumeric` is not implemented for this signature.")
+setGeneric("asDouble", function(x, prec) {
+  stop("`asDouble` is not implemented for this signature.")
 })
 
-#' @name asNumeric
-#' @aliases asNumeric,lazyVector,numeric-method asNumeric,lazyMatrix,numeric-method asNumeric,lazyVector,missing-method asNumeric,lazyMatrix,missing-method
+#' @name asDouble
+#' @aliases asDouble,lazyVector,numeric-method asDouble,lazyMatrix,numeric-method asDouble,lazyVector,missing-method asDouble,lazyMatrix,missing-method
 #' @title Coerce lazy numbers to double numbers
 #' @description Coerce a lazy vector (\code{lazyVector} object) to a numeric 
 #'   vector and a lazy matrix (\code{lazyMatrix} object) to a numeric matrix.
 #' @param x a lazy vector or a lazy matrix
 #' @param prec relative precision, a number between 0 and 1
 #' @return A numeric vector or a numeric matrix.
-#' @note \code{as.double(x)} is equivalent to \code{asNumeric(x, prec = 1e-15)}.
-#' @exportMethod asNumeric
+#' @note \code{as.double(x)} is equivalent to \code{asDouble(x, prec = 1e-15)}.
+#' @exportMethod asDouble
 #' @examples 
 #' x <- 1 - lazynb(7) * 0.1
-#' asNumeric(x, prec = 1e-15) == 0.3
-#' asNumeric(x, prec = 1e-16) == 0.3
+#' asDouble(x, prec = 1e-15) == 0.3
+#' asDouble(x, prec = 1e-16) == 0.3
 setMethod(
-  "asNumeric",
+  "asDouble",
   signature(x = "lazyVector", prec = "numeric"),
   function(x, prec = 1e-15) {
     stopifnot(prec > 0, prec < 1)
@@ -77,18 +77,18 @@ setMethod(
   }
 )
 
-#' @rdname asNumeric
+#' @rdname asDouble
 setMethod(
-  "asNumeric",
+  "asDouble",
   signature(x = "lazyVector", prec = "missing"),
   function(x, prec) {
     lvx2nv(x@xptr, 1e-15)    
   }
 )
 
-#' @rdname asNumeric
+#' @rdname asDouble
 setMethod(
-  "asNumeric",
+  "asDouble",
   signature(x = "lazyMatrix", prec = "numeric"),
   function(x, prec = 1e-15) {
     stopifnot(prec > 0, prec < 1)
@@ -96,9 +96,9 @@ setMethod(
   }
 )
 
-#' @rdname asNumeric
+#' @rdname asDouble
 setMethod(
-  "asNumeric",
+  "asDouble",
   signature(x = "lazyMatrix", prec = "missing"),
   function(x, prec) {
     lmx2nm(x@xptr, 1e-15)    
