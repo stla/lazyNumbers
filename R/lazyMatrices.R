@@ -39,7 +39,7 @@ as.lazyMatrix.lazyVector <- function(lv) {
 
 #' @exportS3Method as.double lazyMatrix
 as.double.lazyMatrix <- function(x, ...) {
-  lmx2nm(x@xptr)
+  lmx2nm(x@xptr, 1e-15)
 }
 
 #' @title Determinant of lazy matrix

@@ -46,24 +46,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // lvx2nv
-Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx);
-RcppExport SEXP _lazyNumbers_lvx2nv(SEXP lvxSEXP) {
+Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx, double prec);
+RcppExport SEXP _lazyNumbers_lvx2nv(SEXP lvxSEXP, SEXP precSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lvx2nv(lvx));
+    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
+    rcpp_result_gen = Rcpp::wrap(lvx2nv(lvx, prec));
     return rcpp_result_gen;
 END_RCPP
 }
 // lmx2nm
-Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_lmx2nm(SEXP lmxSEXP) {
+Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx, double prec);
+RcppExport SEXP _lazyNumbers_lmx2nm(SEXP lmxSEXP, SEXP precSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lmx2nm(lmx));
+    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
+    rcpp_result_gen = Rcpp::wrap(lmx2nm(lmx, prec));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -521,8 +523,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
     {"_lazyNumbers_nv2lvx", (DL_FUNC) &_lazyNumbers_nv2lvx, 1},
     {"_lazyNumbers_nm2lmx", (DL_FUNC) &_lazyNumbers_nm2lmx, 1},
-    {"_lazyNumbers_lvx2nv", (DL_FUNC) &_lazyNumbers_lvx2nv, 1},
-    {"_lazyNumbers_lmx2nm", (DL_FUNC) &_lazyNumbers_lmx2nm, 1},
+    {"_lazyNumbers_lvx2nv", (DL_FUNC) &_lazyNumbers_lvx2nv, 2},
+    {"_lazyNumbers_lmx2nm", (DL_FUNC) &_lazyNumbers_lmx2nm, 2},
     {"_lazyNumbers_minus_lvx", (DL_FUNC) &_lazyNumbers_minus_lvx, 1},
     {"_lazyNumbers_minus_lmx", (DL_FUNC) &_lazyNumbers_minus_lmx, 1},
     {"_lazyNumbers_lvx_plus_lvx", (DL_FUNC) &_lazyNumbers_lvx_plus_lvx, 2},

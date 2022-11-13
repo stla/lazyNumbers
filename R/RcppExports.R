@@ -13,12 +13,12 @@ nm2lmx <- function(nm) {
     .Call(`_lazyNumbers_nm2lmx`, nm)
 }
 
-lvx2nv <- function(lvx) {
-    .Call(`_lazyNumbers_lvx2nv`, lvx)
+lvx2nv <- function(lvx, prec) {
+    .Call(`_lazyNumbers_lvx2nv`, lvx, prec)
 }
 
-lmx2nm <- function(lmx) {
-    .Call(`_lazyNumbers_lmx2nm`, lmx)
+lmx2nm <- function(lmx, prec) {
+    .Call(`_lazyNumbers_lmx2nm`, lmx, prec)
 }
 
 minus_lvx <- function(lvx) {
