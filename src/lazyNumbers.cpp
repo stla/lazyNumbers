@@ -619,7 +619,20 @@ Rcpp::LogicalVector lazyCompare(
 ) {
   lazyVector lv1 = *(lvx1.get());
   lazyVector lv2 = *(lvx2.get());
-  const size_t n = lv1.size();
+  size_t n;
+  const size_t n1 = lv1.size();
+  const size_t n2 = lv2.size();
+  if(n1 != n2) {
+    if(n1 == 1) {
+      lv1 = lazyVector(n2, lv1[0]);
+      n = n2;
+    } else {
+      lv2 = lazyVector(n1, lv2[0]);
+      n = n1;
+    }
+  } else {
+    n = n1;
+  }
   Rcpp::LogicalVector out(n);
   if(r == "==") {
     for(size_t i = 0; i < n; i++) {
