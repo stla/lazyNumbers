@@ -75,6 +75,32 @@ invM_lazy <- lazyInv(M_lazy)
 as.double(M_lazy %*% invM_lazy) == diag(3)
 ```
 
+### Relative precision of the conversion to double
+
+This is not always so nice... Some equalities which are mathematically true are 
+not always true with the lazy numbers. That can depend on the relative precision 
+of the conversion from lazy to double, which is possible to set with the 
+function `asDouble`. It is set to `1e-15` when applying the function `as.double`.
+
+For example the first equality we have seen does not hold true if we decrease 
+the relative precision:
+
+```{r}
+asDouble(1 - lazynb(7) * 0.1, prec = 1e-16) == 0.3
+```
+
+But sometimes one has to decrease the precision:
+
+```{r}
+set.seed(666L)
+M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
+M_lazy <- lazymat(M)
+invM_lazy <- lazyInv(M_lazy)
+I3 <- M_lazy %*% invM_lazy
+as.double(I3) == diag(3)
+asDouble(I3, prec = 1e-16) == diag(3)
+```
+
 
 ## Blog post
 
