@@ -64,6 +64,29 @@ as.double(u(30))
 ## [1] 0.1428571
 ```
 
+Vectors of lazy numbers and matrices of lazy numbers are implemented. It
+is possible to get the determinant and the inverse of a square lazy
+matrix:
+
+``` r
+# non-lazy:
+M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
+invM <- solve(M)
+M %*% invM == diag(3)
+##       [,1]  [,2]  [,3]
+## [1,]  TRUE FALSE  TRUE
+## [2,] FALSE  TRUE FALSE
+## [3,] FALSE FALSE  TRUE
+# lazy:
+M_lazy <- lazymat(M)
+invM_lazy <- lazyInv(M_lazy)
+as.double(M_lazy %*% invM_lazy) == diag(3)
+##      [,1] [,2] [,3]
+## [1,] TRUE TRUE TRUE
+## [2,] TRUE TRUE TRUE
+## [3,] TRUE TRUE TRUE
+```
+
 ## Blog post
 
 [The lazy numbers in
