@@ -3,3 +3,4 @@
 ^README\.Rmd$
 ^\.github$
 ^inst/essais$
+^cran-comments\.md$
