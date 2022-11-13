@@ -59,12 +59,29 @@ setMethod(
   "[", 
   signature("lazyMatrix", i = "numeric", j = "numeric", drop = "logical"), 
   function(x, i, j, ..., drop = TRUE) {
-    stopifnot(isIndexVector(i), isIndexVector(j))
-    if(any(i > x@nrow)) {
-      stop("Too large row index.")
+    if(isIndexVector(-i)) {
+      if(any(i < -x@nrow)) {
+        stop("Too large row index.")
+      }
+      i <- setdiff(1L:x@nrow, -i)
+    } else if(isIndexVector(i)) {
+      if(any(i > x@nrow)) {
+        stop("Too large row index.")
+      }
+    } else {
+      stop("Invalid row indices.")
     }
-    if(any(j > x@ncol)) {
-      stop("Too large column index.")
+    if(isIndexVector(-j)) {
+      if(any(j < -x@ncol)) {
+        stop("Too large column index.")
+      }
+      j <- setdiff(1L:x@ncol, -j)
+    } else if(isIndexVector(j)) {
+      if(any(j > x@ncol)) {
+        stop("Too large column index.")
+      }
+    } else {
+      stop("Invalid column indices.")
     }
     indices <- as.matrix(expand.grid(as.integer(i), as.integer(j))) - 1L
     m <- length(i)
@@ -96,9 +113,17 @@ setMethod(
     if(n_args == 3L) {
       x[i, 1L:x@ncol, drop = TRUE]  
     } else if(n_args == 2L) {
-      stopifnot(isIndexVector(i))
-      if(any(i > x@nrow * x@ncol)) {
-        stop("Too large index.")
+      if(isIndexVector(-i)) {
+        if(any(i < -x@nrow * x@ncol)) {
+          stop("Too large index.")
+        }
+        i <- setdiff(1L:(x@nrow * x@ncol), -i)
+      } else if(isIndexVector(i)) {
+        if(any(i > x@nrow * x@ncol)) {
+          stop("Too large index.")
+        }
+      } else {
+        stop("Invalid indices.")
       }
       lmx <- x@xptr
       new(
@@ -116,21 +141,12 @@ setMethod(
 setMethod(
   "[", 
   signature("lazyMatrix", i = "numeric", j = "missing", drop = "logical"), 
-  function(x, i, j, ..., drop) {
+  function(x, i, j, ..., drop = TRUE) {
     n_args <- nargs()
     if(n_args == 4L) {
       x[i, 1L:x@ncol, drop = drop]  
     } else if(n_args == 3L) {
-      stopifnot(isIndexVector(i))
-      if(any(i > x@nrow * x@ncol)) {
-        stop("Too large index.")
-      }
-      lmx <- x@xptr
-      new(
-        "lazyVector", 
-        xptr = lazyExtract(lazyFlatten(lmx), i - 1L), 
-        length = length(i)
-      )
+      x[i]
     } else {
       stop("Invalid arguments in subsetting.")
     }
