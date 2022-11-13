@@ -3,22 +3,28 @@
 \name{Submatrix}
 \alias{Submatrix}
 \alias{[,lazyMatrix,numeric-method}
-\alias{[,lazyMatrix,numeric,numeric,ANY-method}
+\alias{[,lazyMatrix,numeric,numeric,logical-method}
 \alias{[,lazyMatrix,numeric,numeric-method}
 \alias{[,lazyMatrix,numeric,missing-method}
 \alias{[,lazyMatrix,missing,numeric-method}
+\alias{[,lazyMatrix,numeric,numeric,missing-method}
 \alias{[,lazyMatrix,numeric,missing,missing-method}
-\alias{[,lazyMatrix,numeric,missing,ANY-method}
-\alias{[,lazyMatrix,missing,numeric,ANY-method}
+\alias{[,lazyMatrix,numeric,missing,logical-method}
+\alias{[,lazyMatrix,missing,numeric,logical-method}
+\alias{[,lazyMatrix,missing,numeric,missing-method}
 \title{Extract lazy submatrix}
 \usage{
-\S4method{[}{lazyMatrix,numeric,numeric,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{lazyMatrix,numeric,numeric,logical}(x, i, j, ..., drop = TRUE)
+
+\S4method{[}{lazyMatrix,numeric,numeric,missing}(x, i, j, ..., drop = TRUE)
 
 \S4method{[}{lazyMatrix,numeric,missing,missing}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{lazyMatrix,numeric,missing,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{lazyMatrix,numeric,missing,logical}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{lazyMatrix,missing,numeric,ANY}(x, i, j, drop)
+\S4method{[}{lazyMatrix,missing,numeric,logical}(x, i, j, drop = TRUE)
+
+\S4method{[}{lazyMatrix,missing,numeric,missing}(x, i, j, drop)
 }
 \arguments{
 \item{x}{a \code{lazyMatrix} object}
@@ -27,10 +33,11 @@
 
 \item{...}{ignored}
 
-\item{drop}{ignored}
+\item{drop}{Boolean, whether to drop the matrix structure if \code{i} or 
+\code{j} has only one element}
 }
 \value{
-A \code{lazyMatrix} object.
+A \code{lazyMatrix} object or a \code{lazyVector} object.
 }
 \description{
 Extract a submatrix of a lazy matrix.

@@ -46,18 +46,19 @@ setReplaceMethod(
 )
 
 #' @name Submatrix
-#' @aliases [,lazyMatrix,numeric-method [,lazyMatrix,numeric,numeric,ANY-method [,lazyMatrix,numeric,numeric-method [,lazyMatrix,numeric,missing-method [,lazyMatrix,missing,numeric-method
+#' @aliases [,lazyMatrix,numeric-method [,lazyMatrix,numeric,numeric,logical-method [,lazyMatrix,numeric,numeric-method [,lazyMatrix,numeric,missing-method [,lazyMatrix,missing,numeric-method
 #' @title Extract lazy submatrix
 #' @description Extract a submatrix of a lazy matrix.
 #' @param x a \code{lazyMatrix} object
 #' @param i,j indices
 #' @param ... ignored
-#' @param drop ignored
-#' @return A \code{lazyMatrix} object.
+#' @param drop Boolean, whether to drop the matrix structure if \code{i} or 
+#'   \code{j} has only one element
+#' @return A \code{lazyMatrix} object or a \code{lazyVector} object.
 setMethod(
   "[", 
-  signature("lazyMatrix", i = "numeric", j = "numeric", drop = "ANY"), 
-  function(x, i, j, ..., drop) {
+  signature("lazyMatrix", i = "numeric", j = "numeric", drop = "logical"), 
+  function(x, i, j, ..., drop = TRUE) {
     stopifnot(isIndexVector(i), isIndexVector(j))
     if(any(i > x@nrow)) {
       stop("Too large row index.")
@@ -66,8 +67,23 @@ setMethod(
       stop("Too large column index.")
     }
     indices <- as.matrix(expand.grid(as.integer(i), as.integer(j))) - 1L
-    lmx <- MlazyExtract(x@xptr, indices, length(i), length(j))
-    new("lazyMatrix", xptr = lmx, nrow = length(i), ncol = length(j))
+    m <- length(i)
+    n <- length(j)
+    lmx <- MlazyExtract(x@xptr, indices, m, n)
+    if(drop && (m == 1L || n == 1L)) {
+      new("lazyVector", xptr = lazyFlatten(lmx), length = m*n)
+    } else {
+      new("lazyMatrix", xptr = lmx, nrow = m, ncol = n)
+    }
+  }
+)
+
+#' @rdname Submatrix
+setMethod(
+  "[", 
+  signature("lazyMatrix", i = "numeric", j = "numeric", drop = "missing"), 
+  function(x, i, j, ..., drop) {
+    x[i, j, drop = TRUE]
   }
 )
 
@@ -78,7 +94,7 @@ setMethod(
   function(x, i, j, ..., drop) {
     n_args <- nargs()
     if(n_args == 3L) {
-      x[i, 1L:x@ncol]  
+      x[i, 1L:x@ncol, drop = TRUE]  
     } else if(n_args == 2L) {
       stopifnot(isIndexVector(i))
       if(any(i > x@nrow * x@ncol)) {
@@ -99,11 +115,11 @@ setMethod(
 #' @rdname Submatrix
 setMethod(
   "[", 
-  signature("lazyMatrix", i = "numeric", j = "missing", drop = "ANY"), 
+  signature("lazyMatrix", i = "numeric", j = "missing", drop = "logical"), 
   function(x, i, j, ..., drop) {
     n_args <- nargs()
     if(n_args == 4L) {
-      x[i, 1L:x@ncol]  
+      x[i, 1L:x@ncol, drop = drop]  
     } else if(n_args == 3L) {
       stopifnot(isIndexVector(i))
       if(any(i > x@nrow * x@ncol)) {
@@ -124,8 +140,17 @@ setMethod(
 #' @rdname Submatrix
 setMethod(
   "[", 
-  signature("lazyMatrix", i = "missing", j = "numeric", drop = "ANY"), 
+  signature("lazyMatrix", i = "missing", j = "numeric", drop = "logical"), 
+  function(x, i, j, drop = TRUE) {
+    x[1L:x@nrow, j, drop = drop]
+  }
+)
+
+#' @rdname Submatrix
+setMethod(
+  "[", 
+  signature("lazyMatrix", i = "missing", j = "numeric", drop = "missing"), 
   function(x, i, j, drop) {
-    x[1L:x@nrow, j]
+    x[1L:x@nrow, j, drop = TRUE]
   }
 )
