@@ -73,10 +73,10 @@ matrix:
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 invM <- solve(M)
 M %*% invM == diag(3)
-##       [,1] [,2] [,3]
-## [1,] FALSE TRUE TRUE
-## [2,] FALSE TRUE TRUE
-## [3,] FALSE TRUE TRUE
+##       [,1]  [,2]  [,3]
+## [1,] FALSE FALSE FALSE
+## [2,] FALSE  TRUE  TRUE
+## [3,] FALSE FALSE  TRUE
 # lazy:
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
@@ -168,6 +168,18 @@ itvs[, 2L] - itvs[, 1L]
 ## [1] 7.771561e-16 0.000000e+00 0.000000e+00 0.000000e+00 7.771561e-16
 ## [6] 0.000000e+00 0.000000e+00 0.000000e+00 7.771561e-16
 ```
+
+We can also compare lazy numbers, not their double approximation:
+
+``` r
+P == lazymat(diag(3))
+##      [,1] [,2] [,3]
+## [1,] TRUE TRUE TRUE
+## [2,] TRUE TRUE TRUE
+## [3,] TRUE TRUE TRUE
+```
+
+So the lazy matrix `P` is equal to the lazy identity matrix.
 
 ## Blog post
 

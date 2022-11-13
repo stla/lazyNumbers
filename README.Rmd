@@ -129,6 +129,14 @@ And they are short:
 itvs[, 2L] - itvs[, 1L]
 ```
 
+We can also compare lazy numbers, not their double approximation:
+
+```{r}
+P == lazymat(diag(3))
+```
+
+So the lazy matrix `P` is equal to the lazy identity matrix.
+
 
 
 ## Blog post
