@@ -110,15 +110,16 @@ set.seed(666L)
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
-I3 <- M_lazy %*% invM_lazy
-as.double(I3) == diag(3)
-asDouble(I3, prec = 1e-16) == diag(3)
+P <- M_lazy %*% invM_lazy
+as.double(P) == diag(3)
+asDouble(P, prec = 1e-16) == diag(3)
 ```
 
-The intervals associated to the coefficients contain the identity matrix:
+The coefficients of the identity matrix are included in the intervals of the 
+coefficients of `P`:
 
 ```{r}
-( itvs <- intervals(c(I3)) )
+( itvs <- intervals(c(P)) )
 (itvs[, 1L] <= c(diag(3))) & (c(diag(3)) <= itvs[, 2L])
 ```
 

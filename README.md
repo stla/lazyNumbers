@@ -73,10 +73,10 @@ matrix:
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 invM <- solve(M)
 M %*% invM == diag(3)
-##       [,1]  [,2]  [,3]
-## [1,]  TRUE  TRUE  TRUE
-## [2,]  TRUE FALSE  TRUE
-## [3,] FALSE FALSE FALSE
+##       [,1] [,2] [,3]
+## [1,] FALSE TRUE TRUE
+## [2,] FALSE TRUE TRUE
+## [3,] FALSE TRUE TRUE
 # lazy:
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
@@ -129,24 +129,24 @@ set.seed(666L)
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
-I3 <- M_lazy %*% invM_lazy
-as.double(I3) == diag(3)
+P <- M_lazy %*% invM_lazy
+as.double(P) == diag(3)
 ##       [,1] [,2] [,3]
 ## [1,] FALSE TRUE TRUE
 ## [2,]  TRUE TRUE TRUE
 ## [3,]  TRUE TRUE TRUE
-asDouble(I3, prec = 1e-16) == diag(3)
+asDouble(P, prec = 1e-16) == diag(3)
 ##      [,1] [,2] [,3]
 ## [1,] TRUE TRUE TRUE
 ## [2,] TRUE TRUE TRUE
 ## [3,] TRUE TRUE TRUE
 ```
 
-The intervals associated to the coefficients contain the identity
-matrix:
+The coefficients of the identity matrix are included in the intervals of
+the coefficients of `P`:
 
 ``` r
-( itvs <- intervals(c(I3)) )
+( itvs <- intervals(c(P)) )
 ##       [,1] [,2]
 ##  [1,]    1    1
 ##  [2,]    0    0
