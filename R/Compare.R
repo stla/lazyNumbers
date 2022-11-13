@@ -30,3 +30,37 @@ setMethod(
     }
   }
 )
+
+setMethod(
+  "Compare",
+  signature(e1 = "lazyVector", e2 = "lazyMatrix"),
+  function(e1, e2) {
+    e1 <- as.lazyMatrix.lazyVector(e1)
+    switch(
+      .Generic,
+      "==" = e1 == e2,
+      "!=" = e1 != e2,
+      "<"  = e1 < e2,
+      "<=" = e1 <= e2,
+      ">"  = e1 > e2,
+      ">=" = e1 >= e2
+    )
+  }
+)
+
+setMethod(
+  "Compare",
+  signature(e1 = "lazyMatrix", e2 = "lazyVector"),
+  function(e1, e2) {
+    e2 <- as.lazyMatrix.lazyVector(e2)
+    switch(
+      .Generic,
+      "==" = e1 == e2,
+      "!=" = e1 != e2,
+      "<"  = e1 < e2,
+      "<=" = e1 <= e2,
+      ">"  = e1 > e2,
+      ">=" = e1 >= e2
+    )
+  }
+)
