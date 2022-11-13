@@ -111,7 +111,9 @@ setMethod(
 #'
 #' @param x a \code{lazyVector} object
 #'
-#' @return A numeric matrix with two columns and \code{x@length} rows.
+#' @return A numeric vector of length two if \code{x} contains only one lazy 
+#'   number, otherwise a numeric matrix with two columns and \code{x@length} 
+#'   rows.
 #' @export
 #'
 #' @examples
@@ -120,5 +122,5 @@ setMethod(
 #' print(intervals(x), digits = 17L)
 intervals <- function(x) {
   stopifnot(inherits(x, "lazyVector"))
-  intervals_lvx(x@xptr)
+  intervals_lvx(x@xptr)[,]
 }

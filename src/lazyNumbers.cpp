@@ -612,3 +612,39 @@ lazyVectorXPtr lazyFlatten(lazyMatrixXPtr lmx) {
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+Rcpp::LogicalVector lazyCompare(
+    lazyVectorXPtr lvx1, lazyVectorXPtr lvx2, Rcpp::String r
+) {
+  lazyVector lv1 = *(lvx1.get());
+  lazyVector lv2 = *(lvx2.get());
+  const size_t n = lv1.size();
+  Rcpp::LogicalVector out(n);
+  if(r == "==") {
+    for(size_t i = 0; i < n; i++) {
+      out(i) = lv1[i] == lv2[i];
+    }
+  } else if(r == "!=") {
+    for(size_t i = 0; i < n; i++) {
+      out(i) = lv1[i] != lv2[i];
+    }
+  } else if(r == "<") {
+    for(size_t i = 0; i < n; i++) {
+      out(i) = lv1[i] < lv2[i];
+    }
+  } else if(r == "<=") {
+    for(size_t i = 0; i < n; i++) {
+      out(i) = lv1[i] <= lv2[i];
+    }
+  } else if(r == ">") {
+    for(size_t i = 0; i < n; i++) {
+      out(i) = lv1[i] > lv2[i];
+    }
+  } else {
+    for(size_t i = 0; i < n; i++) {
+      out(i) = lv1[i] >= lv2[i];
+    }
+  }
+  return out;
+}

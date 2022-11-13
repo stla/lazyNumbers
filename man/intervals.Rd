@@ -10,7 +10,9 @@ intervals(x)
 \item{x}{a \code{lazyVector} object}
 }
 \value{
-A numeric matrix with two columns and \code{x@length} rows.
+A numeric vector of length two if \code{x} contains only one lazy 
+  number, otherwise a numeric matrix with two columns and \code{x@length} 
+  rows.
 }
 \description{
 For each lazy number in a \code{lazyVector} object, this function 

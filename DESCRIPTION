@@ -26,6 +26,7 @@ SystemRequirements: C++ 17, gmp, mpfr
 Collate: 
     'classes.R'
     'Arith.R'
+    'Compare.R'
     'Concat.R'
     'Extract.R'
     'Math.R'

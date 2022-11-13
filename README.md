@@ -73,10 +73,10 @@ matrix:
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 invM <- solve(M)
 M %*% invM == diag(3)
-##       [,1] [,2]  [,3]
-## [1,]  TRUE TRUE  TRUE
-## [2,] FALSE TRUE  TRUE
-## [3,]  TRUE TRUE FALSE
+##       [,1]  [,2]  [,3]
+## [1,]  TRUE  TRUE  TRUE
+## [2,]  TRUE FALSE  TRUE
+## [3,] FALSE FALSE FALSE
 # lazy:
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
@@ -99,11 +99,30 @@ For example the first equality we have seen does not hold true if we
 decrease the relative precision:
 
 ``` r
-asDouble(1 - lazynb(7) * 0.1, prec = 1e-16) == 0.3
+x <- 1 - lazynb(7) * 0.1
+asDouble(x, prec = 1e-16) == 0.3
 ## [1] FALSE
 ```
 
-But sometimes one has to decrease the precision:
+But we can get an interval containing the lazy number, and it contains
+`0.3`:
+
+``` r
+( itv <- intervals(x) )
+## [1] 0.3 0.3
+(itv[1L] <= 0.3) && (0.3 <= itv[2L])
+## [1] TRUE
+```
+
+And it is short:
+
+``` r
+diff(itv)
+## [1] 5.551115e-17
+```
+
+In the example below, one has to decrease the precision to get the
+equality:
 
 ``` r
 set.seed(666L)
@@ -121,6 +140,33 @@ asDouble(I3, prec = 1e-16) == diag(3)
 ## [1,] TRUE TRUE TRUE
 ## [2,] TRUE TRUE TRUE
 ## [3,] TRUE TRUE TRUE
+```
+
+The intervals associated to the coefficients contain the identity
+matrix:
+
+``` r
+( itvs <- intervals(c(I3)) )
+##       [,1] [,2]
+##  [1,]    1    1
+##  [2,]    0    0
+##  [3,]    0    0
+##  [4,]    0    0
+##  [5,]    1    1
+##  [6,]    0    0
+##  [7,]    0    0
+##  [8,]    0    0
+##  [9,]    1    1
+(itvs[, 1L] <= c(diag(3))) & (c(diag(3)) <= itvs[, 2L])
+## [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+```
+
+And they are short:
+
+``` r
+itvs[, 2L] - itvs[, 1L]
+## [1] 7.771561e-16 0.000000e+00 0.000000e+00 0.000000e+00 7.771561e-16
+## [6] 0.000000e+00 0.000000e+00 0.000000e+00 7.771561e-16
 ```
 
 ## Blog post

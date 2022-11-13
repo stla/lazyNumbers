@@ -86,10 +86,24 @@ For example the first equality we have seen does not hold true if we decrease
 the relative precision:
 
 ```{r}
-asDouble(1 - lazynb(7) * 0.1, prec = 1e-16) == 0.3
+x <- 1 - lazynb(7) * 0.1
+asDouble(x, prec = 1e-16) == 0.3
 ```
 
-But sometimes one has to decrease the precision:
+But we can get an interval containing the lazy number, and it contains `0.3`:
+
+```{r}
+( itv <- intervals(x) )
+(itv[1L] <= 0.3) && (0.3 <= itv[2L])
+```
+
+And it is short:
+
+```{r}
+diff(itv)
+```
+
+In the example below, one has to decrease the precision to get the equality:
 
 ```{r}
 set.seed(666L)
@@ -100,6 +114,20 @@ I3 <- M_lazy %*% invM_lazy
 as.double(I3) == diag(3)
 asDouble(I3, prec = 1e-16) == diag(3)
 ```
+
+The intervals associated to the coefficients contain the identity matrix:
+
+```{r}
+( itvs <- intervals(c(I3)) )
+(itvs[, 1L] <= c(diag(3))) & (c(diag(3)) <= itvs[, 2L])
+```
+
+And they are short:
+
+```{r}
+itvs[, 2L] - itvs[, 1L]
+```
+
 
 
 ## Blog post

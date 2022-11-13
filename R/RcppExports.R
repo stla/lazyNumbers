@@ -177,3 +177,7 @@ lazyFlatten <- function(lmx) {
     .Call(`_lazyNumbers_lazyFlatten`, lmx)
 }
 
+lazyCompare <- function(lvx1, lvx2, r) {
+    .Call(`_lazyNumbers_lazyCompare`, lvx1, lvx2, r)
+}
+

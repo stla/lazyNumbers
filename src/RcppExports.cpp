@@ -518,6 +518,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyCompare
+Rcpp::LogicalVector lazyCompare(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2, Rcpp::String r);
+RcppExport SEXP _lazyNumbers_lazyCompare(SEXP lvx1SEXP, SEXP lvx2SEXP, SEXP rSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx1(lvx1SEXP);
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx2(lvx2SEXP);
+    Rcpp::traits::input_parameter< Rcpp::String >::type r(rSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyCompare(lvx1, lvx2, r));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
@@ -564,6 +577,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyInverse", (DL_FUNC) &_lazyNumbers_lazyInverse, 1},
     {"_lazyNumbers_lazyTranspose", (DL_FUNC) &_lazyNumbers_lazyTranspose, 1},
     {"_lazyNumbers_lazyFlatten", (DL_FUNC) &_lazyNumbers_lazyFlatten, 1},
+    {"_lazyNumbers_lazyCompare", (DL_FUNC) &_lazyNumbers_lazyCompare, 3},
     {NULL, NULL, 0}
 };
 
