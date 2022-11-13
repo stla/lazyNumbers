@@ -1,6 +1,6 @@
 library(lazyNumbers)
 set.seed(666L)
-M <- lazymat(matrix(rnorm(9L), nrow = 3L, ncol = 3L))
+M <- lazymat(matrix(rnorm(9L, 100000), nrow = 3L, ncol = 3L))
 invM <- lazyInv(M)
 I3 <- M %*% invM
 as.double(I3) == diag(3)
@@ -30,5 +30,5 @@ for(i in 1:3) {
 }
 invM <- do.call(cbind, lvs)
 
-as.double(M %*% invM) == diag(3)
-as.double(invM %*% M) == diag(3)
+as.double(Ml %*% invM) == diag(3)
+as.double(invM %*% Ml) == diag(3)

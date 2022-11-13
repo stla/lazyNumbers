@@ -1,15 +1,26 @@
 c_lv <- function(lv1, lv2) {
+  lv2 <- as.lazyVector(lv2)
   xptr <- lazyConcat(lv1@xptr, lv2@xptr)
   l <- lv1@length + lv2@length
   new("lazyVector", xptr = xptr, length = l)
 }
 
-#' @name concat-lazyVectors
-#' @aliases c,lazyVector-method
+c_lm_lv <- function(lm, lv) {
+  lv <- as.lazyVector(lv)
+  xptr <- lazyConcat(lazyFlatten(lm@xptr), lv@xptr)
+  l <- lm@nrow*lm@ncol + lv@length
+  new("lazyVector", xptr = xptr, length = l)
+}
+
+#' @name concat-lazyObjects
+#' @aliases c,lazyVector-method c,lazyMatrix-method
 #' @title Concatenation of lazy vectors
-#' @description Concatenate two or more \code{lazyVector} objects.
-#' @param x a \code{lazyVector} object
-#' @param ... some \code{lazyVector} objects
+#' @description Concatenate two or more \code{lazyVector} or \code{lazyMatrix} 
+#'   objects.
+#' @param x a \code{lazyVector} object or a \code{lazyMatrix} object
+#' @param ... \code{lazyVector} objects or \code{lazyMatrix} objects or numeric 
+#'   vectors or numeric matrices
+#' @return A \code{lazyVector} object. 
 setMethod(
   "c",
   signature(x = "lazyVector"),
@@ -17,13 +28,27 @@ setMethod(
     if(nargs() == 1L) {
       x
     } else if(nargs() == 2L) {
-      c_lv(x, ...)
+      c_lv(x, c(...))
     } else {
       c_lv(x, Recall(...))
     }
   }
 )
 
+#' @rdname concat-lazyObjects
+setMethod(
+  "c",
+  signature(x = "lazyMatrix"),
+  function(x, ...) {
+    if(nargs() == 1L) {
+      as.lazyVector.lazyMatrix(x)
+    } else if(nargs() == 2L) {
+      c_lm_lv(x, c(...))
+    } else {
+      c_lm_lv(x, Recall(...))
+    }
+  }
+)
 
 
 cbind_lm <- function(lm1, lm2) {

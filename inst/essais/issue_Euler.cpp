@@ -36,6 +36,15 @@ lazyVector lv1_dividedby_lv2(lazyVector lv1, lazyVector lv2) {
   return lv;
 }
 
+lazyVector lv1_mydividedby_lv2(lazyVector lv1, lazyVector lv2) {
+  const size_t n = lv1.size();
+  lazyVector lv(n);
+  for(size_t i = 0; i < n; i++) {
+    lv[i] = mydivision(lv1[i], lv2[i]);
+  }
+  return lv;
+}
+
 lazyVector lazyCumprod(lazyVector lvin) {
   const size_t n = lvin.size();
   lazyVector lv(n);
@@ -49,20 +58,36 @@ lazyVector lazyCumprod(lazyVector lvin) {
 
 lazyScalar Euler(int n) {
   lazyVector lv1(n);
-  for(int i = 0; int i < n; i++) {
+  for(int i = 0; i < n; i++) {
     lv1[i] = lazyScalar(i + 1);
   }
   lazyVector lv2(n);
-  for(int i = 0; int i < n; i++) {
+  for(int i = 0; i < n; i++) {
     lv2[i] = lazyScalar(2*i + 3);
   }
   return lazySum(lv1_dividedby_lv2(lazyCumprod(lv1), lazyCumprod(lv2))); 
 }
 
+lazyScalar myEuler(int n) {
+  lazyVector lv1(n);
+  for(int i = 0; i < n; i++) {
+    lv1[i] = lazyScalar(i + 1);
+  }
+  lazyVector lv2(n);
+  for(int i = 0; i < n; i++) {
+    lv2[i] = lazyScalar(2*i + 3);
+  }
+  return lazySum(lv1_mydividedby_lv2(lazyCumprod(lv1), lazyCumprod(lv2))); 
+}
+
 int main() {
-  lazyScalar euler = Euler(200);
+  lazyScalar euler = Euler(171);
   CGAL::Interval_nt<false> interval = euler.approx();
-  std::cout << "lower bound: " << interval.inf() << "\n";
-  std::cout << "upper bound: " << interval.sup() << "\n";
+  std::cout << "lower bound: " << interval.inf() << "\n"; // prints 0.57
+  std::cout << "upper bound: " << interval.sup() << "\n"; // prints inf
+  lazyScalar myeuler = myEuler(171);
+  CGAL::Interval_nt<false> myinterval = myeuler.approx();
+  std::cout << "lower bound: " << myinterval.inf() << "\n"; // prints 0.57
+  std::cout << "upper bound: " << myinterval.sup() << "\n"; // prints 0.57
   return 0;
 }
