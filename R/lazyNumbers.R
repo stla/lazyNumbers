@@ -122,7 +122,8 @@ setMethod(
 #' x <- lazynb(22) / lazynb(7)
 #' itrv <- intervals(x)
 #' print(itrv, digits = 17L)
-#' itrv$inf <= x & x <= itrv$sup
+#' x_dbl <- as.double(x)
+#' itrv$inf <= x_dbl & x_dbl <= itrv$sup
 intervals <- function(x) {
   stopifnot(inherits(x, "lazyVector") || inherits(x, "lazyMatrix"))
   if(inherits(x, "lazyVector")) {
