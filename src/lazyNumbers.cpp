@@ -1,17 +1,34 @@
 #include "lazyNumbers_types.h"
 
 // [[Rcpp::export]]
-Rcpp::NumericMatrix intervals_lvx(lazyVectorXPtr lvx) {
+Rcpp::List intervals_lvx(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();
-  Rcpp::NumericMatrix intervals(2, n);
+  Rcpp::NumericVector inf(n);
+  Rcpp::NumericVector sup(n);
   for(size_t i = 0; i < n; i++) {
     CGAL::Interval_nt<false> interval = lv[i].approx();
-    Rcpp::NumericVector col_i = 
-      Rcpp::NumericVector::create(interval.inf(), interval.sup());
-    intervals(Rcpp::_, i) = col_i;
+    inf(i) = interval.inf();
+    sup(i) = interval.sup();
   }
-  return Rcpp::transpose(intervals);
+  return Rcpp::List::create(Rcpp::Named("inf") = inf, Rcpp::Named("sup") = sup);
+}
+
+// [[Rcpp::export]]
+Rcpp::List intervals_lmx(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  const size_t m = lm.rows();
+  const size_t n = lm.cols();
+  Rcpp::NumericMatrix inf(m, n);
+  Rcpp::NumericMatrix sup(m, n);
+  for(size_t i = 0; i < m; i++) {
+    for(size_t j = 0; j < n; j++) {
+      CGAL::Interval_nt<false> interval = lm.coeff(i,j).approx();
+      inf(i, j) = interval.inf();
+      sup(i, j) = interval.sup();
+    }
+  }
+  return Rcpp::List::create(Rcpp::Named("inf") = inf, Rcpp::Named("sup") = sup);
 }
 
 // [[Rcpp::export]]

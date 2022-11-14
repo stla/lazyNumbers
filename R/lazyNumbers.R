@@ -106,21 +106,28 @@ setMethod(
 )
 
 #' @title Intervals for lazy numbers
-#' @description For each lazy number in a \code{lazyVector} object, this function 
-#'   returns an interval containing this lazy number.
+#' @description For each lazy number in a \code{lazyVector} object or a 
+#'   \code{lazyMatrix} object, this function computes an interval containing 
+#'   this lazy number.
 #'
-#' @param x a \code{lazyVector} object
+#' @param x a \code{lazyVector} object or a \code{lazyMatrix} object
 #'
-#' @return A numeric vector of length two if \code{x} contains only one lazy 
-#'   number, otherwise a numeric matrix with two columns and \code{x@length} 
-#'   rows.
+#' @return A named list (\code{"inf"} and \code{"sup"}) containing: two numeric 
+#'   vectors if \code{x} is a lazy vector, two numeric matrices if \code{x} is 
+#'   a lazy matrix. 
 #' @export
 #'
 #' @examples
 #' library(lazyNumbers)
 #' x <- lazynb(22) / lazynb(7)
-#' print(intervals(x), digits = 17L)
+#' itrv <- intervals(x)
+#' print(itrv, digits = 17L)
+#' itrv$inf <= x & x <= itrv$sup
 intervals <- function(x) {
-  stopifnot(inherits(x, "lazyVector"))
-  intervals_lvx(x@xptr)[,]
+  stopifnot(inherits(x, "lazyVector") || inherits(x, "lazyMatrix"))
+  if(inherits(x, "lazyVector")) {
+    intervals_lvx(x@xptr)
+  } else {
+    intervals_lmx(x@xptr)
+  }
 }

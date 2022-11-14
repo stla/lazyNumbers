@@ -13,13 +13,24 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // intervals_lvx
-Rcpp::NumericMatrix intervals_lvx(lazyVectorXPtr lvx);
+Rcpp::List intervals_lvx(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_intervals_lvx(SEXP lvxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
     rcpp_result_gen = Rcpp::wrap(intervals_lvx(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// intervals_lmx
+Rcpp::List intervals_lmx(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_intervals_lmx(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(intervals_lmx(lmx));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -534,6 +545,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
+    {"_lazyNumbers_intervals_lmx", (DL_FUNC) &_lazyNumbers_intervals_lmx, 1},
     {"_lazyNumbers_nv2lvx", (DL_FUNC) &_lazyNumbers_nv2lvx, 1},
     {"_lazyNumbers_nm2lmx", (DL_FUNC) &_lazyNumbers_nm2lmx, 1},
     {"_lazyNumbers_lvx2nv", (DL_FUNC) &_lazyNumbers_lvx2nv, 2},

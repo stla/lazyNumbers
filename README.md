@@ -69,14 +69,15 @@ is possible to get the determinant and the inverse of a square lazy
 matrix:
 
 ``` r
+set.seed(314159L)
 # non-lazy:
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 invM <- solve(M)
 M %*% invM == diag(3)
-##       [,1]  [,2]  [,3]
-## [1,] FALSE FALSE FALSE
-## [2,] FALSE  TRUE  TRUE
-## [3,] FALSE FALSE  TRUE
+##       [,1] [,2]  [,3]
+## [1,] FALSE TRUE FALSE
+## [2,] FALSE TRUE FALSE
+## [3,] FALSE TRUE  TRUE
 # lazy:
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
@@ -108,16 +109,21 @@ But we can get an interval containing the lazy number, and it contains
 `0.3`:
 
 ``` r
-( itv <- intervals(x) )
-## [1] 0.3 0.3
-(itv[1L] <= 0.3) && (0.3 <= itv[2L])
+itv <- intervals(x)
+print(itv, digits = 16L)
+## $inf
+## [1] 0.2999999999999999
+## 
+## $sup
+## [1] 0.3
+(itv[["inf"]] <= 0.3) && (0.3 <= itv[["sup"]])
 ## [1] TRUE
 ```
 
 And it is short:
 
 ``` r
-diff(itv)
+itv[["sup"]] - itv[["inf"]]
 ## [1] 5.551115e-17
 ```
 
@@ -130,12 +136,12 @@ M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
 P <- M_lazy %*% invM_lazy
-as.double(P) == diag(3)
+as.double(P) == diag(3L)
 ##       [,1] [,2] [,3]
 ## [1,] FALSE TRUE TRUE
 ## [2,]  TRUE TRUE TRUE
 ## [3,]  TRUE TRUE TRUE
-asDouble(P, prec = 1e-16) == diag(3)
+asDouble(P, prec = 1e-16) == diag(3L)
 ##      [,1] [,2] [,3]
 ## [1,] TRUE TRUE TRUE
 ## [2,] TRUE TRUE TRUE
@@ -146,33 +152,40 @@ The coefficients of the identity matrix are included in the intervals of
 the coefficients of `P`:
 
 ``` r
-( itvs <- intervals(c(P)) )
-##       [,1] [,2]
-##  [1,]    1    1
-##  [2,]    0    0
-##  [3,]    0    0
-##  [4,]    0    0
-##  [5,]    1    1
-##  [6,]    0    0
-##  [7,]    0    0
-##  [8,]    0    0
-##  [9,]    1    1
-(itvs[, 1L] <= c(diag(3))) & (c(diag(3)) <= itvs[, 2L])
-## [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+itvs <- intervals(P)
+print(itvs, digits = 16L)
+## $inf
+##                    [,1]               [,2]               [,3]
+## [1,] 0.9999999999999997 0.0000000000000000 0.0000000000000000
+## [2,] 0.0000000000000000 0.9999999999999997 0.0000000000000000
+## [3,] 0.0000000000000000 0.0000000000000000 0.9999999999999997
+## 
+## $sup
+##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    1    0
+## [3,]    0    0    1
+(itvs[["inf"]] <= diag(3L)) & (diag(3L) <= itvs[["sup"]])
+##      [,1] [,2] [,3]
+## [1,] TRUE TRUE TRUE
+## [2,] TRUE TRUE TRUE
+## [3,] TRUE TRUE TRUE
 ```
 
-And they are short:
+And these intervals are short:
 
 ``` r
-itvs[, 2L] - itvs[, 1L]
-## [1] 7.771561e-16 0.000000e+00 0.000000e+00 0.000000e+00 7.771561e-16
-## [6] 0.000000e+00 0.000000e+00 0.000000e+00 7.771561e-16
+itvs[["sup"]] - itvs[["inf"]]
+##              [,1]         [,2]         [,3]
+## [1,] 7.771561e-16 0.000000e+00 0.000000e+00
+## [2,] 0.000000e+00 7.771561e-16 0.000000e+00
+## [3,] 0.000000e+00 0.000000e+00 7.771561e-16
 ```
 
 We can also compare lazy numbers, not their double approximation:
 
 ``` r
-P == lazymat(diag(3))
+P == lazymat(diag(3L))
 ##      [,1] [,2] [,3]
 ## [1,] TRUE TRUE TRUE
 ## [2,] TRUE TRUE TRUE

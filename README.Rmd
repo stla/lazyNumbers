@@ -65,6 +65,7 @@ Vectors of lazy numbers and matrices of lazy numbers are implemented. It is
 possible to get the determinant and the inverse of a square lazy matrix:
 
 ```{r}
+set.seed(314159L)
 # non-lazy:
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 invM <- solve(M)
@@ -93,14 +94,15 @@ asDouble(x, prec = 1e-16) == 0.3
 But we can get an interval containing the lazy number, and it contains `0.3`:
 
 ```{r}
-( itv <- intervals(x) )
-(itv[1L] <= 0.3) && (0.3 <= itv[2L])
+itv <- intervals(x)
+print(itv, digits = 16L)
+(itv[["inf"]] <= 0.3) && (0.3 <= itv[["sup"]])
 ```
 
 And it is short:
 
 ```{r}
-diff(itv)
+itv[["sup"]] - itv[["inf"]]
 ```
 
 In the example below, one has to decrease the precision to get the equality:
@@ -111,28 +113,29 @@ M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
 P <- M_lazy %*% invM_lazy
-as.double(P) == diag(3)
-asDouble(P, prec = 1e-16) == diag(3)
+as.double(P) == diag(3L)
+asDouble(P, prec = 1e-16) == diag(3L)
 ```
 
 The coefficients of the identity matrix are included in the intervals of the 
 coefficients of `P`:
 
 ```{r}
-( itvs <- intervals(c(P)) )
-(itvs[, 1L] <= c(diag(3))) & (c(diag(3)) <= itvs[, 2L])
+itvs <- intervals(P)
+print(itvs, digits = 16L)
+(itvs[["inf"]] <= diag(3L)) & (diag(3L) <= itvs[["sup"]])
 ```
 
-And they are short:
+And these intervals are short:
 
 ```{r}
-itvs[, 2L] - itvs[, 1L]
+itvs[["sup"]] - itvs[["inf"]]
 ```
 
 We can also compare lazy numbers, not their double approximation:
 
 ```{r}
-P == lazymat(diag(3))
+P == lazymat(diag(3L))
 ```
 
 So the lazy matrix `P` is equal to the lazy identity matrix.

@@ -1,3 +1,4 @@
+#include <vector>
 #include <CGAL/number_utils.h>
 #include <CGAL/Lazy_exact_nt.h>
 #include <CGAL/MP_Float.h>
@@ -56,6 +57,7 @@ lazyVector lazyCumprod(lazyVector lvin) {
   return lv;
 }
 
+// the series with the ordinary division
 lazyScalar Euler(int n) {
   lazyVector lv1(n);
   for(int i = 0; i < n; i++) {
@@ -68,6 +70,7 @@ lazyScalar Euler(int n) {
   return lazySum(lv1_dividedby_lv2(lazyCumprod(lv1), lazyCumprod(lv2))); 
 }
 
+// the series with "my" division
 lazyScalar myEuler(int n) {
   lazyVector lv1(n);
   for(int i = 0; i < n; i++) {

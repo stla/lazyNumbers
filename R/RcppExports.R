@@ -5,6 +5,10 @@ intervals_lvx <- function(lvx) {
     .Call(`_lazyNumbers_intervals_lvx`, lvx)
 }
 
+intervals_lmx <- function(lmx) {
+    .Call(`_lazyNumbers_intervals_lmx`, lmx)
+}
+
 nv2lvx <- function(nv) {
     .Call(`_lazyNumbers_nv2lvx`, nv)
 }
