@@ -10,22 +10,59 @@ It is well-known that floating-point arithmetic is inexact even with
 some simple operations. For example:
 
 ``` r
-1 - 7 * 0.1 == 0.3
+1 - 7*0.1 == 0.3
 ## [1] FALSE
 ```
 
 This package provides the *lazy numbers*, which allow exact
-floating-point arithmetic:
+floating-point arithmetic. These numbers do *not* solve the above issue:
 
 ``` r
 library(lazyNumbers)
-x <- lazynb(1) - lazynb(7) * lazynb(0.1)
+x <- lazynb(1) - lazynb(7)*lazynb(0.1)
+as.double(x) == 0.3
+## [1] FALSE
+```
+
+Actually one can equivalent define `x` by, shorter, `1 - lazynb(7)*0.1`.
+
+The above equality does not hold true because `0.1` and `0.3` as double
+numbers do not exactly represent the true numbers `0.1` and `0.3`:
+
+``` r
+print(0.3, digits = 17L)
+## [1] 0.29999999999999999
+```
+
+Whole numbers are exactly represented. The following equality is true:
+
+``` r
+x <- 1 - lazynb(7)/10
 as.double(x) == 0.3
 ## [1] TRUE
 ```
 
-Here is a more interesting example. Consider the following recursive
-sequence:
+It is also possible to compare lazy numbers between them:
+
+``` r
+y <- lazynb(3)/lazynb(10)
+x == y
+## [1] TRUE
+```
+
+And one can get a thin interval containing the exact value:
+
+``` r
+print(intervals(x), digits = 17L)
+## $inf
+## [1] 0.29999999999999999
+## 
+## $sup
+## [1] 0.30000000000000004
+```
+
+Here is a more concrete example illustrating the benefits of the lazy
+numbers. Consider the following recursive sequence:
 
 ``` r
 u <- function(n) {
@@ -37,7 +74,7 @@ u <- function(n) {
 ```
 
 It is clear that all terms of this sequence equal `1/7` (approx.
-`0.1428571`). However:
+`0.1428571`). However this sequence becomes crazy as `n` increases:
 
 ``` r
 u(15)
@@ -50,7 +87,6 @@ u(30)
 ## [1] -1227133513
 ```
 
-When it is evaluated in double precision, the sequence becomes crazy.
 This is not the case of its lazy version:
 
 ``` r
@@ -73,7 +109,7 @@ set.seed(314159L)
 # non-lazy:
 M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
 invM <- solve(M)
-M %*% invM == diag(3)
+M %*% invM == diag(3L)
 ##       [,1] [,2]  [,3]
 ## [1,] FALSE TRUE FALSE
 ## [2,] FALSE TRUE FALSE
@@ -81,123 +117,29 @@ M %*% invM == diag(3)
 # lazy:
 M_lazy <- lazymat(M)
 invM_lazy <- lazyInv(M_lazy)
-as.double(M_lazy %*% invM_lazy) == diag(3)
+as.double(M_lazy %*% invM_lazy) == diag(3L)
 ##      [,1] [,2] [,3]
 ## [1,] TRUE TRUE TRUE
 ## [2,] TRUE TRUE TRUE
 ## [3,] TRUE TRUE TRUE
 ```
 
-### Relative precision of the conversion to double
+### About laziness
 
-This is not always so nice… Some equalities which are mathematically
-true are not always true with the lazy numbers. That can depend on the
-relative precision of the conversion from lazy to double, which is
-possible to set with the function `asDouble`. It is set to `1e-15` when
-applying the function `as.double`.
+The lazy numbers are called like this because when an operation is
+performed between numbers, the resulting lazy number is not the result
+of the operation; rather, it is the unevaluated operation. Therefore,
+performing some operations on lazy numbers is fast, but a call to
+`as.double`, which triggers the exact evaluation, can be slow. A call to
+`intervals` is fast.
 
-For example the first equality we have seen does not hold true if we
-decrease the relative precision:
-
-``` r
-x <- 1 - lazynb(7) * 0.1
-asDouble(x, prec = 1e-16) == 0.3
-## [1] FALSE
-```
-
-But we can get an interval containing the lazy number, and it contains
-`0.3`:
-
-``` r
-itv <- intervals(x)
-print(itv, digits = 16L)
-## $inf
-## [1] 0.2999999999999999
-## 
-## $sup
-## [1] 0.3
-(itv[["inf"]] <= 0.3) && (0.3 <= itv[["sup"]])
-## [1] TRUE
-```
-
-And it is short:
-
-``` r
-itv[["sup"]] - itv[["inf"]]
-## [1] 5.551115e-17
-```
-
-In the example below, one has to decrease the precision to get the
-equality:
-
-``` r
-set.seed(666L)
-M <- matrix(rnorm(9L), nrow = 3L, ncol = 3L)
-M_lazy <- lazymat(M)
-invM_lazy <- lazyInv(M_lazy)
-P <- M_lazy %*% invM_lazy
-as.double(P) == diag(3L)
-##       [,1] [,2] [,3]
-## [1,] FALSE TRUE TRUE
-## [2,]  TRUE TRUE TRUE
-## [3,]  TRUE TRUE TRUE
-asDouble(P, prec = 1e-16) == diag(3L)
-##      [,1] [,2] [,3]
-## [1,] TRUE TRUE TRUE
-## [2,] TRUE TRUE TRUE
-## [3,] TRUE TRUE TRUE
-```
-
-The coefficients of the identity matrix are included in the intervals of
-the coefficients of `P`:
-
-``` r
-itvs <- intervals(P)
-print(itvs, digits = 16L)
-## $inf
-##                    [,1]               [,2]               [,3]
-## [1,] 0.9999999999999997 0.0000000000000000 0.0000000000000000
-## [2,] 0.0000000000000000 0.9999999999999997 0.0000000000000000
-## [3,] 0.0000000000000000 0.0000000000000000 0.9999999999999997
-## 
-## $sup
-##      [,1] [,2] [,3]
-## [1,]    1    0    0
-## [2,]    0    1    0
-## [3,]    0    0    1
-(itvs[["inf"]] <= diag(3L)) & (diag(3L) <= itvs[["sup"]])
-##      [,1] [,2] [,3]
-## [1,] TRUE TRUE TRUE
-## [2,] TRUE TRUE TRUE
-## [3,] TRUE TRUE TRUE
-```
-
-And these intervals are short:
-
-``` r
-itvs[["sup"]] - itvs[["inf"]]
-##              [,1]         [,2]         [,3]
-## [1,] 7.771561e-16 0.000000e+00 0.000000e+00
-## [2,] 0.000000e+00 7.771561e-16 0.000000e+00
-## [3,] 0.000000e+00 0.000000e+00 7.771561e-16
-```
-
-We can also compare lazy numbers, not their double approximation:
-
-``` r
-P == lazymat(diag(3L))
-##      [,1] [,2] [,3]
-## [1,] TRUE TRUE TRUE
-## [2,] TRUE TRUE TRUE
-## [3,] TRUE TRUE TRUE
-```
-
-So the lazy matrix `P` is equal to the lazy identity matrix.
-
-## Blog post
+## Blog posts
 
 [The lazy numbers in
-R](https://laustep.github.io/stlahblog/posts/lazyNumbers.html)
+R](https://laustep.github.io/stlahblog/posts/lazyNumbers.html).
+
+[The lazy numbers in R:
+correction](https://laustep.github.io/stlahblog/posts/lazyNumbers2.html).
 
 ## License
 

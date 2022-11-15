@@ -27,7 +27,8 @@ Create a vector of lazy numbers.
 }
 \examples{
 library(lazyNumbers)
-1 - 7 * 0.1 == 0.3 # FALSE
 x <- lazynb(1) - lazynb(7) * lazynb(0.1)
-as.double(x) == 0.3 # TRUE
+as.double(x)
+# shorter:
+x <- 1 - lazynb(7) * 0.1
 }

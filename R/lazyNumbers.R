@@ -6,9 +6,10 @@
 #' @name lazyVector
 #' @examples
 #' library(lazyNumbers)
-#' 1 - 7 * 0.1 == 0.3 # FALSE
 #' x <- lazynb(1) - lazynb(7) * lazynb(0.1)
-#' as.double(x) == 0.3 # TRUE
+#' as.double(x)
+#' # shorter:
+#' x <- 1 - lazynb(7) * 0.1
 as.lazyVector <- function(x) UseMethod("as.lazyVector")
 
 #' @rdname lazyVector
@@ -162,6 +163,7 @@ intervals <- function(x) {
 #' # fast, because the operations are not evaluated:
 #' x1 <- 2 * (1 + sum(cumprod(lazynb(p) / lazynb(q))))
 #' x2 <- 2 * (1 + sum(cumprod(lazynb(p) / lazynb(q))))
+#' x3 <- 2 * (1 + sum(cumprod(lazynb(p) / lazynb(q))))
 #' # slow, because this evaluates the operations:
 #' lazyResolve(x1)
 #' # fast, because `x1` is resolved now:
@@ -169,7 +171,11 @@ intervals <- function(x) {
 #' # slow, because `x2` must be resolved:
 #' as.double(x2)
 #' # fast, because the call to `as.double` has resolved `x2`
-#' as.double(x2)}
+#' as.double(x2)
+#' # slow, because `x3` is not resolved:
+#' x1 == x3
+#' # fast, because `x3` has been resolved by the equality test:
+#' as.double(x3)}
 lazyResolve <- function(x) {
   stopifnot(inherits(x, "lazyVector"))
   . <- lazyExact(x@xptr)
