@@ -5,8 +5,22 @@ x <- seq(1, n, by = 1)
 y <- seq(3, 2*n+1, by = 2)
 
 lnumber <- 2 * (1 + sum(cumprod(lazynb(x) / lazynb(y))))
+print(asDouble(lnumber, 1e-5), digits = 20)
 
-print(as.double(lnumber), digits = 20)
+library(gmp)
+gmpcumprod <- function(q) {
+  n <- length(q)
+  cp <- as.bigq(integer(n))
+  cp[1L] <- q[1L]
+  for(i in 2L:n) {
+    cp[i] <- cp[i-1L] * q[i] 
+  }
+  cp
+}
+gmpnumber <- 2 * (1 + sum(gmpcumprod(as.bigq(x, y))))
+print(asNumeric(gmpnumber), digits = 20)
+
+
 
 
 

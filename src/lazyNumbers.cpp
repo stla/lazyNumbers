@@ -680,3 +680,15 @@ Rcpp::LogicalVector lazyCompare(
   }
   return out;
 }
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyDiagonal(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  const size_t n = lm.cols();
+  lazyVector lv;
+  lv.reserve(n);
+  for(size_t k = 0; k < lm.size(); k += n+1) {
+    lv.emplace_back(*(lm.data() + k));
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}

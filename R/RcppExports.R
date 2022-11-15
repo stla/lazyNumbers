@@ -193,3 +193,7 @@ lazyCompare <- function(lvx1, lvx2, r) {
     .Call(`_lazyNumbers_lazyCompare`, lvx1, lvx2, r)
 }
 
+lazyDiagonal <- function(lmx) {
+    .Call(`_lazyNumbers_lazyDiagonal`, lmx)
+}
+

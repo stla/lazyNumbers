@@ -89,3 +89,16 @@ lazyInv <- function(M) {
   invx <- lazyInverse(M@xptr)
   new("lazyMatrix", xptr = invx, nrow = M@nrow, ncol = M@ncol)
 }
+
+#' @exportMethod diag
+setMethod(
+  "diag",
+  signature = "lazyMatrix",
+  function(x) {
+    if(x@nrow != x@ncol) {
+      stop("The matrix is not square.")
+    }
+    lvx <- lazyDiagonal(x@xptr)
+    new("lazyVector", xptr = lvx, length = x@ncol)
+  }
+)
