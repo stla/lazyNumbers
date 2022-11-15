@@ -21,5 +21,5 @@ When an operation between lazy numbers is performed, the resulting
   operation (wherefrom the word "lazy"). This function performs the 
   evaluation of the operations contained in the lazy numbers of the vector; 
   the returned lazy vector has the same values as the input lazy vector. 
-  Applying this function can avoid a stack overflow.
+  Applying this function can help to avoid a stack overflow.
 }
