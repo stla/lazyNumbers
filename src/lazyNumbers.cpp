@@ -232,45 +232,29 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
   if(n1 == n2) {
     lv.reserve(n1);
     for(size_t i = 0; i < n1; i++) {
-      if(lv2[i] == 0) {
+      lazyScalar ls2 = lv2[i];
+      if(ls2 == 0) {
         Rcpp::stop("Division by zero.");
       }
-      Quotient q1 = lv1[i].exact();
-      Quotient q2 = lv2[i].exact();
-      lazyScalar q = lazyScalar(Quotient(
-        q1.numerator() * q2.denominator(), q1.denominator() * q2.numerator())
-      );
-      lv.emplace_back(q);
+      lv.emplace_back(lv1[i] / ls2);
     }
   } else if(n1 == 1) {
     lv.reserve(n2);
-    Quotient q1 = lv1[0].exact();
-    CGAL::MP_Float n1 = q1.numerator();
-    CGAL::MP_Float d1 = q1.denominator();
+    lazyScalar ls1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
-      if(lv2[i] == 0) {
+      lazyScalar ls2 = lv2[i];
+      if(ls2 == 0) {
         Rcpp::stop("Division by zero.");
       }
-      Quotient q2 = lv2[i].exact();
-      lazyScalar q = lazyScalar(Quotient(
-        n1 * q2.denominator(), d1 * q2.numerator())
-      );
-      lv.emplace_back(q);
+      lv.emplace_back(ls1 / ls2);
     }
   } else if(n2 == 1) {
-    if(lv2[0] == 0) {
+    lazyScalar ls2 = lv2[0];
+    if(ls2 == 0) {
       Rcpp::stop("Division by zero.");
     }
-    lv.reserve(n1);
-    Quotient q2 = lv2[0].exact();
-    CGAL::MP_Float n2 = q2.numerator();
-    CGAL::MP_Float d2 = q2.denominator();
     for(size_t i = 0; i < n1; i++) {
-      Quotient q1 = lv1[i].exact();
-      lazyScalar q = lazyScalar(Quotient(
-        q1.numerator() * d2, q1.denominator() * n2
-      ));
-      lv.emplace_back(q);
+      lv.emplace_back(lv1[i] / ls2);
     }
   } else {
     Rcpp::stop("Incompatible lengths.");
@@ -287,11 +271,11 @@ lazyMatrixXPtr lmx_dividedby_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   lazyMatrix lm(nrow, ncol);
   for(size_t i = 0; i < nrow; i++) {
     for(size_t j = 0; j < ncol; j++) {
-      Quotient q1 = lm1.coeff(i, j).exact();
-      Quotient q2 = lm2.coeff(i, j).exact();
-      lm(i,j) = lazyScalar(Quotient(
-        q1.numerator() * q2.denominator(), q1.denominator() * q2.numerator())
-      );
+      lazyScalar ls2 = lm2.coeff(i, j);
+      if(ls2 == 0) {
+        Rcpp::stop("Division by zero.");
+      }
+      lm(i, j) = lm1.coeff(i, j) / ls2;
     }
   }
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
