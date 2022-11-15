@@ -15,3 +15,11 @@ A \code{lazyVector} object.
 \description{
 Resolve the lazy numbers in a lazy vector; see details.
 }
+\details{
+When an operation between lazy numbers is performed, the resulting 
+  lazy number is not the result of the operation, it is the unevaluated 
+  operation (wherefrom the word "lazy"). This function performs the 
+  evaluation of the operations contained in the lazy numbers of the vector; 
+  the returned lazy vector has the same values as the input lazy vector. 
+  Applying this function can avoid a stack overflow.
+}
