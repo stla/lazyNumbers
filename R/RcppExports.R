@@ -5,6 +5,10 @@ lazyExact <- function(lvx) {
     invisible(.Call(`_lazyNumbers_lazyExact`, lvx))
 }
 
+MlazyExact <- function(lmx) {
+    invisible(.Call(`_lazyNumbers_MlazyExact`, lmx))
+}
+
 intervals_lvx <- function(lvx) {
     .Call(`_lazyNumbers_intervals_lvx`, lvx)
 }

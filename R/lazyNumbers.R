@@ -138,19 +138,21 @@ intervals <- function(x) {
 }
 
 #' @title Resolve lazy numbers
-#' @description Resolve the lazy numbers in a lazy vector; see details.
+#' @description Resolve the lazy numbers in a lazy vector or a lazy matrix; 
+#'   see details.
 #'
-#' @param x a \code{lazyVector} object
+#' @param x a \code{lazyVector} object or a \code{lazyMatrix} object
 #'
-#' @return Invisibly returns the lazy vector \code{x}, resolved.
+#' @return Invisibly returns the lazy vector or matrix \code{x}, resolved.
 #' @export
 #' 
 #' @details When an operation between lazy numbers is performed, the resulting 
 #'   lazy number is not the result of the operation, it is the unevaluated 
 #'   operation (wherefrom the word "lazy"). This function performs the 
-#'   evaluation of the operations contained in the lazy numbers of the vector; 
-#'   the returned lazy vector has the same values as the input lazy vector. 
-#'   Applying this function can help to avoid a stack overflow.
+#'   evaluation of the operations contained in the lazy numbers of the 
+#'   vector/matrix; the returned lazy vector/matrix has the same values as the 
+#'   input lazy vector/matrix. Applying this function can help to avoid a stack 
+#'   overflow.
 #'
 #' @note Once you call \code{as.double} or \code{\link{asDouble}} on a lazy 
 #'   number, then this number is resolved (see the example).
@@ -177,7 +179,11 @@ intervals <- function(x) {
 #' # fast, because `x3` has been resolved by the equality test:
 #' as.double(x3)}
 lazyResolve <- function(x) {
-  stopifnot(inherits(x, "lazyVector"))
-  . <- lazyExact(x@xptr)
+  stopifnot(inherits(x, "lazyVector") || inherits(x, "lazyMatrix"))
+  if(inherits(x, "lazyVector")) {
+    . <- lazyExact(x@xptr)
+  } else{
+    . <- MlazyExact(x@xptr)
+  }
   invisible(x)
 }

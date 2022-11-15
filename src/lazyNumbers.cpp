@@ -9,6 +9,16 @@ void lazyExact(lazyVectorXPtr lvx) {
 }
 
 // [[Rcpp::export]]
+void MlazyExact(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  for(size_t i = 0; i < lm.rows(); i++) {
+    for(size_t j = 0; j < lm.cols(); j++) {
+      Quotient q = lm.coeff(i, j).exact();
+    }
+  }
+}
+
+// [[Rcpp::export]]
 Rcpp::List intervals_lvx(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();

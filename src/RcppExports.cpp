@@ -22,6 +22,16 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// MlazyExact
+void MlazyExact(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_MlazyExact(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    MlazyExact(lmx);
+    return R_NilValue;
+END_RCPP
+}
 // intervals_lvx
 Rcpp::List intervals_lvx(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_intervals_lvx(SEXP lvxSEXP) {
@@ -555,6 +565,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyExact", (DL_FUNC) &_lazyNumbers_lazyExact, 1},
+    {"_lazyNumbers_MlazyExact", (DL_FUNC) &_lazyNumbers_MlazyExact, 1},
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
     {"_lazyNumbers_intervals_lmx", (DL_FUNC) &_lazyNumbers_intervals_lmx, 1},
     {"_lazyNumbers_nv2lvx", (DL_FUNC) &_lazyNumbers_nv2lvx, 1},
