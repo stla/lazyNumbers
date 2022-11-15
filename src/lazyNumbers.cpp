@@ -1,6 +1,19 @@
 #include "lazyNumbers_types.h"
 
 // [[Rcpp::export]]
+lazyVectorXPtr lazyExact(lazyVectorXPtr lvx) {
+  lazyVector lvin = *(lvx.get());
+  const size_t n = lvin.size();
+  lazyVector lv;
+  lv.reserve(n);
+  for(size_t i = 0; i < n; i++) {
+    lazyScalar x(lvin[i].exact());
+    lv.emplace_back(x);
+  }
+  return lazyVectorXPtr(new lazyVector(lv), false);
+}
+
+// [[Rcpp::export]]
 Rcpp::List intervals_lvx(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();

@@ -132,3 +132,15 @@ intervals <- function(x) {
     intervals_lmx(x@xptr)
   }
 }
+
+#' @title Resolve lazy numbers
+#' @description Resolve the lazy numbers in a lazy vector; see details.
+#'
+#' @param x a \code{lazyVector} object
+#'
+#' @return A \code{lazyVector} object.
+#' @export
+lazyResolve <- function(x) {
+  stopifnot(inherits(x, "lazyVector"))
+  new("lazyVector", xptr = lazyExact(x@xptr), length = x@length)
+}
