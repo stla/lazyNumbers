@@ -10,7 +10,7 @@ lazyResolve(x)
 \item{x}{a \code{lazyVector} object}
 }
 \value{
-A \code{lazyVector} object.
+Invisibly returns the lazy vector \code{x}, resolved.
 }
 \description{
 Resolve the lazy numbers in a lazy vector; see details.
@@ -22,4 +22,25 @@ When an operation between lazy numbers is performed, the resulting
   evaluation of the operations contained in the lazy numbers of the vector; 
   the returned lazy vector has the same values as the input lazy vector. 
   Applying this function can help to avoid a stack overflow.
+}
+\note{
+Once you call \code{as.double} or \code{\link{asDouble}} on a lazy 
+  number, then this number is resolved (see the example).
+}
+\examples{
+\donttest{library(lazyNumbers)
+n <- 500
+p <- seq(1, n, by = 1)
+q <- seq(3, 2*n + 1, by = 2)
+# fast, because the operations are not evaluated:
+x1 <- 2 * (1 + sum(cumprod(lazynb(p) / lazynb(q))))
+x2 <- 2 * (1 + sum(cumprod(lazynb(p) / lazynb(q))))
+# slow, because this evaluates the operations:
+lazyResolve(x1)
+# fast, because `x1` is resolved now:
+as.double(x1)
+# slow, because `x2` must be resolved:
+as.double(x2)
+# fast, because the call to `as.double` has resolved `x2`
+as.double(x2)}
 }

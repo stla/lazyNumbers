@@ -62,7 +62,10 @@ setGeneric("asDouble", function(x, prec) {
 #' @param x a lazy vector or a lazy matrix
 #' @param prec relative precision, a number between 0 and 1
 #' @return A numeric vector or a numeric matrix.
-#' @note \code{as.double(x)} is equivalent to \code{asDouble(x, prec = 1e-15)}.
+#' @note Once \code{as.double} or \code{asDouble} (\code{as.double(x)} is 
+#'   equivalent to \code{asDouble(x, prec = 1e-15)}) has been applied to a 
+#'   lazy vector, then this lazy vector is resolved (see 
+#'   \code{\link{lazyResolve}}). 
 #' @exportMethod asDouble
 #' @examples 
 #' x <- 1 - lazynb(7) * 0.1
@@ -138,7 +141,7 @@ intervals <- function(x) {
 #'
 #' @param x a \code{lazyVector} object
 #'
-#' @return A \code{lazyVector} object.
+#' @return Invisibly returns the lazy vector \code{x}, resolved.
 #' @export
 #' 
 #' @details When an operation between lazy numbers is performed, the resulting 
@@ -147,7 +150,28 @@ intervals <- function(x) {
 #'   evaluation of the operations contained in the lazy numbers of the vector; 
 #'   the returned lazy vector has the same values as the input lazy vector. 
 #'   Applying this function can help to avoid a stack overflow.
+#'
+#' @note Once you call \code{as.double} or \code{\link{asDouble}} on a lazy 
+#'   number, then this number is resolved (see the example).
+#'   
+#' @examples 
+#' \donttest{library(lazyNumbers)
+#' n <- 500
+#' p <- seq(1, n, by = 1)
+#' q <- seq(3, 2*n + 1, by = 2)
+#' # fast, because the operations are not evaluated:
+#' x1 <- 2 * (1 + sum(cumprod(lazynb(p) / lazynb(q))))
+#' x2 <- 2 * (1 + sum(cumprod(lazynb(p) / lazynb(q))))
+#' # slow, because this evaluates the operations:
+#' lazyResolve(x1)
+#' # fast, because `x1` is resolved now:
+#' as.double(x1)
+#' # slow, because `x2` must be resolved:
+#' as.double(x2)
+#' # fast, because the call to `as.double` has resolved `x2`
+#' as.double(x2)}
 lazyResolve <- function(x) {
   stopifnot(inherits(x, "lazyVector"))
-  new("lazyVector", xptr = lazyExact(x@xptr), length = x@length)
+  . <- lazyExact(x@xptr)
+  invisible(x)
 }

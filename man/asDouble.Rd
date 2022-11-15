@@ -29,7 +29,10 @@ Coerce a lazy vector (\code{lazyVector} object) to a numeric
   vector and a lazy matrix (\code{lazyMatrix} object) to a numeric matrix.
 }
 \note{
-\code{as.double(x)} is equivalent to \code{asDouble(x, prec = 1e-15)}.
+Once \code{as.double} or \code{asDouble} (\code{as.double(x)} is 
+  equivalent to \code{asDouble(x, prec = 1e-15)}) has been applied to a 
+  lazy vector, then this lazy vector is resolved (see 
+  \code{\link{lazyResolve}}).
 }
 \examples{
 x <- 1 - lazynb(7) * 0.1

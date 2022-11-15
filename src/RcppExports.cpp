@@ -13,14 +13,13 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // lazyExact
-lazyVectorXPtr lazyExact(lazyVectorXPtr lvx);
+void lazyExact(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_lazyExact(SEXP lvxSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyExact(lvx));
-    return rcpp_result_gen;
+    lazyExact(lvx);
+    return R_NilValue;
 END_RCPP
 }
 // intervals_lvx

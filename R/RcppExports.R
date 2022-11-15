@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 lazyExact <- function(lvx) {
-    .Call(`_lazyNumbers_lazyExact`, lvx)
+    invisible(.Call(`_lazyNumbers_lazyExact`, lvx))
 }
 
 intervals_lvx <- function(lvx) {
