@@ -2,15 +2,10 @@
 
 // [[Rcpp::export]]
 void lazyExact(lazyVectorXPtr lvx) {
-  lazyVector lvin = *(lvx.get());
-  const size_t n = lvin.size();
-  // lazyVector lv;
-  // lv.reserve(n);
-  for(size_t i = 0; i < n; i++) {
-    Quotient q = lvin[i].exact();
-    // lv.emplace_back(x);
+  lazyVector lv = *(lvx.get());
+  for(size_t i = 0; i < lv.size(); i++) {
+    Quotient q = lv[i].exact();
   }
-  // return lazyVectorXPtr(new lazyVector(lv), false);
 }
 
 // [[Rcpp::export]]
