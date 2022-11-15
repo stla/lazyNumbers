@@ -90,6 +90,12 @@ lazyInv <- function(M) {
   new("lazyMatrix", xptr = invx, nrow = M@nrow, ncol = M@ncol)
 }
 
+#' @name diag
+#' @aliases diag,lazyMatrix-method
+#' @title Extract diagonal of a lazy matrix
+#' @description Extract the diagonal of a square lazy matrix.
+#' @param x a square lazy matrix
+#' @return The diagonal of \code{x} as a lazy vector.
 #' @exportMethod diag
 setMethod(
   "diag",
