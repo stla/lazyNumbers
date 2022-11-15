@@ -233,7 +233,7 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     lv.reserve(n1);
     for(size_t i = 0; i < n1; i++) {
       lazyScalar ls2 = lv2[i];
-      if(ls2 == 0) {
+      if(CGAL::is_zero(ls2)) {
         Rcpp::stop("Division by zero.");
       }
       lv.emplace_back(lv1[i] / ls2);
@@ -243,14 +243,14 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     lazyScalar ls1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
       lazyScalar ls2 = lv2[i];
-      if(ls2 == 0) {
+      if(CGAL::is_zero(ls2)) {
         Rcpp::stop("Division by zero.");
       }
       lv.emplace_back(ls1 / ls2);
     }
   } else if(n2 == 1) {
     lazyScalar ls2 = lv2[0];
-    if(ls2 == 0) {
+    if(CGAL::is_zero(ls2)) {
       Rcpp::stop("Division by zero.");
     }
     for(size_t i = 0; i < n1; i++) {
@@ -272,7 +272,7 @@ lazyMatrixXPtr lmx_dividedby_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   for(size_t i = 0; i < nrow; i++) {
     for(size_t j = 0; j < ncol; j++) {
       lazyScalar ls2 = lm2.coeff(i, j);
-      if(ls2 == 0) {
+      if(CGAL::is_zero(ls2)) {
         Rcpp::stop("Division by zero.");
       }
       lm(i, j) = lm1.coeff(i, j) / ls2;
