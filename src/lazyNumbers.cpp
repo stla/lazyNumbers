@@ -621,14 +621,19 @@ lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx) {
 lazyVectorXPtr lazyFlatten(lazyMatrixXPtr lmx) {
   lazyMatrix lm = *(lmx.get());
   lazyVector lv;
-  size_t m = lm.rows();
-  size_t n = lm.cols();
-  lv.reserve(m * n);
-  for(size_t j = 0; j < n; j++) {
-    for(size_t i = 0; i < m; i++){
-      lv.emplace_back(lm.coeff(i, j));
-    }
+  const size_t s = lm.size();
+  lv.reserve(s);
+  for(size_t k = 0; k < s; k++) {
+    lv.emplace_back(*(lm.data() + k));
   }
+  // size_t m = lm.rows();
+  // size_t n = lm.cols();
+  // lv.reserve(m * n);
+  // for(size_t j = 0; j < n; j++) {
+  //   for(size_t i = 0; i < m; i++){
+  //     lv.emplace_back(lm.coeff(i, j));
+  //   }
+  // }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
 
