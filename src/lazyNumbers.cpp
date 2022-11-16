@@ -266,7 +266,15 @@ lazyVectorXPtr nv2lvx(Rcpp::NumericVector nv) {
   const size_t n = nv.size();
   lazyVector lv(n);
   for(size_t i = 0; i < n; i++) {
-    if(Rcpp::NumericVector::is_na(nv(i))) {
+    if(isinf(nv(i))) {
+      if(nv(i) > 0) {
+        lv[i] = lazyScalar(1) / lazyScalar(0);
+      } else {
+        lv[i] = lazyScalar(-1) / lazyScalar(0);
+      }
+    } else if(isnan(nv(i))) {
+      lv[i] = lazyScalar(0) / lazyScalar(0);
+    } else if(Rcpp::NumericVector::is_na(nv(i))) {
       lv[i] = std::nullopt;
     } else {
       lv[i] = lazyScalar(nv(i));
@@ -283,7 +291,15 @@ lazyMatrixXPtr nm2lmx(Rcpp::NumericMatrix nm) {
   for(size_t j = 0; j < ncol; j++) {
     Rcpp::NumericVector colj = nm(Rcpp::_, j);
     for(size_t i = 0; i < nrow; i++) {
-      if(Rcpp::NumericVector::is_na(colj(i))) {
+      if(isinf(colj(i))) {
+        if(colj(i) > 0) {
+          lm(i, j) = lazyScalar(1) / lazyScalar(0);
+        } else {
+          lm(i, j) = lazyScalar(-1) / lazyScalar(0);
+        }
+      } else if(isnan(colj(i))) {
+        lm(i, j) = lazyScalar(0) / lazyScalar(0);
+      } else if(Rcpp::NumericVector::is_na(colj(i))) {
         lm(i, j) = std::nullopt;
       } else {
         lm(i, j) = lazyScalar(nm(i, j));
