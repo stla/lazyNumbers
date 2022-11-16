@@ -185,6 +185,14 @@ setMethod(
 #' @export
 "NA_lazy_"
 
+#' @exportS3Method na.omit lazyVector
+na.omit.lazyVector <- function(object, ...) {
+  xptr <- lazyNAomit(object@xptr)
+  l <- attr(xptr, "length")
+  attr(xptr, "length") <- NULL
+  new("lazyVector", xptr = xptr, length = l)
+}
+
 #' @exportS3Method rep lazyVector
 rep.lazyVector <- function(x, times = 1, length.out = NA, each = 1, ...) {
   x[rep(1L:x@length, times = times, length.out = length.out, each = each)]

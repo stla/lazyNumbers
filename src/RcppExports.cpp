@@ -22,6 +22,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyNAomit
+lazyVectorXPtr lazyNAomit(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyNAomit(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyNAomit(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
 // isLazyNA
 Rcpp::LogicalVector isLazyNA(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_isLazyNA(SEXP lvxSEXP) {
@@ -640,6 +651,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyNA", (DL_FUNC) &_lazyNumbers_lazyNA, 0},
+    {"_lazyNumbers_lazyNAomit", (DL_FUNC) &_lazyNumbers_lazyNAomit, 1},
     {"_lazyNumbers_isLazyNA", (DL_FUNC) &_lazyNumbers_isLazyNA, 1},
     {"_lazyNumbers_MisLazyNA", (DL_FUNC) &_lazyNumbers_MisLazyNA, 1},
     {"_lazyNumbers_anyLazyNA", (DL_FUNC) &_lazyNumbers_anyLazyNA, 1},

@@ -5,6 +5,10 @@ lazyNA <- function() {
     .Call(`_lazyNumbers_lazyNA`)
 }
 
+lazyNAomit <- function(lvx) {
+    .Call(`_lazyNumbers_lazyNAomit`, lvx)
+}
+
 isLazyNA <- function(lvx) {
     .Call(`_lazyNumbers_isLazyNA`, lvx)
 }

@@ -120,6 +120,27 @@ lazyVectorXPtr lazyNA() {
   return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
 }
 
+lazyVector lazyNAomit0(lazyVector lv) {
+  lazyVector out;
+  for(size_t i = 0; i < lv.size(); i++) {
+    lazyScalar x = lv[i];
+    if(x) {
+      out.push_back(x);
+    }
+  }
+  return out;
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyNAomit(lazyVectorXPtr lvx) {
+  lazyVector lv = *(lvx.get());
+  lazyVector lvout = lazyNAomit0(lv);
+  lazyVectorXPtr lvxout(new lazyVector(lvout), false);
+  int l = lvout.size();
+  lvxout.attr("length") = l;
+  return lvxout;
+}
+
 // [[Rcpp::export]]
 Rcpp::LogicalVector isLazyNA(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
