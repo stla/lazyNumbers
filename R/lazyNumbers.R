@@ -184,3 +184,8 @@ setMethod(
 #' @title The missing lazy value.
 #' @export
 "NA_lazy_"
+
+#' @exportS3Method rep lazyVector
+rep.lazyVector <- function(x, times = 1, length.out = NA, each = 1, ...) {
+  x[rep(1L:x@length, times = times, length.out = length.out, each = each)]
+}
