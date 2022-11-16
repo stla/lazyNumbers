@@ -20,3 +20,6 @@ A logical vector or a logical matrix.
 \description{
 Dealing with missing values in lazy vectors and lazy matrices.
 }
+\examples{
+is.na(NA_lazy_)
+}

@@ -137,6 +137,8 @@ lazyResolve <- function(x) {
 #' @return A logical vector or a logical matrix.
 #' @exportMethod is.na
 #' @docType methods
+#' @examples 
+#' is.na(NA_lazy_)
 setMethod(
   "is.na",
   signature = "lazyVector",
@@ -156,4 +158,5 @@ setMethod(
 
 #' @name NA_lazy_
 #' @title The missing lazy value.
-makeActiveBinding("NA_lazy_", lazyNA, .GlobalEnv)
+#' @export
+"NA_lazy_"
