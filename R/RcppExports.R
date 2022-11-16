@@ -25,12 +25,12 @@ nm2lmx <- function(nm) {
     .Call(`_lazyNumbers_nm2lmx`, nm)
 }
 
-lvx2nv <- function(lvx, prec) {
-    .Call(`_lazyNumbers_lvx2nv`, lvx, prec)
+lvx2nv <- function(lvx) {
+    .Call(`_lazyNumbers_lvx2nv`, lvx)
 }
 
-lmx2nm <- function(lmx, prec) {
-    .Call(`_lazyNumbers_lmx2nm`, lmx, prec)
+lmx2nm <- function(lmx) {
+    .Call(`_lazyNumbers_lmx2nm`, lmx)
 }
 
 minus_lvx <- function(lvx) {
@@ -93,6 +93,10 @@ lazyCumprod <- function(lvx) {
     .Call(`_lazyNumbers_lazyCumprod`, lvx)
 }
 
+lazyConcat <- function(lvx1, lvx2) {
+    .Call(`_lazyNumbers_lazyConcat`, lvx1, lvx2)
+}
+
 lazyMax <- function(lvx) {
     .Call(`_lazyNumbers_lazyMax`, lvx)
 }
@@ -151,10 +155,6 @@ MlazyExtract <- function(lmx, indices, m, n) {
 
 lazyReplace <- function(lvx1, indices, lvx2) {
     .Call(`_lazyNumbers_lazyReplace`, lvx1, indices, lvx2)
-}
-
-lazyConcat <- function(lvx1, lvx2) {
-    .Call(`_lazyNumbers_lazyConcat`, lvx1, lvx2)
 }
 
 lazyColumnMatrix <- function(lvx) {

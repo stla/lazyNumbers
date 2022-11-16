@@ -21,9 +21,9 @@ as.lazyMatrix.lazyMatrix <- function(M) M
 as.lazyMatrix.matrix <- function(M) {
   stopifnot(is.numeric(M))
   storage.mode(M) <- "double"
-  if(any(is.na(M) | is.infinite(M))) {
-    stop("Found NA/NaN/Inf values in `M`.", call. = FALSE)
-  }
+  # if(any(is.na(M) | is.infinite(M))) {
+  #   stop("Found NA/NaN/Inf values in `M`.", call. = FALSE)
+  # }
   new("lazyMatrix", xptr = nm2lmx(M), nrow = nrow(M), ncol = ncol(M))
 }
 
@@ -39,7 +39,7 @@ as.lazyMatrix.lazyVector <- function(lv) {
 
 #' @exportS3Method as.double lazyMatrix
 as.double.lazyMatrix <- function(x, ...) {
-  lmx2nm(x@xptr, 1e-15)
+  lmx2nm(x@xptr)
 }
 
 #' @title Determinant of lazy matrix

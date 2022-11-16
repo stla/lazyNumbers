@@ -77,26 +77,24 @@ BEGIN_RCPP
 END_RCPP
 }
 // lvx2nv
-Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx, double prec);
-RcppExport SEXP _lazyNumbers_lvx2nv(SEXP lvxSEXP, SEXP precSEXP) {
+Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lvx2nv(SEXP lvxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
-    rcpp_result_gen = Rcpp::wrap(lvx2nv(lvx, prec));
+    rcpp_result_gen = Rcpp::wrap(lvx2nv(lvx));
     return rcpp_result_gen;
 END_RCPP
 }
 // lmx2nm
-Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx, double prec);
-RcppExport SEXP _lazyNumbers_lmx2nm(SEXP lmxSEXP, SEXP precSEXP) {
+Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_lmx2nm(SEXP lmxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    Rcpp::traits::input_parameter< double >::type prec(precSEXP);
-    rcpp_result_gen = Rcpp::wrap(lmx2nm(lmx, prec));
+    rcpp_result_gen = Rcpp::wrap(lmx2nm(lmx));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -274,6 +272,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyConcat
+lazyVectorXPtr lazyConcat(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2);
+RcppExport SEXP _lazyNumbers_lazyConcat(SEXP lvx1SEXP, SEXP lvx2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx1(lvx1SEXP);
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx2(lvx2SEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyConcat(lvx1, lvx2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lazyMax
 lazyVectorXPtr lazyMax(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_lazyMax(SEXP lvxSEXP) {
@@ -447,18 +457,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// lazyConcat
-lazyVectorXPtr lazyConcat(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2);
-RcppExport SEXP _lazyNumbers_lazyConcat(SEXP lvx1SEXP, SEXP lvx2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx1(lvx1SEXP);
-    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx2(lvx2SEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyConcat(lvx1, lvx2));
-    return rcpp_result_gen;
-END_RCPP
-}
 // lazyColumnMatrix
 lazyMatrixXPtr lazyColumnMatrix(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_lazyColumnMatrix(SEXP lvxSEXP) {
@@ -593,8 +591,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_intervals_lmx", (DL_FUNC) &_lazyNumbers_intervals_lmx, 1},
     {"_lazyNumbers_nv2lvx", (DL_FUNC) &_lazyNumbers_nv2lvx, 1},
     {"_lazyNumbers_nm2lmx", (DL_FUNC) &_lazyNumbers_nm2lmx, 1},
-    {"_lazyNumbers_lvx2nv", (DL_FUNC) &_lazyNumbers_lvx2nv, 2},
-    {"_lazyNumbers_lmx2nm", (DL_FUNC) &_lazyNumbers_lmx2nm, 2},
+    {"_lazyNumbers_lvx2nv", (DL_FUNC) &_lazyNumbers_lvx2nv, 1},
+    {"_lazyNumbers_lmx2nm", (DL_FUNC) &_lazyNumbers_lmx2nm, 1},
     {"_lazyNumbers_minus_lvx", (DL_FUNC) &_lazyNumbers_minus_lvx, 1},
     {"_lazyNumbers_minus_lmx", (DL_FUNC) &_lazyNumbers_minus_lmx, 1},
     {"_lazyNumbers_lvx_plus_lvx", (DL_FUNC) &_lazyNumbers_lvx_plus_lvx, 2},
@@ -610,6 +608,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyProd", (DL_FUNC) &_lazyNumbers_lazyProd, 1},
     {"_lazyNumbers_lazyCumsum", (DL_FUNC) &_lazyNumbers_lazyCumsum, 1},
     {"_lazyNumbers_lazyCumprod", (DL_FUNC) &_lazyNumbers_lazyCumprod, 1},
+    {"_lazyNumbers_lazyConcat", (DL_FUNC) &_lazyNumbers_lazyConcat, 2},
     {"_lazyNumbers_lazyMax", (DL_FUNC) &_lazyNumbers_lazyMax, 1},
     {"_lazyNumbers_lazyMin", (DL_FUNC) &_lazyNumbers_lazyMin, 1},
     {"_lazyNumbers_lazyRange", (DL_FUNC) &_lazyNumbers_lazyRange, 1},
@@ -625,7 +624,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyExtract", (DL_FUNC) &_lazyNumbers_lazyExtract, 2},
     {"_lazyNumbers_MlazyExtract", (DL_FUNC) &_lazyNumbers_MlazyExtract, 4},
     {"_lazyNumbers_lazyReplace", (DL_FUNC) &_lazyNumbers_lazyReplace, 3},
-    {"_lazyNumbers_lazyConcat", (DL_FUNC) &_lazyNumbers_lazyConcat, 2},
     {"_lazyNumbers_lazyColumnMatrix", (DL_FUNC) &_lazyNumbers_lazyColumnMatrix, 1},
     {"_lazyNumbers_lazyRowMatrix", (DL_FUNC) &_lazyNumbers_lazyRowMatrix, 1},
     {"_lazyNumbers_lazyRbind", (DL_FUNC) &_lazyNumbers_lazyRbind, 2},
