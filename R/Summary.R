@@ -2,9 +2,21 @@ setMethod(
   "Summary", "lazyVector",
   function(x, ..., na.rm = FALSE) {
     switch(.Generic,
-           max    = new("lazyVector", xptr = lazyMax(x@xptr), length = 1L),
-           min    = new("lazyVector", xptr = lazyMin(x@xptr), length = 1L),
-           range  = new("lazyVector", xptr = lazyRange(x@xptr), length = 2L),
+           max    = if(x@length == 0L) {
+             lazyvec(max(numeric(0L)))
+           } else {
+             new("lazyVector", xptr = lazyMax(x@xptr), length = 1L)
+           },
+           min    = if(x@length == 0L) {
+             lazyvec(min(numeric(0L)))
+           } else {
+             new("lazyVector", xptr = lazyMin(x@xptr), length = 1L)
+           },
+           range  = if(x@length == 0L) {
+             lazyvec(range(numeric(0L)))
+           } else {
+             new("lazyVector", xptr = lazyRange(x@xptr), length = 2L)
+           },
            prod   = new("lazyVector", xptr = lazyProd(x@xptr), length = 1L),
            sum    = new("lazyVector", xptr = lazySum(x@xptr), length = 1L),
            stop(gettextf(
@@ -18,9 +30,21 @@ setMethod(
   "Summary", "lazyMatrix",
   function(x, ..., na.rm = FALSE) {
     switch(.Generic,
-           max    = new("lazyVector", xptr = MlazyMax(x@xptr), length = 1L),
-           min    = new("lazyVector", xptr = MlazyMin(x@xptr), length = 1L),
-           range  = new("lazyVector", xptr = MlazyRange(x@xptr), length = 2L),
+           max    = if(x@nrow == 0L || x@ncol == 0L) {
+             lazyvec(max(numeric(0L)))
+           } else {
+             new("lazyVector", xptr = MlazyMax(x@xptr), length = 1L)
+           },
+           min    = if(x@nrow == 0L || x@ncol == 0L) {
+             lazyvec(min(numeric(0L)))
+           } else {
+             new("lazyVector", xptr = MlazyMin(x@xptr), length = 1L)
+           },
+           range  = if(x@nrow == 0L || x@ncol == 0L) {
+             lazyvec(range(numeric(0L)))
+           } else {
+             new("lazyVector", xptr = MlazyRange(x@xptr), length = 2L)
+           },
            prod   = new("lazyVector", xptr = MlazyProd(x@xptr), length = 1L),
            sum    = new("lazyVector", xptr = MlazySum(x@xptr), length = 1L),
            stop(gettextf(
