@@ -24,12 +24,13 @@ template<> struct NumTraits<lazyScalar>
 
 namespace std {
 
-lazyScalar operator+=(const lazyScalar x, const lazyScalar other) {
-  if(x && other) {
-    return *x + *other;
+lazyScalar& operator+=(lazyScalar& self, const lazyScalar& other) {
+  if(self && other) {
+    self = lazyScalar(*self + *other);
   } else {
-    return std::nullopt; 
+    self = std::nullopt; 
   }
+  return self;
 }
 
 lazyScalar operator+(const lazyScalar& lhs, const lazyScalar& rhs) {
@@ -38,60 +39,79 @@ lazyScalar operator+(const lazyScalar& lhs, const lazyScalar& rhs) {
   return that;
 }
 
-lazyScalar operator-=(const lazyScalar x, const lazyScalar other) {
-  if(x && other) {
-    return *x - *other;
+lazyScalar& operator-=(lazyScalar& self, const lazyScalar& other) {
+  if(self && other) {
+    self = lazyScalar(*self - *other);
   } else {
-    return std::nullopt; 
+    self = std::nullopt; 
   }
+  return self;
 }
 
-lazyScalar operator-(const lazyScalar lhs, const lazyScalar rhs) {
+lazyScalar operator-(const lazyScalar& lhs, const lazyScalar& rhs) {
   lazyScalar that = lhs;
   that -= rhs;
   return that;
 }
 
-lazyScalar operator-(const lazyScalar x) {
-  const lazyNumber zero(0);
-  const lazyScalar Zero(zero);
-  return Zero - x;
+lazyScalar operator-(const lazyScalar& x) {
+  lazyScalar that = x;
+  const lazyScalar zero(lazyNumber(0));
+  return zero - x;
 }
 
-lazyScalar operator*=(const lazyScalar x, const lazyScalar other) {
-  if(x && other) {
-    return *x * *other;
+lazyScalar& operator*=(lazyScalar& self, const lazyScalar& other) {
+  if(self && other) {
+    self = lazyScalar(*self * *other);
   } else {
-    return std::nullopt; 
+    self = std::nullopt; 
   }
+  return self;
 }
 
-lazyScalar operator*(const lazyScalar lhs, const lazyScalar rhs) {
+lazyScalar operator*(const lazyScalar& lhs, const lazyScalar& rhs) {
   lazyScalar that = lhs;
   that *= rhs;
   return that;
 }
 
-lazyScalar operator/=(const lazyScalar x, const lazyScalar other) {
-  if(x && other) {
-    return *x / *other;
+lazyScalar& operator/=(lazyScalar& self, const lazyScalar& other) {
+  if(self && other) {
+    self = lazyScalar(*self / *other);
   } else {
-    return std::nullopt; 
+    self = std::nullopt; 
   }
+  return self;
 }
 
-lazyScalar operator/(const lazyScalar lhs, const lazyScalar rhs) {
+lazyScalar operator/(const lazyScalar& lhs, const lazyScalar& rhs) {
   lazyScalar that = lhs;
   that /= rhs;
   return that;
 }
 
 lazyScalar max(const lazyScalar x, const lazyScalar y) {
-  return max(*x, *y);
+  if(x && y) {
+    return max(*x, *y);
+  } else {
+    return std::nullopt;
+  }
 }
 
 lazyScalar min(const lazyScalar x, const lazyScalar y) {
-  return min(*x, *y);
+  if(x && y) {
+    return min(*x, *y);
+  } else {
+    return std::nullopt;
+  }
+}
+
+lazyScalar abs(const lazyScalar x) {
+  if(x) {
+    return CGAL::abs(*x);
+  } else {
+    return std::nullopt;
+  }
 }
 
 }
@@ -747,32 +767,32 @@ lazyMatrixXPtr lazyCbind(
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
-// // [[Rcpp::export]]
-// lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx) {
-//   lazyMatrix lm = *(lmx.get());
-//   const size_t m = lm.rows();
-//   const size_t n = lm.cols();
-//   lazyMatrix0 lm0(m, n);
-//   for(size_t i = 0; i < m; i++) {
-//     for(size_t j = 0; j < n; j++) {
-//       lazyScalar x = lm.coeff(i, j);
-//       if(x) {
-//         lm0(i, j) = *x;
-//       } else {
-//         return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
-//       }
-//     }
-//   }
-//   lazyVector det = {lm0.determinant()};
-//   return lazyVectorXPtr(new lazyVector(det), false);
-// }
+// [[Rcpp::export]]
+lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  const size_t m = lm.rows();
+  const size_t n = lm.cols();
+  lazyMatrix0 lm0(m, n);
+  for(size_t i = 0; i < m; i++) {
+    for(size_t j = 0; j < n; j++) {
+      lazyScalar x = lm.coeff(i, j);
+      if(x) {
+        lm0(i, j) = *x;
+      } else {
+        return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
+      }
+    }
+  }
+  lazyVector det = {lm0.determinant()};
+  return lazyVectorXPtr(new lazyVector(det), false);
+}
 
-// // [[Rcpp::export]]
-// lazyMatrixXPtr lazyInverse(lazyMatrixXPtr lmx) {
-//   lazyMatrix lm = *(lmx.get());
-//   lazyMatrix inv = lm.inverse();
-//   return lazyMatrixXPtr(new lazyMatrix(inv), false);
-// }
+// [[Rcpp::export]]
+lazyMatrixXPtr lazyInverse(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyMatrix inv = lm.inverse();
+  return lazyMatrixXPtr(new lazyMatrix(inv), false);
+}
 
 // [[Rcpp::export]]
 lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx) {

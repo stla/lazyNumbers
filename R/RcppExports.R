@@ -173,6 +173,14 @@ lazyCbind <- function(lmx1, lmx2) {
     .Call(`_lazyNumbers_lazyCbind`, lmx1, lmx2)
 }
 
+lazyDeterminant <- function(lmx) {
+    .Call(`_lazyNumbers_lazyDeterminant`, lmx)
+}
+
+lazyInverse <- function(lmx) {
+    .Call(`_lazyNumbers_lazyInverse`, lmx)
+}
+
 lazyTranspose <- function(lmx) {
     .Call(`_lazyNumbers_lazyTranspose`, lmx)
 }
