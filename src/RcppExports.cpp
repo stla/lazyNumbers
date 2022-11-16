@@ -12,6 +12,38 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// lazyNA
+lazyVectorXPtr lazyNA();
+RcppExport SEXP _lazyNumbers_lazyNA() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(lazyNA());
+    return rcpp_result_gen;
+END_RCPP
+}
+// isLazyNA
+Rcpp::LogicalVector isLazyNA(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_isLazyNA(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(isLazyNA(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MisLazyNA
+Rcpp::LogicalMatrix MisLazyNA(lazyMatrixXPtr lmx);
+RcppExport SEXP _lazyNumbers_MisLazyNA(SEXP lmxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    rcpp_result_gen = Rcpp::wrap(MisLazyNA(lmx));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lazyExact
 void lazyExact(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_lazyExact(SEXP lvxSEXP) {
@@ -585,6 +617,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_lazyNumbers_lazyNA", (DL_FUNC) &_lazyNumbers_lazyNA, 0},
+    {"_lazyNumbers_isLazyNA", (DL_FUNC) &_lazyNumbers_isLazyNA, 1},
+    {"_lazyNumbers_MisLazyNA", (DL_FUNC) &_lazyNumbers_MisLazyNA, 1},
     {"_lazyNumbers_lazyExact", (DL_FUNC) &_lazyNumbers_lazyExact, 1},
     {"_lazyNumbers_MlazyExact", (DL_FUNC) &_lazyNumbers_MlazyExact, 1},
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},

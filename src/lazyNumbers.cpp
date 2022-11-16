@@ -116,6 +116,42 @@ lazyScalar abs(const lazyScalar x) {
 }
 
 // [[Rcpp::export]]
+lazyVectorXPtr lazyNA() {
+  return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
+}
+
+// [[Rcpp::export]]
+Rcpp::LogicalVector isLazyNA(lazyVectorXPtr lvx) {
+  lazyVector lv = *(lvx.get());
+  const size_t n = lv.size();
+  Rcpp::LogicalVector out(n);
+  for(size_t i = 0; i < n; i++) {
+    if(lv[i]) {
+      out(i) = false;
+    } else {
+      out(i) = true;
+    }
+  }
+  return out;
+}
+
+// [[Rcpp::export]]
+Rcpp::LogicalMatrix MisLazyNA(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  const size_t m = lm.rows();
+  const size_t n = lm.cols();
+  Rcpp::LogicalMatrix out(m, n);
+  for(size_t j = 0; j < n; j++) {
+    Rcpp::LogicalVector colj(m);
+    for(size_t i = 0; i < m; i++) {
+      colj(i) = lm.coeff(i, j) ? false : true;
+    }
+    out(Rcpp::_, j) = colj;
+  }
+  return out;
+}
+
+// [[Rcpp::export]]
 void lazyExact(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   for(size_t i = 0; i < lv.size(); i++) {
