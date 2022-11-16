@@ -812,27 +812,63 @@ Rcpp::LogicalVector lazyCompare(
   Rcpp::LogicalVector out(n);
   if(r == "==") {
     for(size_t i = 0; i < n; i++) {
-      out(i) = lv1[i] == lv2[i];
+      lazyScalar x = lv1[i];
+      lazyScalar y = lv2[i];
+      if(x && y) {
+        out(i) = *x == *y;
+      } else {
+        out(i) = Rcpp::LogicalVector::get_na();
+      }
     }
   } else if(r == "!=") {
     for(size_t i = 0; i < n; i++) {
-      out(i) = lv1[i] != lv2[i];
+      lazyScalar x = lv1[i];
+      lazyScalar y = lv2[i];
+      if(x && y) {
+        out(i) = *x != *y;
+      } else {
+        out(i) = Rcpp::LogicalVector::get_na();
+      }
     }
   } else if(r == "<") {
     for(size_t i = 0; i < n; i++) {
-      out(i) = lv1[i] < lv2[i];
+      lazyScalar x = lv1[i];
+      lazyScalar y = lv2[i];
+      if(x && y) {
+        out(i) = *x < *y;
+      } else {
+        out(i) = Rcpp::LogicalVector::get_na();
+      }
     }
   } else if(r == "<=") {
     for(size_t i = 0; i < n; i++) {
-      out(i) = lv1[i] <= lv2[i];
+      lazyScalar x = lv1[i];
+      lazyScalar y = lv2[i];
+      if(x && y) {
+        out(i) = *x <= *y;
+      } else {
+        out(i) = Rcpp::LogicalVector::get_na();
+      }
     }
   } else if(r == ">") {
     for(size_t i = 0; i < n; i++) {
-      out(i) = lv1[i] > lv2[i];
+      lazyScalar x = lv1[i];
+      lazyScalar y = lv2[i];
+      if(x && y) {
+        out(i) = *x > *y;
+      } else {
+        out(i) = Rcpp::LogicalVector::get_na();
+      }
     }
   } else {
     for(size_t i = 0; i < n; i++) {
-      out(i) = lv1[i] >= lv2[i];
+      lazyScalar x = lv1[i];
+      lazyScalar y = lv2[i];
+      if(x && y) {
+        out(i) = *x >= *y;
+      } else {
+        out(i) = Rcpp::LogicalVector::get_na();
+      }
     }
   }
   return out;
