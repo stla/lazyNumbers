@@ -130,9 +130,10 @@ lazyResolve <- function(x) {
 }
 
 #' @name is.na
-#' @aliases  is.na,lazyVector-method is.na,lazyMatrix-method
+#' @aliases is.na,lazyVector-method is.na,lazyMatrix-method
 #' @title Missing lazy values
-#' @description Dealing with missing values in lazy vectors and lazy matrices.
+#' @description Check whether values are missing in lazy vectors and lazy 
+#'   matrices.
 #' @param x a lazy vector or a lazy matrix
 #' @return A logical vector or a logical matrix.
 #' @exportMethod is.na
