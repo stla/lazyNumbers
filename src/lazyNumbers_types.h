@@ -13,8 +13,10 @@
 #include <CGAL/Interval_nt.h>
 
 typedef CGAL::Quotient<CGAL::MP_Float>                            Quotient;
-typedef CGAL::Lazy_exact_nt<Quotient>                             lazyScalar;
+typedef CGAL::Lazy_exact_nt<Quotient>                             lazyNumber;
+typedef std::optional<lazyNumber>                                 lazyScalar;
 typedef std::vector<lazyScalar>                                   lazyVector;
 typedef Rcpp::XPtr<lazyVector>                                    lazyVectorXPtr;
+typedef Eigen::Matrix<lazyNumber, Eigen::Dynamic, Eigen::Dynamic> lazyMatrix0;
 typedef Eigen::Matrix<lazyScalar, Eigen::Dynamic, Eigen::Dynamic> lazyMatrix;
 typedef Rcpp::XPtr<lazyMatrix>                                    lazyMatrixXPtr;

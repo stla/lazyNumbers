@@ -505,28 +505,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// lazyDeterminant
-lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_lazyDeterminant(SEXP lmxSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyDeterminant(lmx));
-    return rcpp_result_gen;
-END_RCPP
-}
-// lazyInverse
-lazyMatrixXPtr lazyInverse(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_lazyInverse(SEXP lmxSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyInverse(lmx));
-    return rcpp_result_gen;
-END_RCPP
-}
 // lazyTranspose
 lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx);
 RcppExport SEXP _lazyNumbers_lazyTranspose(SEXP lmxSEXP) {
@@ -630,8 +608,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyRowMatrix", (DL_FUNC) &_lazyNumbers_lazyRowMatrix, 1},
     {"_lazyNumbers_lazyRbind", (DL_FUNC) &_lazyNumbers_lazyRbind, 2},
     {"_lazyNumbers_lazyCbind", (DL_FUNC) &_lazyNumbers_lazyCbind, 2},
-    {"_lazyNumbers_lazyDeterminant", (DL_FUNC) &_lazyNumbers_lazyDeterminant, 1},
-    {"_lazyNumbers_lazyInverse", (DL_FUNC) &_lazyNumbers_lazyInverse, 1},
     {"_lazyNumbers_lazyTranspose", (DL_FUNC) &_lazyNumbers_lazyTranspose, 1},
     {"_lazyNumbers_lazyFlatten", (DL_FUNC) &_lazyNumbers_lazyFlatten, 1},
     {"_lazyNumbers_lazyCompare", (DL_FUNC) &_lazyNumbers_lazyCompare, 3},

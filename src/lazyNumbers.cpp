@@ -1,10 +1,113 @@
 #include "lazyNumbers_types.h"
 
+namespace Eigen {
+
+template<> struct NumTraits<lazyScalar>
+  : GenericNumTraits<lazyScalar> // permits to get the epsilon, dummy_precision, lowest, highest functions
+{
+  typedef lazyScalar Real;
+  typedef lazyScalar NonInteger;
+  typedef lazyScalar Nested;
+  
+  enum {
+    IsComplex = 0,
+    IsInteger = 0,
+    IsSigned = 1,
+    RequireInitialization = 1,
+    ReadCost = 1,
+    AddCost = 3,
+    MulCost = 3
+  };
+};
+
+}
+
+namespace std {
+
+lazyScalar operator+=(const lazyScalar x, const lazyScalar other) {
+  if(x && other) {
+    return *x + *other;
+  } else {
+    return std::nullopt; 
+  }
+}
+
+lazyScalar operator+(const lazyScalar& lhs, const lazyScalar& rhs) {
+  lazyScalar that = lhs;
+  that += rhs;
+  return that;
+}
+
+lazyScalar operator-=(const lazyScalar x, const lazyScalar other) {
+  if(x && other) {
+    return *x - *other;
+  } else {
+    return std::nullopt; 
+  }
+}
+
+lazyScalar operator-(const lazyScalar lhs, const lazyScalar rhs) {
+  lazyScalar that = lhs;
+  that -= rhs;
+  return that;
+}
+
+lazyScalar operator-(const lazyScalar x) {
+  const lazyNumber zero(0);
+  const lazyScalar Zero(zero);
+  return Zero - x;
+}
+
+lazyScalar operator*=(const lazyScalar x, const lazyScalar other) {
+  if(x && other) {
+    return *x * *other;
+  } else {
+    return std::nullopt; 
+  }
+}
+
+lazyScalar operator*(const lazyScalar lhs, const lazyScalar rhs) {
+  lazyScalar that = lhs;
+  that *= rhs;
+  return that;
+}
+
+lazyScalar operator/=(const lazyScalar x, const lazyScalar other) {
+  if(x && other) {
+    return *x / *other;
+  } else {
+    return std::nullopt; 
+  }
+}
+
+lazyScalar operator/(const lazyScalar lhs, const lazyScalar rhs) {
+  lazyScalar that = lhs;
+  that /= rhs;
+  return that;
+}
+
+lazyScalar max(const lazyScalar x, const lazyScalar y) {
+  return max(*x, *y);
+}
+
+lazyScalar min(const lazyScalar x, const lazyScalar y) {
+  return min(*x, *y);
+}
+
+}
+
+// bool Rcpp::NumericVector::is_na(Rcpp::NumericVector val) {
+//   return Rcpp::all(Rcpp::is_na(val));
+// }
+
 // [[Rcpp::export]]
 void lazyExact(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   for(size_t i = 0; i < lv.size(); i++) {
-    Quotient q = lv[i].exact();
+    lazyScalar x = lv[i];
+    if(x) {
+      Quotient q = (*x).exact();
+    }
   }
 }
 
@@ -13,7 +116,10 @@ void MlazyExact(lazyMatrixXPtr lmx) {
   lazyMatrix lm = *(lmx.get());
   for(size_t i = 0; i < lm.rows(); i++) {
     for(size_t j = 0; j < lm.cols(); j++) {
-      Quotient q = lm.coeff(i, j).exact();
+      lazyScalar x = lm.coeff(i, j);
+      if(x) {
+        Quotient q = (*x).exact();
+      }
     }
   }
 }
@@ -25,9 +131,15 @@ Rcpp::List intervals_lvx(lazyVectorXPtr lvx) {
   Rcpp::NumericVector inf(n);
   Rcpp::NumericVector sup(n);
   for(size_t i = 0; i < n; i++) {
-    CGAL::Interval_nt<false> interval = lv[i].approx();
-    inf(i) = interval.inf();
-    sup(i) = interval.sup();
+    lazyScalar x = lv[i];
+    if(x) {
+      CGAL::Interval_nt<false> interval = (*x).approx();
+      inf(i) = interval.inf();
+      sup(i) = interval.sup();
+    } else {
+      inf(i) = Rcpp::NumericVector::get_na();
+      sup(i) = Rcpp::NumericVector::get_na();
+    }
   }
   return Rcpp::List::create(Rcpp::Named("inf") = inf, Rcpp::Named("sup") = sup);
 }
@@ -41,9 +153,15 @@ Rcpp::List intervals_lmx(lazyMatrixXPtr lmx) {
   Rcpp::NumericMatrix sup(m, n);
   for(size_t i = 0; i < m; i++) {
     for(size_t j = 0; j < n; j++) {
-      CGAL::Interval_nt<false> interval = lm.coeff(i, j).approx();
-      inf(i, j) = interval.inf();
-      sup(i, j) = interval.sup();
+      lazyScalar x = lm.coeff(i, j);
+      if(x) {
+        CGAL::Interval_nt<false> interval = (*x).approx();
+        inf(i, j) = interval.inf();
+        sup(i, j) = interval.sup();
+      } else {
+        inf(i, j) = Rcpp::NumericVector::get_na();
+        sup(i, j) = Rcpp::NumericVector::get_na();
+      }
     }
   }
   return Rcpp::List::create(Rcpp::Named("inf") = inf, Rcpp::Named("sup") = sup);
@@ -54,7 +172,11 @@ lazyVectorXPtr nv2lvx(Rcpp::NumericVector nv) {
   const size_t n = nv.size();
   lazyVector lv(n);
   for(size_t i = 0; i < n; i++) {
-    lv[i] = lazyScalar(nv(i));
+    if(Rcpp::NumericVector::is_na(nv(i))) {
+      lv[i] = std::nullopt;
+    } else {
+      lv[i] = lazyScalar(nv(i));
+    }
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
@@ -64,9 +186,14 @@ lazyMatrixXPtr nm2lmx(Rcpp::NumericMatrix nm) {
   const size_t nrow = nm.nrow();
   const size_t ncol = nm.ncol();
   lazyMatrix lm(nrow, ncol);
-  for(size_t i = 0; i < nrow; i++) {
-    for(size_t j = 0; j < ncol; j++) {
-      lm(i, j) = lazyScalar(nm(i, j));
+  for(size_t j = 0; j < ncol; j++) {
+    Rcpp::NumericVector colj = nm(Rcpp::_, j);
+    for(size_t i = 0; i < nrow; i++) {
+      if(Rcpp::NumericVector::is_na(colj(i))) {
+        lm(i, j) = std::nullopt;
+      } else {
+        lm(i, j) = lazyScalar(nm(i, j));
+      }
     }
   }
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
@@ -77,9 +204,14 @@ Rcpp::NumericVector lvx2nv(lazyVectorXPtr lvx, double prec) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();
   Rcpp::NumericVector nv(n);
-  lazyScalar::set_relative_precision_of_to_double(prec);
+  //Quotient::set_relative_precision_of_to_double(prec);
   for(size_t i = 0; i < n; i++) {
-    nv(i) = CGAL::to_double<Quotient>(lv[i].exact());
+    lazyScalar x = lv[i];
+    if(x) {
+      nv(i) = CGAL::to_double<Quotient>((*x).exact());
+    } else {
+      nv(i) = Rcpp::NumericVector::get_na();
+    }
   }
   return nv;
 }
@@ -90,10 +222,15 @@ Rcpp::NumericMatrix lmx2nm(lazyMatrixXPtr lmx, double prec) {
   const size_t nrow = lm.rows();
   const size_t ncol = lm.cols();
   Rcpp::NumericMatrix nm(nrow, ncol);
-  lazyScalar::set_relative_precision_of_to_double(prec);
+  //lazyNumber::set_relative_precision_of_to_double(prec);
   for(size_t i = 0; i < nrow; i++) {
     for(size_t j = 0; j < ncol; j++) {
-      nm(i, j) = CGAL::to_double<Quotient>(lm.coeff(i, j).exact());
+      lazyScalar x = lm.coeff(i, j);
+      if(x) {
+        nm(i, j) = CGAL::to_double<Quotient>((*x).exact());
+      } else {
+        nm(i, j) = Rcpp::NumericVector::get_na();
+      }
     }
   }
   return nm;
@@ -251,9 +388,9 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     lv.reserve(n1);
     for(size_t i = 0; i < n1; i++) {
       lazyScalar ls2 = lv2[i];
-      if(CGAL::is_zero(ls2)) {
-        Rcpp::stop("Division by zero.");
-      }
+      // if(CGAL::is_zero(ls2)) {
+      //   Rcpp::stop("Division by zero.");
+      // }
       lv.emplace_back(lv1[i] / ls2);
     }
   } else if(n1 == 1) {
@@ -261,16 +398,16 @@ lazyVectorXPtr lvx_dividedby_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
     lazyScalar ls1 = lv1[0];
     for(size_t i = 0; i < n2; i++) {
       lazyScalar ls2 = lv2[i];
-      if(CGAL::is_zero(ls2)) {
-        Rcpp::stop("Division by zero.");
-      }
+      // if(CGAL::is_zero(ls2)) {
+      //   Rcpp::stop("Division by zero.");
+      // }
       lv.emplace_back(ls1 / ls2);
     }
   } else if(n2 == 1) {
     lazyScalar ls2 = lv2[0];
-    if(CGAL::is_zero(ls2)) {
-      Rcpp::stop("Division by zero.");
-    }
+    // if(CGAL::is_zero(ls2)) {
+    //   Rcpp::stop("Division by zero.");
+    // }
     for(size_t i = 0; i < n1; i++) {
       lv.emplace_back(lv1[i] / ls2);
     }
@@ -290,9 +427,9 @@ lazyMatrixXPtr lmx_dividedby_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   for(size_t i = 0; i < nrow; i++) {
     for(size_t j = 0; j < ncol; j++) {
       lazyScalar ls2 = lm2.coeff(i, j);
-      if(CGAL::is_zero(ls2)) {
-        Rcpp::stop("Division by zero.");
-      }
+      // if(CGAL::is_zero(ls2)) {
+      //   Rcpp::stop("Division by zero.");
+      // }
       lm(i, j) = lm1.coeff(i, j) / ls2;
     }
   }
@@ -435,9 +572,11 @@ lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx) {
 }
 
 lazyScalar lazyScalarPower(lazyScalar x, int alpha) {
+  if(!x) {
+    return std::nullopt;
+  }
   if(alpha < 0) {
-    Quotient q = x.exact();
-    lazyScalar invx(Quotient(q.denominator(), q.numerator()));
+    lazyScalar invx(lazyNumber(1));
     return lazyScalarPower(invx, -alpha);
   }
   lazyScalar result(1);
@@ -482,7 +621,13 @@ lazyVectorXPtr lazyAbs(lazyVectorXPtr lvx) {
   size_t n = lvin.size();
   lazyVector lv(n);
   for(size_t i = 0; i < n; i++) {
-    lv[i] = CGAL::abs(lvin[i]);
+    lazyScalar x = lvin[i];
+    if(x) {
+      lv[i] = CGAL::abs(*x);  
+    } else {
+      lv[i] = std::nullopt;
+    }
+    
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
@@ -495,7 +640,12 @@ lazyMatrixXPtr MlazyAbs(lazyMatrixXPtr lmx) {
   lazyMatrix lm(m, n);
   for(size_t i = 0; i < m; i++) {
     for(size_t j = 0; j < n; j++) {
-      lm(i, j) = CGAL::abs(lmin.coeff(i, j));
+      lazyScalar x = lmin.coeff(i, j);
+      if(x) {
+        lm(i, j) = CGAL::abs(*x);
+      } else {
+        lm(i, j) = std::nullopt;
+      }
     }
   }
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
@@ -597,19 +747,32 @@ lazyMatrixXPtr lazyCbind(
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
-// [[Rcpp::export]]
-lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx) {
-  lazyMatrix lm = *(lmx.get());
-  lazyVector det = {lm.determinant()};
-  return lazyVectorXPtr(new lazyVector(det), false);
-}
+// // [[Rcpp::export]]
+// lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx) {
+//   lazyMatrix lm = *(lmx.get());
+//   const size_t m = lm.rows();
+//   const size_t n = lm.cols();
+//   lazyMatrix0 lm0(m, n);
+//   for(size_t i = 0; i < m; i++) {
+//     for(size_t j = 0; j < n; j++) {
+//       lazyScalar x = lm.coeff(i, j);
+//       if(x) {
+//         lm0(i, j) = *x;
+//       } else {
+//         return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
+//       }
+//     }
+//   }
+//   lazyVector det = {lm0.determinant()};
+//   return lazyVectorXPtr(new lazyVector(det), false);
+// }
 
-// [[Rcpp::export]]
-lazyMatrixXPtr lazyInverse(lazyMatrixXPtr lmx) {
-  lazyMatrix lm = *(lmx.get());
-  lazyMatrix inv = lm.inverse();
-  return lazyMatrixXPtr(new lazyMatrix(inv), false);
-}
+// // [[Rcpp::export]]
+// lazyMatrixXPtr lazyInverse(lazyMatrixXPtr lmx) {
+//   lazyMatrix lm = *(lmx.get());
+//   lazyMatrix inv = lm.inverse();
+//   return lazyMatrixXPtr(new lazyMatrix(inv), false);
+// }
 
 // [[Rcpp::export]]
 lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx) {

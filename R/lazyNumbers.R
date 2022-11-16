@@ -27,9 +27,9 @@ lazynb <- function(x) as.lazyVector(x)
 as.lazyVector.lazyVector <- function(x) x
 
 as.lazyVector.numeric <- function(x) {
-  if(any(is.na(x) | is.infinite(x))) {
-    stop("Found NA/NaN/Inf values in `x`.", call. = FALSE)
-  }
+  # if(any(is.na(x) | is.infinite(x))) {
+  #   stop("Found NA/NaN/Inf values in `x`.", call. = FALSE)
+  # }
   new("lazyVector", xptr = nv2lvx(x), length = length(x))
 }
 
