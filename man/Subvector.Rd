@@ -4,10 +4,14 @@
 \alias{Subvector}
 \alias{[,lazyVector,numeric-method}
 \alias{[,lazyVector,numeric,ANY,ANY-method}
+\alias{[,lazyVector,logical-method}
 \alias{[<-,lazyVector,numeric,missing,lazyVector-method}
+\alias{[,lazyVector,logical,ANY,ANY-method}
 \title{Extract/replace in a lazy vector}
 \usage{
 \S4method{[}{lazyVector,numeric,ANY,ANY}(x, i)
+
+\S4method{[}{lazyVector,logical,ANY,ANY}(x, i)
 
 \S4method{[}{lazyVector,numeric,missing,lazyVector}(x, i, j) <- value
 }

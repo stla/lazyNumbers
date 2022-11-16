@@ -1,5 +1,5 @@
 #' @name Subvector
-#' @aliases [,lazyVector,numeric-method [,lazyVector,numeric,ANY,ANY-method [<-,lazyVector,numeric,missing,lazyVector-method
+#' @aliases [,lazyVector,numeric-method [,lazyVector,numeric,ANY,ANY-method [,lazyVector,logical-method [<-,lazyVector,numeric,missing,lazyVector-method
 #' @title Extract/replace in a lazy vector
 #' @description Extract or replace elements in a lazy vector.
 #' @param x a \code{lazyVector} object
@@ -27,6 +27,16 @@ setMethod(
     new("lazyVector", xptr = lvx, length = length(i))
   }
 )
+
+#' @rdname Subvector
+setMethod(
+  "[", 
+  signature("lazyVector", i = "logical"), 
+  function(x, i) {
+    x[which(rep_len(i, length.out = x@length))]
+  }
+)
+
 
 #' @rdname Subvector
 setReplaceMethod(
