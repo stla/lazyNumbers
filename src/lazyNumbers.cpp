@@ -41,7 +41,7 @@ Rcpp::List intervals_lmx(lazyMatrixXPtr lmx) {
   Rcpp::NumericMatrix sup(m, n);
   for(size_t i = 0; i < m; i++) {
     for(size_t j = 0; j < n; j++) {
-      CGAL::Interval_nt<false> interval = lm.coeff(i,j).approx();
+      CGAL::Interval_nt<false> interval = lm.coeff(i, j).approx();
       inf(i, j) = interval.inf();
       sup(i, j) = interval.sup();
     }
