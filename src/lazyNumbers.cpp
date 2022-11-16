@@ -697,3 +697,14 @@ lazyVectorXPtr lazyDiagonal(lazyMatrixXPtr lmx) {
   }
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
+
+// [[Rcpp::export]]
+lazyMatrixXPtr lazyReplaceDiagonal(lazyMatrixXPtr lmx, lazyVectorXPtr lvx) {
+  lazyMatrix lm = *(lmx.get());
+  lazyVector lv = *(lvx.get());
+  const size_t n = lv.size();
+  for(size_t k = 0; k < n; k ++) {
+    lm(k, k) = lv[k];
+  }
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}

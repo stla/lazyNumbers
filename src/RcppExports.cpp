@@ -573,6 +573,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// lazyReplaceDiagonal
+lazyMatrixXPtr lazyReplaceDiagonal(lazyMatrixXPtr lmx, lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_lazyReplaceDiagonal(SEXP lmxSEXP, SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyReplaceDiagonal(lmx, lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyExact", (DL_FUNC) &_lazyNumbers_lazyExact, 1},
@@ -624,6 +636,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyFlatten", (DL_FUNC) &_lazyNumbers_lazyFlatten, 1},
     {"_lazyNumbers_lazyCompare", (DL_FUNC) &_lazyNumbers_lazyCompare, 3},
     {"_lazyNumbers_lazyDiagonal", (DL_FUNC) &_lazyNumbers_lazyDiagonal, 1},
+    {"_lazyNumbers_lazyReplaceDiagonal", (DL_FUNC) &_lazyNumbers_lazyReplaceDiagonal, 2},
     {NULL, NULL, 0}
 };
 

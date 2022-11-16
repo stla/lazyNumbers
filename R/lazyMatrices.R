@@ -91,12 +91,15 @@ lazyInv <- function(M) {
 }
 
 #' @name diag
-#' @aliases diag,lazyMatrix-method
-#' @title Extract diagonal of a lazy matrix
-#' @description Extract the diagonal of a square lazy matrix.
+#' @aliases diag,lazyMatrix-method diag<-,lazyMatrix,lazyVector-method
+#' @title Extract/replace diagonal of a lazy matrix
+#' @description Extract or replace the diagonal of a square lazy matrix.
 #' @param x a square lazy matrix
-#' @return The diagonal of \code{x} as a lazy vector.
+#' @param value a lazy vector 
+#' @return The diagonal of \code{x} as a lazy vector, or the modified matrix.
 #' @exportMethod diag
+#' @exportMethod diag<-
+#' @docType methods
 setMethod(
   "diag",
   signature = "lazyMatrix",
@@ -106,5 +109,22 @@ setMethod(
     }
     lvx <- lazyDiagonal(x@xptr)
     new("lazyVector", xptr = lvx, length = x@ncol)
+  }
+)
+
+#' @rdname diag
+setMethod(
+  "diag<-",
+  signature = c("lazyMatrix", "lazyVector"),
+  function(x, value) {
+    n <- x@nrow
+    if(n != x@ncol) {
+      stop("The matrix is not square.")
+    }
+    if(n != value@length) {
+      stop("Incompatible dimensions.")
+    }
+    lmx <- lazyReplaceDiagonal(x@xptr, value@xptr)
+    new("lazyMatrix", xptr = lmx, nrow = n, ncol = n)
   }
 )

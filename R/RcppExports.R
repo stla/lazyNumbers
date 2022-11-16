@@ -197,3 +197,7 @@ lazyDiagonal <- function(lmx) {
     .Call(`_lazyNumbers_lazyDiagonal`, lmx)
 }
 
+lazyReplaceDiagonal <- function(lmx, lvx) {
+    .Call(`_lazyNumbers_lazyReplaceDiagonal`, lmx, lvx)
+}
+
