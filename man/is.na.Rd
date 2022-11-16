@@ -22,4 +22,5 @@ Dealing with missing values in lazy vectors and lazy matrices.
 }
 \examples{
 is.na(NA_lazy_)
+is.na(lazyvec(c(1, 2, NA)))
 }

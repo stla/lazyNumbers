@@ -139,6 +139,7 @@ lazyResolve <- function(x) {
 #' @docType methods
 #' @examples 
 #' is.na(NA_lazy_)
+#' is.na(lazyvec(c(1, 2, NA)))
 setMethod(
   "is.na",
   signature = "lazyVector",

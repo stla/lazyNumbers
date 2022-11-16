@@ -1,5 +1,3 @@
-#utils::globalVariables("NA_lazy_")
-
 .onLoad <- function(libname, pkgname) {
   assign(
     "NA_lazy_", 
