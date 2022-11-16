@@ -95,8 +95,8 @@ intervals <- function(x) {
 #'   input lazy vector/matrix. Applying this function can help to avoid a stack 
 #'   overflow.
 #'
-#' @note Once you call \code{as.double} or \code{\link{asDouble}} on a lazy 
-#'   number, then this number is resolved (see the example).
+#' @note Once you call \code{as.double} on a lazy number, 
+#'   then this number is resolved (see the example).
 #'   
 #' @examples 
 #' \donttest{library(lazyNumbers)
@@ -130,17 +130,21 @@ lazyResolve <- function(x) {
 }
 
 #' @name is.na
-#' @aliases is.na,lazyVector-method is.na,lazyMatrix-method
+#' @aliases is.na,lazyVector-method is.na,lazyMatrix-method anyNA anyNA,lazyVector-method anyNA,lazyMatrix-method
 #' @title Missing lazy values
 #' @description Check whether values are missing in lazy vectors and lazy 
 #'   matrices.
 #' @param x a lazy vector or a lazy matrix
-#' @return A logical vector or a logical matrix.
+#' @param recursive ignored
+#' @return The \code{is.na} function returns a logical vector or a 
+#'   logical matrix, and the \code{anyNA} function returns a logical value.
 #' @exportMethod is.na
+#' @exportMethod anyNA
 #' @docType methods
 #' @examples 
 #' is.na(NA_lazy_)
 #' is.na(lazyvec(c(1, 2, NA)))
+#' anyNA(lazyvec(c(1, 2, NA)))
 setMethod(
   "is.na",
   signature = "lazyVector",
@@ -155,6 +159,24 @@ setMethod(
   signature = "lazyMatrix",
   function(x) {
     MisLazyNA(x@xptr)
+  }
+)
+
+#' @rdname is.na
+setMethod(
+  "anyNA",
+  signature = "lazyVector",
+  function(x, recursive = FALSE) {
+    anyLazyNA(x@xptr)
+  }
+)
+
+#' @rdname is.na
+setMethod(
+  "anyNA",
+  signature = "lazyMatrix",
+  function(x, recursive = FALSE) {
+    ManyLazyNA(x@xptr)
   }
 )
 

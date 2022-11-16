@@ -5,17 +5,27 @@
 \alias{is.na}
 \alias{is.na,lazyVector-method}
 \alias{is.na,lazyMatrix-method}
+\alias{anyNA}
+\alias{anyNA,lazyVector-method}
+\alias{anyNA,lazyMatrix-method}
 \title{Missing lazy values}
 \usage{
 \S4method{is.na}{lazyVector}(x)
 
 \S4method{is.na}{lazyMatrix}(x)
+
+\S4method{anyNA}{lazyVector}(x, recursive = FALSE)
+
+\S4method{anyNA}{lazyMatrix}(x, recursive = FALSE)
 }
 \arguments{
 \item{x}{a lazy vector or a lazy matrix}
+
+\item{recursive}{ignored}
 }
 \value{
-A logical vector or a logical matrix.
+The \code{is.na} function returns a logical vector or a 
+  logical matrix, and the \code{anyNA} function returns a logical value.
 }
 \description{
 Check whether values are missing in lazy vectors and lazy 
@@ -24,4 +34,5 @@ Check whether values are missing in lazy vectors and lazy
 \examples{
 is.na(NA_lazy_)
 is.na(lazyvec(c(1, 2, NA)))
+anyNA(lazyvec(c(1, 2, NA)))
 }

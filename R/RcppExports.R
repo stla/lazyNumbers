@@ -13,6 +13,14 @@ MisLazyNA <- function(lmx) {
     .Call(`_lazyNumbers_MisLazyNA`, lmx)
 }
 
+anyLazyNA <- function(lvx) {
+    .Call(`_lazyNumbers_anyLazyNA`, lvx)
+}
+
+ManyLazyNA <- function(lmx) {
+    .Call(`_lazyNumbers_ManyLazyNA`, lmx)
+}
+
 lazyExact <- function(lvx) {
     invisible(.Call(`_lazyNumbers_lazyExact`, lvx))
 }

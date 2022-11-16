@@ -152,6 +152,28 @@ Rcpp::LogicalMatrix MisLazyNA(lazyMatrixXPtr lmx) {
 }
 
 // [[Rcpp::export]]
+bool anyLazyNA(lazyVectorXPtr lvx) {
+  lazyVector lv = *(lvx.get());
+  for(size_t i = 0; i < lv.size(); i++) {
+    if(!lv[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// [[Rcpp::export]]
+bool ManyLazyNA(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  for(size_t k = 0; k < lm.size(); k++) {
+    if(!*(lm.data() + k)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// [[Rcpp::export]]
 void lazyExact(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   for(size_t i = 0; i < lv.size(); i++) {

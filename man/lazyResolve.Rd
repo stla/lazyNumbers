@@ -26,8 +26,8 @@ When an operation between lazy numbers is performed, the resulting
   overflow.
 }
 \note{
-Once you call \code{as.double} or \code{\link{asDouble}} on a lazy 
-  number, then this number is resolved (see the example).
+Once you call \code{as.double} on a lazy number, 
+  then this number is resolved (see the example).
 }
 \examples{
 \donttest{library(lazyNumbers)
