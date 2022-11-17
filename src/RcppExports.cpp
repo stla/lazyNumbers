@@ -350,35 +350,38 @@ BEGIN_RCPP
 END_RCPP
 }
 // lazyMax
-lazyVectorXPtr lazyMax(lazyVectorXPtr lvx);
-RcppExport SEXP _lazyNumbers_lazyMax(SEXP lvxSEXP) {
+lazyVectorXPtr lazyMax(lazyVectorXPtr lvx, bool na_rm);
+RcppExport SEXP _lazyNumbers_lazyMax(SEXP lvxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyMax(lvx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyMax(lvx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
 // lazyMin
-lazyVectorXPtr lazyMin(lazyVectorXPtr lvx);
-RcppExport SEXP _lazyNumbers_lazyMin(SEXP lvxSEXP) {
+lazyVectorXPtr lazyMin(lazyVectorXPtr lvx, bool na_rm);
+RcppExport SEXP _lazyNumbers_lazyMin(SEXP lvxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyMin(lvx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyMin(lvx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
 // lazyRange
-lazyVectorXPtr lazyRange(lazyVectorXPtr lvx);
-RcppExport SEXP _lazyNumbers_lazyRange(SEXP lvxSEXP) {
+lazyVectorXPtr lazyRange(lazyVectorXPtr lvx, bool na_rm);
+RcppExport SEXP _lazyNumbers_lazyRange(SEXP lvxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyRange(lvx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyRange(lvx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -405,35 +408,38 @@ BEGIN_RCPP
 END_RCPP
 }
 // MlazyMax
-lazyVectorXPtr MlazyMax(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_MlazyMax(SEXP lmxSEXP) {
+lazyVectorXPtr MlazyMax(lazyMatrixXPtr lmx, bool na_rm);
+RcppExport SEXP _lazyNumbers_MlazyMax(SEXP lmxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(MlazyMax(lmx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyMax(lmx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
 // MlazyMin
-lazyVectorXPtr MlazyMin(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_MlazyMin(SEXP lmxSEXP) {
+lazyVectorXPtr MlazyMin(lazyMatrixXPtr lmx, bool na_rm);
+RcppExport SEXP _lazyNumbers_MlazyMin(SEXP lmxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(MlazyMin(lmx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyMin(lmx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
 // MlazyRange
-lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_MlazyRange(SEXP lmxSEXP) {
+lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx, bool na_rm);
+RcppExport SEXP _lazyNumbers_MlazyRange(SEXP lmxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(MlazyRange(lmx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyRange(lmx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -680,14 +686,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lazyCumsum", (DL_FUNC) &_lazyNumbers_lazyCumsum, 1},
     {"_lazyNumbers_lazyCumprod", (DL_FUNC) &_lazyNumbers_lazyCumprod, 1},
     {"_lazyNumbers_lazyConcat", (DL_FUNC) &_lazyNumbers_lazyConcat, 2},
-    {"_lazyNumbers_lazyMax", (DL_FUNC) &_lazyNumbers_lazyMax, 1},
-    {"_lazyNumbers_lazyMin", (DL_FUNC) &_lazyNumbers_lazyMin, 1},
-    {"_lazyNumbers_lazyRange", (DL_FUNC) &_lazyNumbers_lazyRange, 1},
+    {"_lazyNumbers_lazyMax", (DL_FUNC) &_lazyNumbers_lazyMax, 2},
+    {"_lazyNumbers_lazyMin", (DL_FUNC) &_lazyNumbers_lazyMin, 2},
+    {"_lazyNumbers_lazyRange", (DL_FUNC) &_lazyNumbers_lazyRange, 2},
     {"_lazyNumbers_MlazyProd", (DL_FUNC) &_lazyNumbers_MlazyProd, 1},
     {"_lazyNumbers_MlazySum", (DL_FUNC) &_lazyNumbers_MlazySum, 1},
-    {"_lazyNumbers_MlazyMax", (DL_FUNC) &_lazyNumbers_MlazyMax, 1},
-    {"_lazyNumbers_MlazyMin", (DL_FUNC) &_lazyNumbers_MlazyMin, 1},
-    {"_lazyNumbers_MlazyRange", (DL_FUNC) &_lazyNumbers_MlazyRange, 1},
+    {"_lazyNumbers_MlazyMax", (DL_FUNC) &_lazyNumbers_MlazyMax, 2},
+    {"_lazyNumbers_MlazyMin", (DL_FUNC) &_lazyNumbers_MlazyMin, 2},
+    {"_lazyNumbers_MlazyRange", (DL_FUNC) &_lazyNumbers_MlazyRange, 2},
     {"_lazyNumbers_lazyPower", (DL_FUNC) &_lazyNumbers_lazyPower, 2},
     {"_lazyNumbers_MlazyPower", (DL_FUNC) &_lazyNumbers_MlazyPower, 2},
     {"_lazyNumbers_lazyAbs", (DL_FUNC) &_lazyNumbers_lazyAbs, 1},

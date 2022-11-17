@@ -261,18 +261,22 @@ Rcpp::List intervals_lmx(lazyMatrixXPtr lmx) {
   return Rcpp::List::create(Rcpp::Named("inf") = inf, Rcpp::Named("sup") = sup);
 }
 
+bool isNaN(Rcpp::NumericVector x, size_t index) {
+  return Rcpp::is_nan(x[Rcpp::Range(index, index)])[0];
+}
+
 // [[Rcpp::export]]
 lazyVectorXPtr nv2lvx(Rcpp::NumericVector nv) {
   const size_t n = nv.size();
   lazyVector lv(n);
   for(size_t i = 0; i < n; i++) {
-    if(isinf(nv(i))) {
+    if(isinf(nv(i))) { 
       if(nv(i) > 0) {
         lv[i] = lazyScalar(1) / lazyScalar(0);
       } else {
         lv[i] = lazyScalar(-1) / lazyScalar(0);
       }
-    } else if(isnan(nv(i))) {
+    } else if(isNaN(nv, i)) {
       lv[i] = lazyScalar(0) / lazyScalar(0);
     } else if(Rcpp::NumericVector::is_na(nv(i))) {
       lv[i] = std::nullopt;
@@ -297,7 +301,7 @@ lazyMatrixXPtr nm2lmx(Rcpp::NumericMatrix nm) {
         } else {
           lm(i, j) = lazyScalar(-1) / lazyScalar(0);
         }
-      } else if(isnan(colj(i))) {
+      } else if(isNaN(colj, i)) {
         lm(i, j) = lazyScalar(0) / lazyScalar(0);
       } else if(Rcpp::NumericVector::is_na(colj(i))) {
         lm(i, j) = std::nullopt;
@@ -588,50 +592,83 @@ lazyVectorXPtr lazyConcat(
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
 
-// [[Rcpp::export]]
-lazyVectorXPtr lazyMax(lazyVectorXPtr lvx) {
-  lazyVector lvin = *(lvx.get());
-  const size_t n = lvin.size();
-  lazyScalar max(lvin[0]);
-  if(!max) {
-    return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
-  }
-  for(size_t i = 1; i < n; i++) {
-    lazyScalar candidate = lvin[i];
-    if(!candidate) {
+bool compareLazyScalars(lazyScalar x, lazyScalar y) {
+  return *x < *y;
+}
+
+lazyVectorXPtr lazyMax0(lazyVector lv, bool na_rm) {
+  lazyScalar max;
+  if(na_rm) {
+    lazyVector lv2 = lazyNAomit0(lv);
+    if(lv2.size() == 0) {
+      max = -lazyScalar(1) / lazyScalar(0);
+    } else {
+      lazyVector::iterator result;
+      result = std::max_element(lv2.begin(), lv2.end(), compareLazyScalars);
+      max = *result;
+    }
+  } else {
+    const size_t n = lv.size();
+    max = lv[0];
+    if(!max) {
       return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
     }
-    if(*candidate > *max) {
-      max = candidate; 
+    for(size_t i = 1; i < n; i++) {
+      lazyScalar candidate = lv[i];
+      if(!candidate) {
+        return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
+      }
+      if(*candidate > *max) {
+        max = candidate; 
+      }
     }
   }
   return lazyVectorXPtr(new lazyVector({max}), false);
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr lazyMin(lazyVectorXPtr lvx) {
-  lazyVector lvin = *(lvx.get());
-  const size_t n = lvin.size();
-  lazyScalar min(lvin[0]);
-  if(!min) {
-    return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
-  }
-  for(size_t i = 1; i < n; i++) {
-    lazyScalar candidate = lvin[i];
-    if(!candidate) {
+lazyVectorXPtr lazyMax(lazyVectorXPtr lvx, bool na_rm) {
+  return lazyMax0(*(lvx.get()), na_rm); 
+}
+
+lazyVectorXPtr lazyMin0(lazyVector lv, bool na_rm) {
+  lazyScalar min;
+  if(na_rm) {
+    lazyVector lv2 = lazyNAomit0(lv);
+    if(lv2.size() == 0) {
+      min = lazyScalar(1) / lazyScalar(0);
+    } else {
+      lazyVector::iterator result;
+      result = std::min_element(lv2.begin(), lv2.end(), compareLazyScalars);
+      min = *result;
+    }
+  } else {
+    min = lv[0];
+    if(!min) {
       return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
     }
-    if(*candidate < *min) {
-      min = candidate; 
+    for(size_t i = 1; i < lv.size(); i++) {
+      lazyScalar candidate = lv[i];
+      if(!candidate) {
+        return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
+      }
+      if(*candidate < *min) {
+        min = candidate; 
+      }
     }
   }
   return lazyVectorXPtr(new lazyVector({min}), false);
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr lazyRange(lazyVectorXPtr lvx) {
-  lazyVectorXPtr min = lazyMin(lvx);
-  lazyVectorXPtr max = lazyMax(lvx);
+lazyVectorXPtr lazyMin(lazyVectorXPtr lvx, bool na_rm) {
+  return lazyMin0(*(lvx.get()), na_rm); 
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyRange(lazyVectorXPtr lvx, bool na_rm) {
+  lazyVectorXPtr min = lazyMin(lvx, na_rm);
+  lazyVectorXPtr max = lazyMax(lvx, na_rm);
   return lazyConcat(min, max);
 }
 
@@ -649,21 +686,22 @@ lazyVectorXPtr MlazySum(lazyMatrixXPtr lmx) {
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr MlazyMax(lazyMatrixXPtr lmx) {
+lazyVectorXPtr MlazyMax(lazyMatrixXPtr lmx, bool na_rm) {
   lazyMatrix lm = *(lmx.get());
-  return lazyVectorXPtr(new lazyVector({lm.maxCoeff()}), false);
+  lazyVector lv(lm.data(), lm.data() + lm.size());
+  return lazyMax0(lv, na_rm);
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr MlazyMin(lazyMatrixXPtr lmx) {
+lazyVectorXPtr MlazyMin(lazyMatrixXPtr lmx, bool na_rm) {
   lazyMatrix lm = *(lmx.get());
-  return lazyVectorXPtr(new lazyVector({lm.minCoeff()}), false);
+  lazyVector lv(lm.data(), lm.data() + lm.size());
+  return lazyMin0(lv, na_rm);
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx) {
-  lazyMatrix lm = *(lmx.get());
-  return lazyVectorXPtr(new lazyVector({lm.minCoeff(), lm.maxCoeff()}), false);
+lazyVectorXPtr MlazyRange(lazyMatrixXPtr lmx, bool na_rm) {
+  return lazyConcat(MlazyMin(lmx, na_rm), MlazyMax(lmx, na_rm));
 }
 
 lazyScalar lazyScalarPower(lazyScalar x, int alpha) {

@@ -121,16 +121,16 @@ lazyConcat <- function(lvx1, lvx2) {
     .Call(`_lazyNumbers_lazyConcat`, lvx1, lvx2)
 }
 
-lazyMax <- function(lvx) {
-    .Call(`_lazyNumbers_lazyMax`, lvx)
+lazyMax <- function(lvx, na_rm) {
+    .Call(`_lazyNumbers_lazyMax`, lvx, na_rm)
 }
 
-lazyMin <- function(lvx) {
-    .Call(`_lazyNumbers_lazyMin`, lvx)
+lazyMin <- function(lvx, na_rm) {
+    .Call(`_lazyNumbers_lazyMin`, lvx, na_rm)
 }
 
-lazyRange <- function(lvx) {
-    .Call(`_lazyNumbers_lazyRange`, lvx)
+lazyRange <- function(lvx, na_rm) {
+    .Call(`_lazyNumbers_lazyRange`, lvx, na_rm)
 }
 
 MlazyProd <- function(lmx) {
@@ -141,16 +141,16 @@ MlazySum <- function(lmx) {
     .Call(`_lazyNumbers_MlazySum`, lmx)
 }
 
-MlazyMax <- function(lmx) {
-    .Call(`_lazyNumbers_MlazyMax`, lmx)
+MlazyMax <- function(lmx, na_rm) {
+    .Call(`_lazyNumbers_MlazyMax`, lmx, na_rm)
 }
 
-MlazyMin <- function(lmx) {
-    .Call(`_lazyNumbers_MlazyMin`, lmx)
+MlazyMin <- function(lmx, na_rm) {
+    .Call(`_lazyNumbers_MlazyMin`, lmx, na_rm)
 }
 
-MlazyRange <- function(lmx) {
-    .Call(`_lazyNumbers_MlazyRange`, lmx)
+MlazyRange <- function(lmx, na_rm) {
+    .Call(`_lazyNumbers_MlazyRange`, lmx, na_rm)
 }
 
 lazyPower <- function(lvx, alpha) {
