@@ -222,11 +222,11 @@ bool isLazyNaN_or_Inf(lazyNumber x) {
   std::pair<double, double> interval1 = CGAL::to_interval(x);
   bool out = false;
   if(isinf(interval1.first) && isinf(interval1.second)) {
-    lazyNumber invx = lazyNumber(1) / x;
-    std::pair<double, double> interval2 = CGAL::to_interval(invx);
-    if(isinf(interval2.first) && isinf(interval2.second)) {
+    // lazyNumber invx = lazyNumber(1) / x;
+    // std::pair<double, double> interval2 = CGAL::to_interval(invx);
+    // if(isinf(interval2.first) && isinf(interval2.second)) {
       out = true;
-    }
+    // }
   }
   return out;
 }
