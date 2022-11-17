@@ -97,6 +97,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// isLazyVectorNaN_or_Inf
+Rcpp::LogicalVector isLazyVectorNaN_or_Inf(lazyVectorXPtr lvx);
+RcppExport SEXP _lazyNumbers_isLazyVectorNaN_or_Inf(SEXP lvxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    rcpp_result_gen = Rcpp::wrap(isLazyVectorNaN_or_Inf(lvx));
+    return rcpp_result_gen;
+END_RCPP
+}
 // intervals_lvx
 Rcpp::List intervals_lvx(lazyVectorXPtr lvx);
 RcppExport SEXP _lazyNumbers_intervals_lvx(SEXP lvxSEXP) {
@@ -664,6 +675,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_ManyLazyNA", (DL_FUNC) &_lazyNumbers_ManyLazyNA, 1},
     {"_lazyNumbers_lazyExact", (DL_FUNC) &_lazyNumbers_lazyExact, 1},
     {"_lazyNumbers_MlazyExact", (DL_FUNC) &_lazyNumbers_MlazyExact, 1},
+    {"_lazyNumbers_isLazyVectorNaN_or_Inf", (DL_FUNC) &_lazyNumbers_isLazyVectorNaN_or_Inf, 1},
     {"_lazyNumbers_intervals_lvx", (DL_FUNC) &_lazyNumbers_intervals_lvx, 1},
     {"_lazyNumbers_intervals_lmx", (DL_FUNC) &_lazyNumbers_intervals_lmx, 1},
     {"_lazyNumbers_nv2lvx", (DL_FUNC) &_lazyNumbers_nv2lvx, 1},

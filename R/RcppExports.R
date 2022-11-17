@@ -33,6 +33,10 @@ MlazyExact <- function(lmx) {
     invisible(.Call(`_lazyNumbers_MlazyExact`, lmx))
 }
 
+isLazyVectorNaN_or_Inf <- function(lvx) {
+    .Call(`_lazyNumbers_isLazyVectorNaN_or_Inf`, lvx)
+}
+
 intervals_lvx <- function(lvx) {
     .Call(`_lazyNumbers_intervals_lvx`, lvx)
 }

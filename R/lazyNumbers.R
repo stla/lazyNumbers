@@ -143,7 +143,7 @@ lazyResolve <- function(x) {
 #' @docType methods
 #' @examples 
 #' is.na(NA_lazy_)
-#' is.na(lazyvec(c(1, 2, NA)))
+#' is.na(lazyvec(c(1, 2, NA, NaN, Inf)))
 #' anyNA(lazyvec(c(1, 2, NA)))
 setMethod(
   "is.na",
@@ -191,6 +191,25 @@ na.omit.lazyVector <- function(object, ...) {
   l <- attr(xptr, "length")
   attr(xptr, "length") <- NULL
   new("lazyVector", xptr = xptr, length = l)
+}
+
+#' @title Lazy infinite or NaN numbers
+#' @description Check whether values are infinite or NaN in lazy vectors and 
+#'   lazy matrices.
+#' @param x a lazy vector or a lazy matrix
+#' @return A logical vector or a logical matrix.
+#' @export
+#' @details If you want to check whether a lazy number is infinite or whether 
+#'   a lazy number is NaN, you have to call `as.double`. There is no way to 
+#'   distinguish an infinite lazy number from a NaN lazy number without 
+#'   resorting to its double approximation.
+#' @examples 
+#' isNaN_or_Inf(lazyvec(c(1, NaN, NA, Inf)))
+isNaN_or_Inf <- function(x) {
+  stopifnot(inherits(x, "lazyVector") || inherits(x, "lazyMatrix"))
+  if(inherits(x, "lazyVector")) {
+    isLazyVectorNaN_or_Inf(x@xptr)    
+  }
 }
 
 #' @exportS3Method rep lazyVector

@@ -218,6 +218,35 @@ void MlazyExact(lazyMatrixXPtr lmx) {
   }
 }
 
+bool isLazyNaN_or_Inf(lazyNumber x) {
+  std::pair<double, double> interval1 = CGAL::to_interval(x);
+  bool out = false;
+  if(isinf(interval1.first) && isinf(interval1.second)) {
+    lazyNumber invx = lazyNumber(1) / x;
+    std::pair<double, double> interval2 = CGAL::to_interval(invx);
+    if(isinf(interval2.first) && isinf(interval2.second)) {
+      out = true;
+    }
+  }
+  return out;
+}
+
+// [[Rcpp::export]]
+Rcpp::LogicalVector isLazyVectorNaN_or_Inf(lazyVectorXPtr lvx) {
+  lazyVector lv = *(lvx.get());
+  const size_t n = lv.size();
+  Rcpp::LogicalVector out(n);
+  for(size_t i = 0; i < n; i++) {
+    lazyScalar x = lv[i];
+    if(x && isLazyNaN_or_Inf(*x)) {
+      out(i) = true;
+    } else {
+      out(i) = false;
+    }
+  }
+  return out;
+}
+
 // [[Rcpp::export]]
 Rcpp::List intervals_lvx(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
@@ -227,7 +256,7 @@ Rcpp::List intervals_lvx(lazyVectorXPtr lvx) {
   for(size_t i = 0; i < n; i++) {
     lazyScalar x = lv[i];
     if(x) {
-      CGAL::Interval_nt<false> interval = (*x).approx();
+      CGAL::Interval_nt<true> interval = (*x).interval();
       inf(i) = interval.inf();
       sup(i) = interval.sup();
     } else {
@@ -249,7 +278,7 @@ Rcpp::List intervals_lmx(lazyMatrixXPtr lmx) {
     for(size_t j = 0; j < n; j++) {
       lazyScalar x = lm.coeff(i, j);
       if(x) {
-        CGAL::Interval_nt<false> interval = (*x).approx();
+        CGAL::Interval_nt<true> interval = (*x).interval();
         inf(i, j) = interval.inf();
         sup(i, j) = interval.sup();
       } else {
