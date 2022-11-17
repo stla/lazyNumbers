@@ -578,28 +578,58 @@ lazyMatrixXPtr lmx_dividedby_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
-// [[Rcpp::export]]
-lazyVectorXPtr lazySum(lazyVectorXPtr lvx) {
-  lazyVector lvin = *(lvx.get());
-  const size_t n = lvin.size();
-  lazyScalar sum(0);
-  for(size_t i = 0; i < n; i++) {
-    sum += lvin[i];
+lazyVectorXPtr lazySum0(lazyVector lv, bool na_rm) {
+  lazyNumber sum0(0);
+  if(na_rm) {
+    for(size_t i = 0; i < lv.size(); i++) {
+      lazyScalar x = lv[i];
+      if(x) {
+        sum0 += *x;
+      }
+    }
+  } else {
+    for(size_t i = 0; i < lv.size(); i++) {
+      lazyScalar x = lv[i];
+      if(x) {
+        sum0 += *x;
+      } else {
+        return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
+      }
+    }
   }
-  lazyVector lv = {sum};
-  return lazyVectorXPtr(new lazyVector(lv), false);
+  return lazyVectorXPtr(new lazyVector({sum0}), false);
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr lazyProd(lazyVectorXPtr lvx) {
-  lazyVector lvin = *(lvx.get());
-  const size_t n = lvin.size();
-  lazyScalar prod(1);
-  for(size_t i = 0; i < n; i++) {
-    prod *= lvin[i];
+lazyVectorXPtr lazySum(lazyVectorXPtr lvx, bool na_rm) {
+  return lazySum0(*(lvx.get()), na_rm);
+}
+
+lazyVectorXPtr lazyProd0(lazyVector lv, bool na_rm) {
+  lazyNumber prod0(1);
+  if(na_rm) {
+    for(size_t i = 0; i < lv.size(); i++) {
+      lazyScalar x = lv[i];
+      if(x) {
+        prod0 *= *x;
+      }
+    }
+  } else {
+    for(size_t i = 0; i < lv.size(); i++) {
+      lazyScalar x = lv[i];
+      if(x) {
+        prod0 *= *x;
+      } else {
+        return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
+      }
+    }
   }
-  lazyVector lv = {prod};
-  return lazyVectorXPtr(new lazyVector(lv), false);
+  return lazyVectorXPtr(new lazyVector({prod0}), false);
+}
+
+// [[Rcpp::export]]
+lazyVectorXPtr lazyProd(lazyVectorXPtr lvx, bool na_rm) {
+  return lazyProd0(*(lvx.get()), na_rm);
 }
 
 // [[Rcpp::export]]
@@ -719,16 +749,17 @@ lazyVectorXPtr lazyRange(lazyVectorXPtr lvx, bool na_rm) {
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr MlazyProd(lazyMatrixXPtr lmx) {
+lazyVectorXPtr MlazyProd(lazyMatrixXPtr lmx, bool na_rm) {
   lazyMatrix lm = *(lmx.get());
-  lazyScalar prod = lm.prod();
-  return lazyVectorXPtr(new lazyVector({prod}), false);
+  lazyVector lv(lm.data(), lm.data() + lm.size());
+  return lazyProd0(lv, na_rm);
 }
 
 // [[Rcpp::export]]
-lazyVectorXPtr MlazySum(lazyMatrixXPtr lmx) {
+lazyVectorXPtr MlazySum(lazyMatrixXPtr lmx, bool na_rm) {
   lazyMatrix lm = *(lmx.get());
-  return lazyVectorXPtr(new lazyVector({lm.sum()}), false);
+  lazyVector lv(lm.data(), lm.data() + lm.size());
+  return lazySum0(lv, na_rm);
 }
 
 // [[Rcpp::export]]

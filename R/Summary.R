@@ -17,8 +17,12 @@ setMethod(
            } else {
              new("lazyVector", xptr = lazyRange(x@xptr, na.rm), length = 2L)
            },
-           prod   = new("lazyVector", xptr = lazyProd(x@xptr), length = 1L),
-           sum    = new("lazyVector", xptr = lazySum(x@xptr), length = 1L),
+           prod   = new(
+             "lazyVector", xptr = lazyProd(x@xptr, na.rm), length = 1L
+            ),
+           sum    = new(
+             "lazyVector", xptr = lazySum(x@xptr, na.rm), length = 1L
+            ),
            stop(gettextf(
              "Function %s not defined for lazy vectors.", dQuote(.Generic)
            ))
@@ -45,8 +49,12 @@ setMethod(
            } else {
              new("lazyVector", xptr = MlazyRange(x@xptr, na.rm), length = 2L)
            },
-           prod   = new("lazyVector", xptr = MlazyProd(x@xptr), length = 1L),
-           sum    = new("lazyVector", xptr = MlazySum(x@xptr), length = 1L),
+           prod   = new(
+             "lazyVector", xptr = MlazyProd(x@xptr, na.rm), length = 1L
+            ),
+           sum    = new(
+             "lazyVector", xptr = MlazySum(x@xptr, na.rm), length = 1L
+            ),
            stop(gettextf(
              "Function %s not defined for lazy matrices.", dQuote(.Generic)
            ))

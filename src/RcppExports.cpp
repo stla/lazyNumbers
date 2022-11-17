@@ -316,24 +316,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // lazySum
-lazyVectorXPtr lazySum(lazyVectorXPtr lvx);
-RcppExport SEXP _lazyNumbers_lazySum(SEXP lvxSEXP) {
+lazyVectorXPtr lazySum(lazyVectorXPtr lvx, bool na_rm);
+RcppExport SEXP _lazyNumbers_lazySum(SEXP lvxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazySum(lvx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazySum(lvx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
 // lazyProd
-lazyVectorXPtr lazyProd(lazyVectorXPtr lvx);
-RcppExport SEXP _lazyNumbers_lazyProd(SEXP lvxSEXP) {
+lazyVectorXPtr lazyProd(lazyVectorXPtr lvx, bool na_rm);
+RcppExport SEXP _lazyNumbers_lazyProd(SEXP lvxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
-    rcpp_result_gen = Rcpp::wrap(lazyProd(lvx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyProd(lvx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -408,24 +410,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // MlazyProd
-lazyVectorXPtr MlazyProd(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_MlazyProd(SEXP lmxSEXP) {
+lazyVectorXPtr MlazyProd(lazyMatrixXPtr lmx, bool na_rm);
+RcppExport SEXP _lazyNumbers_MlazyProd(SEXP lmxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(MlazyProd(lmx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazyProd(lmx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
 // MlazySum
-lazyVectorXPtr MlazySum(lazyMatrixXPtr lmx);
-RcppExport SEXP _lazyNumbers_MlazySum(SEXP lmxSEXP) {
+lazyVectorXPtr MlazySum(lazyMatrixXPtr lmx, bool na_rm);
+RcppExport SEXP _lazyNumbers_MlazySum(SEXP lmxSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< lazyMatrixXPtr >::type lmx(lmxSEXP);
-    rcpp_result_gen = Rcpp::wrap(MlazySum(lmx));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(MlazySum(lmx, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -705,16 +709,16 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lazyNumbers_lmx_times_lmx", (DL_FUNC) &_lazyNumbers_lmx_times_lmx, 2},
     {"_lazyNumbers_lvx_dividedby_lvx", (DL_FUNC) &_lazyNumbers_lvx_dividedby_lvx, 2},
     {"_lazyNumbers_lmx_dividedby_lmx", (DL_FUNC) &_lazyNumbers_lmx_dividedby_lmx, 2},
-    {"_lazyNumbers_lazySum", (DL_FUNC) &_lazyNumbers_lazySum, 1},
-    {"_lazyNumbers_lazyProd", (DL_FUNC) &_lazyNumbers_lazyProd, 1},
+    {"_lazyNumbers_lazySum", (DL_FUNC) &_lazyNumbers_lazySum, 2},
+    {"_lazyNumbers_lazyProd", (DL_FUNC) &_lazyNumbers_lazyProd, 2},
     {"_lazyNumbers_lazyCumsum", (DL_FUNC) &_lazyNumbers_lazyCumsum, 1},
     {"_lazyNumbers_lazyCumprod", (DL_FUNC) &_lazyNumbers_lazyCumprod, 1},
     {"_lazyNumbers_lazyConcat", (DL_FUNC) &_lazyNumbers_lazyConcat, 2},
     {"_lazyNumbers_lazyMax", (DL_FUNC) &_lazyNumbers_lazyMax, 2},
     {"_lazyNumbers_lazyMin", (DL_FUNC) &_lazyNumbers_lazyMin, 2},
     {"_lazyNumbers_lazyRange", (DL_FUNC) &_lazyNumbers_lazyRange, 2},
-    {"_lazyNumbers_MlazyProd", (DL_FUNC) &_lazyNumbers_MlazyProd, 1},
-    {"_lazyNumbers_MlazySum", (DL_FUNC) &_lazyNumbers_MlazySum, 1},
+    {"_lazyNumbers_MlazyProd", (DL_FUNC) &_lazyNumbers_MlazyProd, 2},
+    {"_lazyNumbers_MlazySum", (DL_FUNC) &_lazyNumbers_MlazySum, 2},
     {"_lazyNumbers_MlazyMax", (DL_FUNC) &_lazyNumbers_MlazyMax, 2},
     {"_lazyNumbers_MlazyMin", (DL_FUNC) &_lazyNumbers_MlazyMin, 2},
     {"_lazyNumbers_MlazyRange", (DL_FUNC) &_lazyNumbers_MlazyRange, 2},

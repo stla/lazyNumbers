@@ -109,12 +109,12 @@ lmx_dividedby_lmx <- function(lmx1, lmx2) {
     .Call(`_lazyNumbers_lmx_dividedby_lmx`, lmx1, lmx2)
 }
 
-lazySum <- function(lvx) {
-    .Call(`_lazyNumbers_lazySum`, lvx)
+lazySum <- function(lvx, na_rm) {
+    .Call(`_lazyNumbers_lazySum`, lvx, na_rm)
 }
 
-lazyProd <- function(lvx) {
-    .Call(`_lazyNumbers_lazyProd`, lvx)
+lazyProd <- function(lvx, na_rm) {
+    .Call(`_lazyNumbers_lazyProd`, lvx, na_rm)
 }
 
 lazyCumsum <- function(lvx) {
@@ -141,12 +141,12 @@ lazyRange <- function(lvx, na_rm) {
     .Call(`_lazyNumbers_lazyRange`, lvx, na_rm)
 }
 
-MlazyProd <- function(lmx) {
-    .Call(`_lazyNumbers_MlazyProd`, lmx)
+MlazyProd <- function(lmx, na_rm) {
+    .Call(`_lazyNumbers_MlazyProd`, lmx, na_rm)
 }
 
-MlazySum <- function(lmx) {
-    .Call(`_lazyNumbers_MlazySum`, lmx)
+MlazySum <- function(lmx, na_rm) {
+    .Call(`_lazyNumbers_MlazySum`, lmx, na_rm)
 }
 
 MlazyMax <- function(lmx, na_rm) {

@@ -4,6 +4,8 @@
 
 * The function `asDouble` has been removed since its `prec` argument caused no difference.
 
+* The summary functions `min`, `max`, `range`, `sum` and `prod` gain the `na.rm` argument.
+
 * New functions `diag` and `diag<-`.
 
 
