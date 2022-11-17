@@ -128,3 +128,13 @@ setMethod(
     new("lazyMatrix", xptr = lmx, nrow = n, ncol = n)
   }
 )
+
+#' @exportS3Method length lazyMatrix
+length.lazyMatrix <- function(x) {
+  x@nrow * x@ncol
+}
+
+#' @exportS3Method dim lazyMatrix
+dim.lazyMatrix <- function(x) {
+  c(x@nrow, x@ncol)
+}

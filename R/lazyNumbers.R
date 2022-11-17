@@ -220,3 +220,13 @@ isNaN_or_Inf <- function(x) {
 rep.lazyVector <- function(x, times = 1, length.out = NA, each = 1, ...) {
   x[rep(1L:x@length, times = times, length.out = length.out, each = each)]
 }
+
+#' @exportS3Method length lazyVector
+length.lazyVector <- function(x) {
+  x@length
+}
+
+#' @exportS3Method dim lazyVector
+dim.lazyVector <- function(x) {
+  NULL
+}
