@@ -407,9 +407,8 @@ lazyVectorXPtr minus_lvx(lazyVectorXPtr lvx) {
 
 // [[Rcpp::export]]
 lazyMatrixXPtr minus_lmx(lazyMatrixXPtr lmx) {
-  lazyMatrix lmin = *(lmx.get());
-  lazyMatrix lm = - lmin;
-  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+  lazyMatrix lm = *(lmx.get());
+  return lazyMatrixXPtr(new lazyMatrix(-lm), false);
 }
 
 // [[Rcpp::export]]
@@ -446,8 +445,7 @@ lazyVectorXPtr lvx_plus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
 lazyMatrixXPtr lmx_plus_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   lazyMatrix lm1 = *(lmx1.get());
   lazyMatrix lm2 = *(lmx2.get());
-  lazyMatrix lm = lm1 + lm2;
-  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+  return lazyMatrixXPtr(new lazyMatrix(lm1 + lm2), false);
 }
 
 // [[Rcpp::export]]
@@ -484,8 +482,7 @@ lazyVectorXPtr lvx_minus_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
 lazyMatrixXPtr lmx_minus_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   lazyMatrix lm1 = *(lmx1.get());
   lazyMatrix lm2 = *(lmx2.get());
-  lazyMatrix lm = lm1 - lm2;
-  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+  return lazyMatrixXPtr(new lazyMatrix(lm1 - lm2), false);
 }
 
 // [[Rcpp::export]]
@@ -522,16 +519,14 @@ lazyVectorXPtr lvx_times_lvx(lazyVectorXPtr lvx1, lazyVectorXPtr lvx2) {
 lazyMatrixXPtr lmx_cwtimes_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   lazyMatrix lm1 = *(lmx1.get());
   lazyMatrix lm2 = *(lmx2.get());
-  lazyMatrix lm = lm1.cwiseProduct(lm2);
-  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+  return lazyMatrixXPtr(new lazyMatrix(lm1.cwiseProduct(lm2)), false);
 }
 
 // [[Rcpp::export]]
 lazyMatrixXPtr lmx_times_lmx(lazyMatrixXPtr lmx1, lazyMatrixXPtr lmx2) {
   lazyMatrix lm1 = *(lmx1.get());
   lazyMatrix lm2 = *(lmx2.get());
-  lazyMatrix lm = lm1 * lm2;
-  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+  return lazyMatrixXPtr(new lazyMatrix(lm1 * lm2), false);
 }
 
 // [[Rcpp::export]]
@@ -962,15 +957,13 @@ lazyVectorXPtr lazyDeterminant(lazyMatrixXPtr lmx) {
       }
     }
   }
-  lazyVector det = {lm0.determinant()};
-  return lazyVectorXPtr(new lazyVector(det), false);
+  return lazyVectorXPtr(new lazyVector({lm0.determinant()}), false);
 }
 
 // [[Rcpp::export]]
 lazyMatrixXPtr lazyInverse(lazyMatrixXPtr lmx) {
   lazyMatrix lm = *(lmx.get());
-  lazyMatrix inv = lm.inverse();
-  return lazyMatrixXPtr(new lazyMatrix(inv), false);
+  return lazyMatrixXPtr(new lazyMatrix(lm.inverse()), false);
 }
 
 // [[Rcpp::export]]
@@ -982,12 +975,13 @@ lazyMatrixXPtr lazyTranspose(lazyMatrixXPtr lmx) {
 // [[Rcpp::export]]
 lazyVectorXPtr lazyFlatten(lazyMatrixXPtr lmx) {
   lazyMatrix lm = *(lmx.get());
-  lazyVector lv;
-  const size_t s = lm.size();
-  lv.reserve(s);
-  for(size_t k = 0; k < s; k++) {
-    lv.emplace_back(*(lm.data() + k));
-  }
+  lazyVector lv(lm.data(), lm.data() + lm.size());
+  // lazyVector lv;
+  // const size_t s = lm.size();
+  // lv.reserve(s);
+  // for(size_t k = 0; k < s; k++) {
+  //   lv.emplace_back(*(lm.data() + k));
+  // }
   // size_t m = lm.rows();
   // size_t n = lm.cols();
   // lv.reserve(m * n);
