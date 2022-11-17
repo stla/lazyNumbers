@@ -123,11 +123,28 @@ lazyResolve <- function(x) {
   stopifnot(inherits(x, "lazyVector") || inherits(x, "lazyMatrix"))
   if(inherits(x, "lazyVector")) {
     . <- lazyExact(x@xptr)
-  } else{
+  } else {
     . <- MlazyExact(x@xptr)
   }
   invisible(x)
 }
+
+# #' @title Copy a lazy object
+# #' @description Make a copy of a lazy vector or a lazy matrix.
+# #'
+# #' @param x a \code{lazyVector} object or a \code{lazyMatrix} object
+# #'
+# #' @return A \code{lazyVector} object or a \code{lazyMatrix} object, a copy 
+# #'   of \code{x}.
+# #' @export
+# lazyCopy <- function(x) {
+#   stopifnot(inherits(x, "lazyVector") || inherits(x, "lazyMatrix"))
+#   if(inherits(x, "lazyVector")) {
+#     new("lazyVector", xptr = lazyDuplicate(x@xptr), length = x@length)
+#   } else {
+#     new("lazyMatrix", xptr = MlazyDuplicate(x@xptr), nrow = x@nrow, ncol = x@ncol)
+#   }
+# }
 
 #' @name is.na
 #' @aliases is.na,lazyVector-method is.na,lazyMatrix-method anyNA anyNA,lazyVector-method anyNA,lazyMatrix-method

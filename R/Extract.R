@@ -12,12 +12,12 @@ setMethod(
   signature("lazyVector", i = "numeric"), 
   function(x, i) {
     if(isIndexVector(-i)) {
-      if(any(i) < -x@length) {
+      if(any(i < -x@length)) {
         stop("Too large index.")
       }
       i <- setdiff(1L:x@length, -i)
     } else if(isIndexVector(i)) {
-      if(any(i) > x@length) {
+      if(any(i > x@length)) {
         stop("Too large index.")
       }
     } else {
@@ -44,7 +44,7 @@ setReplaceMethod(
   signature("lazyVector", i = "numeric", j = "missing", value = "lazyVector"), 
   function(x, i, j, value) {
     stopifnot(isIndexVector(i))
-    if(any(i) > x@length) {
+    if(any(i > x@length)) {
       stop("Too large index.")
     }
     if(length(i) != value@length) {

@@ -663,6 +663,14 @@ lazyVectorXPtr lazyConcat(
   return lazyVectorXPtr(new lazyVector(lv), false);
 }
 
+// // [[Rcpp::export]]
+// lazyVectorXPtr lazyDuplicate(lazyVectorXPtr lvx) {
+//   lazyVector lvin = *(lvx.get());
+//   lazyVector lv;
+//   std::copy(lvin.begin(), lvin.end(), std::back_inserter(lv));
+//   return lazyVectorXPtr(new lazyVector(lv), false);
+// }
+
 bool compareLazyScalars(lazyScalar x, lazyScalar y) {
   return *x < *y;
 }
@@ -1095,7 +1103,7 @@ lazyMatrixXPtr lazyReplaceDiagonal(lazyMatrixXPtr lmx, lazyVectorXPtr lvx) {
   lazyMatrix lm = *(lmx.get());
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();
-  for(size_t k = 0; k < n; k ++) {
+  for(size_t k = 0; k < n; k++) {
     lm(k, k) = lv[k];
   }
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
