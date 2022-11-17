@@ -89,7 +89,7 @@ lazyScalar operator/(const lazyScalar& lhs, const lazyScalar& rhs) {
   return that;
 }
 
-lazyScalar max(const lazyScalar x, const lazyScalar y) {
+lazyScalar max(const lazyScalar& x, const lazyScalar& y) {
   if(x && y) {
     return max(*x, *y);
   } else {
@@ -97,7 +97,7 @@ lazyScalar max(const lazyScalar x, const lazyScalar y) {
   }
 }
 
-lazyScalar min(const lazyScalar x, const lazyScalar y) {
+lazyScalar min(const lazyScalar& x, const lazyScalar& y) {
   if(x && y) {
     return min(*x, *y);
   } else {
@@ -105,7 +105,7 @@ lazyScalar min(const lazyScalar x, const lazyScalar y) {
   }
 }
 
-lazyScalar abs(const lazyScalar x) {
+lazyScalar abs(const lazyScalar& x) {
   if(x) {
     return CGAL::abs(*x);
   } else {
