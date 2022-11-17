@@ -16,7 +16,7 @@ A logical vector or a logical matrix.
 Check whether values are infinite or NaN in lazy vectors and 
   lazy matrices.
 }
-\details{
+\note{
 If you want to check whether a lazy number is infinite or whether 
   a lazy number is NaN, you have to call `as.double`. There is no way to 
   distinguish an infinite lazy number from a NaN lazy number without 

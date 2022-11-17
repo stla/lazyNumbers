@@ -31,8 +31,12 @@ The \code{is.na} function returns a logical vector or a
 Check whether values are missing in lazy vectors and lazy 
   matrices.
 }
+\note{
+The \code{is.na} function does not detect lazy NaN numbers; see 
+  the note in \code{\link{isNaN_or_Inf}}.
+}
 \examples{
 is.na(NA_lazy_)
-is.na(lazyvec(c(1, 2, NA)))
+is.na(lazyvec(c(1, 2, NA, NaN, Inf)))
 anyNA(lazyvec(c(1, 2, NA)))
 }

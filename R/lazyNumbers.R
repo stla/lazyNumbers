@@ -138,6 +138,8 @@ lazyResolve <- function(x) {
 #' @param recursive ignored
 #' @return The \code{is.na} function returns a logical vector or a 
 #'   logical matrix, and the \code{anyNA} function returns a logical value.
+#' @note The \code{is.na} function does not detect lazy NaN numbers; see 
+#'   the note in \code{\link{isNaN_or_Inf}}.
 #' @exportMethod is.na
 #' @exportMethod anyNA
 #' @docType methods
@@ -199,7 +201,7 @@ na.omit.lazyVector <- function(object, ...) {
 #' @param x a lazy vector or a lazy matrix
 #' @return A logical vector or a logical matrix.
 #' @export
-#' @details If you want to check whether a lazy number is infinite or whether 
+#' @note If you want to check whether a lazy number is infinite or whether 
 #'   a lazy number is NaN, you have to call `as.double`. There is no way to 
 #'   distinguish an infinite lazy number from a NaN lazy number without 
 #'   resorting to its double approximation.
