@@ -37,6 +37,10 @@ isLazyVectorNaN_or_Inf <- function(lvx) {
     .Call(`_lazyNumbers_isLazyVectorNaN_or_Inf`, lvx)
 }
 
+isLazyMatrixNaN_or_Inf <- function(lmx) {
+    .Call(`_lazyNumbers_isLazyMatrixNaN_or_Inf`, lmx)
+}
+
 intervals_lvx <- function(lvx) {
     .Call(`_lazyNumbers_intervals_lvx`, lvx)
 }

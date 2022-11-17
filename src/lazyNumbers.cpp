@@ -248,6 +248,23 @@ Rcpp::LogicalVector isLazyVectorNaN_or_Inf(lazyVectorXPtr lvx) {
 }
 
 // [[Rcpp::export]]
+Rcpp::LogicalMatrix isLazyMatrixNaN_or_Inf(lazyMatrixXPtr lmx) {
+  lazyMatrix lm = *(lmx.get());
+  const size_t m = lm.rows();
+  const size_t n = lm.cols();
+  Rcpp::LogicalMatrix out(m, n);
+  for(size_t j = 0; j < n; j++) {
+    Rcpp::LogicalVector colj(m);
+    for(size_t i = 0; i < m; i++) {
+      lazyScalar x = lm.coeff(i, j);
+      colj(i) = x && isLazyNaN_or_Inf(*x) ? true : false;
+    }
+    out(Rcpp::_, j) = colj;
+  }
+  return out;
+}
+
+// [[Rcpp::export]]
 Rcpp::List intervals_lvx(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   const size_t n = lv.size();

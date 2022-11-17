@@ -211,6 +211,8 @@ isNaN_or_Inf <- function(x) {
   stopifnot(inherits(x, "lazyVector") || inherits(x, "lazyMatrix"))
   if(inherits(x, "lazyVector")) {
     isLazyVectorNaN_or_Inf(x@xptr)    
+  } else {
+    isLazyMatrixNaN_or_Inf(x@xptr)
   }
 }
 
