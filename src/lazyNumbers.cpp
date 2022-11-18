@@ -335,12 +335,15 @@ lazyVectorXPtr nv2lvx(Rcpp::NumericVector nv) {
   for(size_t i = 0; i < n; i++) {
     if(isinf(nv(i))) { 
       if(nv(i) > 0) {
-        lv[i] = lazyScalar(1) / lazyScalar(0);
+        lazyNumber x(Quotient(1) / Quotient(0));
+        lv[i] = lazyScalar(x);
       } else {
-        lv[i] = lazyScalar(-1) / lazyScalar(0);
+        lazyNumber x(Quotient(-1) / Quotient(0));
+        lv[i] = lazyScalar(x);
       }
     } else if(isNaN(nv, i)) {
-      lv[i] = lazyScalar(0) / lazyScalar(0);
+      lazyNumber x(Quotient(0) / Quotient(0));
+      lv[i] = lazyScalar(x);
     } else if(Rcpp::NumericVector::is_na(nv(i))) {
       lv[i] = std::nullopt;
     } else {
@@ -360,12 +363,15 @@ lazyMatrixXPtr nm2lmx(Rcpp::NumericMatrix nm) {
     for(size_t i = 0; i < nrow; i++) {
       if(isinf(colj(i))) {
         if(colj(i) > 0) {
-          lm(i, j) = lazyScalar(1) / lazyScalar(0);
+          lazyNumber x(Quotient(1) / Quotient(0));
+          lm(i, j) = lazyScalar(x);
         } else {
-          lm(i, j) = lazyScalar(-1) / lazyScalar(0);
+          lazyNumber x(Quotient(-1) / Quotient(0));
+          lm(i, j) = lazyScalar(x);
         }
       } else if(isNaN(colj, i)) {
-        lm(i, j) = lazyScalar(0) / lazyScalar(0);
+        lazyNumber x(Quotient(0) / Quotient(0));
+        lm(i, j) = lazyScalar(x);
       } else if(Rcpp::NumericVector::is_na(colj(i))) {
         lm(i, j) = std::nullopt;
       } else {

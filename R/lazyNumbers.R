@@ -37,6 +37,15 @@ as.lazyVector.integer <- function(x) {
   as.lazyVector.numeric(as.double(x))
 }
 
+as.lazyVector.logical <- function(x) {
+  as.lazyVector.numeric(as.double(x))
+}
+
+as.lazyVector.matrix <- function(x) {
+  storage.mode(x) <- "double"
+  as.lazyVector.numeric(c(x))
+}
+
 as.lazyVector.lazyMatrix <- function(x) {
   new(
     "lazyVector",
