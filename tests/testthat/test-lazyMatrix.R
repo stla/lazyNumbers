@@ -35,3 +35,16 @@ test_that("sum of a lazy matrix", {
   expect_true(is.na(as.double(sum(lm))))
   expect_true(as.double(sum(lm, na.rm = TRUE)) == 3)
 })
+
+test_that("transpose of a lazy matrix", {
+  nm <- matrix(c(1, 2, NA, NaN, Inf, -Inf), nrow = 3L, ncol = 2L)
+  lm <- t(lazymat(nm))
+  expect_identical(as.double(lm), t(nm))
+})
+
+test_that("matricial product of lazy matrices", {
+  M1 <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 3L, ncol = 2L)
+  M2 <- toeplitz(c(5, 6))
+  lm <- lazymat(M1) %*% lazymat(M2)
+  expect_identical(as.double(lm), M1 %*% M2)
+})
