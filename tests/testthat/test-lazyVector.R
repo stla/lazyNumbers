@@ -33,3 +33,9 @@ test_that("check NaN/Inf in a lazy vector", {
   lv <- lazyvec(c(1, NA, NaN, Inf, -Inf))
   expect_identical(isNaN_or_Inf(lv), c(FALSE, FALSE, TRUE, TRUE, TRUE))
 })
+
+test_that("sum of a lazy vector", {
+  lv <- lazyvec(c(1, 2, NA))
+  expect_true(is.na(as.double(sum(lv))))
+  expect_true(as.double(sum(lv, na.rm = TRUE)) == 3)
+})

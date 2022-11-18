@@ -1,0 +1,37 @@
+test_that("lazy matrix from numeric matrix", {
+  M <- toeplitz(c(1, 2))
+  lm <- lazymat(M)
+  expect_identical(as.double(lm), M)
+  lm <- lazymat(M, dim = c(3, 5))
+  expect_identical(as.double(lm), M)
+})
+
+test_that("lazy matrix from numeric vector", {
+  nv <- c(1, 2, 3, 4)
+  lm <- lazymat(nv)
+  expect_identical(dim(lm), c(4L, 1L))
+  expect_identical(as.double(lm), as.matrix(nv))
+  lm <- lazymat(nv, dim = c(2, 2))
+  expect_identical(dim(lm), c(2L, 2L))
+})
+
+test_that("lazy matrix with NA, NaN, and Inf values", {
+  nm <- matrix(c(1, 2, NA, NaN, Inf, -Inf), nrow = 3L, ncol = 2L)
+  lm <- lazymat(nm)
+  expect_identical(as.double(lm), nm)
+})
+
+test_that("check NaN/Inf in a lazy matrix", {
+  x <- c(1, NA, NaN, Inf, -Inf)
+  lm <- lazymat(x)
+  expect_identical(
+    isNaN_or_Inf(lm), 
+    as.matrix(c(FALSE, FALSE, TRUE, TRUE, TRUE))
+  )
+})
+
+test_that("sum of a lazy matrix", {
+  lm <- lazymat(c(1, 2, NA, NA))
+  expect_true(is.na(as.double(sum(lm))))
+  expect_true(as.double(sum(lm, na.rm = TRUE)) == 3)
+})
