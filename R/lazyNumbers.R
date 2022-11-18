@@ -204,6 +204,7 @@ setMethod(
 #' @export
 "NA_lazy_"
 
+#' @importFrom stats na.omit
 #' @exportS3Method na.omit lazyVector
 na.omit.lazyVector <- function(object, ...) {
   xptr <- lazyNAomit(object@xptr)

@@ -37,7 +37,7 @@ lazymat <- function(x, dim = NULL){
     if(is.null(dim)) {
       lvx <- x@xptr
       lmx <- lazyColumnMatrix(lvx)
-      new("lazyMatrix", xptr = lmx, nrow = lv@length, ncol = 1L)
+      new("lazyMatrix", xptr = lmx, nrow = x@length, ncol = 1L)
     } else {
       stopifnot(length(dim) == 2L)
       dim <- as.integer(dim)
