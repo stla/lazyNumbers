@@ -926,22 +926,26 @@ lazyVectorXPtr lazyReplace(
 lazyMatrixXPtr lazyColumnMatrix(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   size_t n = lv.size();
-  lazyMatrix lm(n, 1);
-  for(size_t i = 0; i < n; i++) {
-    lm(i, 0) = lv[i];
-  }
+  lazyMatrix lm = Eigen::Map<lazyMatrix>(lv.data(), n, 1);
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
+  // lazyMatrix lm(n, 1);
+  // for(size_t i = 0; i < n; i++) {
+  //   lm(i, 0) = lv[i];
+  // }
+  // return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
 // [[Rcpp::export]]
 lazyMatrixXPtr lazyRowMatrix(lazyVectorXPtr lvx) {
   lazyVector lv = *(lvx.get());
   size_t n = lv.size();
-  lazyMatrix lm(1, n);
-  for(size_t i = 0; i < n; i++) {
-    lm(0, i) = lv[i];
-  }
+  lazyMatrix lm = Eigen::Map<lazyMatrix>(lv.data(), 1, n);
   return lazyMatrixXPtr(new lazyMatrix(lm), false);
+  // lazyMatrix lm(1, n);
+  // for(size_t i = 0; i < n; i++) {
+  //   lm(0, i) = lv[i];
+  // }
+  // return lazyMatrixXPtr(new lazyMatrix(lm), false);
 }
 
 // [[Rcpp::export]]
