@@ -208,14 +208,20 @@ void lazyExact(lazyVectorXPtr lvx) {
 // [[Rcpp::export]]
 void MlazyExact(lazyMatrixXPtr lmx) {
   lazyMatrix lm = *(lmx.get());
-  for(size_t i = 0; i < lm.rows(); i++) {
-    for(size_t j = 0; j < lm.cols(); j++) {
-      lazyScalar x = lm.coeff(i, j);
-      if(x) {
-        Quotient q = (*x).exact();
-      }
+  for(size_t k = 0; k < lm.size(); k++) {
+    lazyScalar x = *(lm.data() + k);
+    if(x) {
+      Quotient q = (*x).exact();
     }
   }
+  // for(size_t i = 0; i < lm.rows(); i++) {
+  //   for(size_t j = 0; j < lm.cols(); j++) {
+  //     lazyScalar x = lm.coeff(i, j);
+  //     if(x) {
+  //       Quotient q = (*x).exact();
+  //     }
+  //   }
+  // }
 }
 
 bool isLazyNaN_or_Inf(lazyNumber x) {
