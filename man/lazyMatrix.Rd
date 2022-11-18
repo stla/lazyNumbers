@@ -6,12 +6,18 @@
 \alias{lazymat}
 \title{Lazy matrices}
 \usage{
-as.lazyMatrix(M)
+as.lazyMatrix(x)
 
-lazymat(M)
+lazymat(x, dim = NULL)
 }
 \arguments{
-\item{M}{a numeric matrix, a numeric vector, or a \code{lazyVector} object}
+\item{x}{a numeric matrix, a numeric vector, a \code{lazyVector} object, or 
+a \code{lazyMatrix} object}
+
+\item{dim}{ignored if \code{x} is a (possibly lazy) matrix; otherwise, i.e. 
+if \code{x} is a (possibly lazy) vector, then \code{dim} must be 
+\code{NULL} or a vector of two integers, and \code{NULL} is equivalent
+to \code{c(length(x), 1)} (a column matrix)}
 }
 \value{
 An object of class \code{lazyMatrix}.

@@ -12,6 +12,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// lazyVector2lazyMatrix
+lazyMatrixXPtr lazyVector2lazyMatrix(lazyVectorXPtr lvx, int nrow, int ncol);
+RcppExport SEXP _lazyNumbers_lazyVector2lazyMatrix(SEXP lvxSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< lazyVectorXPtr >::type lvx(lvxSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    rcpp_result_gen = Rcpp::wrap(lazyVector2lazyMatrix(lvx, nrow, ncol));
+    return rcpp_result_gen;
+END_RCPP
+}
 // lazyNA
 lazyVectorXPtr lazyNA();
 RcppExport SEXP _lazyNumbers_lazyNA() {
@@ -682,6 +695,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_lazyNumbers_lazyVector2lazyMatrix", (DL_FUNC) &_lazyNumbers_lazyVector2lazyMatrix, 3},
     {"_lazyNumbers_lazyNA", (DL_FUNC) &_lazyNumbers_lazyNA, 0},
     {"_lazyNumbers_lazyNAomit", (DL_FUNC) &_lazyNumbers_lazyNAomit, 1},
     {"_lazyNumbers_isLazyNA", (DL_FUNC) &_lazyNumbers_isLazyNA, 1},

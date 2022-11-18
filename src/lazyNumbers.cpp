@@ -116,6 +116,17 @@ lazyScalar abs(const lazyScalar& x) {
 }
 
 // [[Rcpp::export]]
+lazyMatrixXPtr lazyVector2lazyMatrix(lazyVectorXPtr lvx, int nrow, int ncol) {
+  lazyVector lv = *(lvx.get());
+  int n = lv.size();
+  if(nrow * ncol != n) {
+    Rcpp::stop("Incompatible dimensions");
+  }
+  lazyMatrix lm = Eigen::Map<lazyMatrix>(lv.data(), nrow, ncol);
+  return lazyMatrixXPtr(new lazyMatrix(lm), false);
+}
+
+// [[Rcpp::export]]
 lazyVectorXPtr lazyNA() {
   return lazyVectorXPtr(new lazyVector({std::nullopt}), false);
 }

@@ -1,6 +1,11 @@
 #' @title Lazy matrices
 #' @description Create a lazy matrix.
-#' @param M a numeric matrix, a numeric vector, or a \code{lazyVector} object
+#' @param x a numeric matrix, a numeric vector, a \code{lazyVector} object, or 
+#'   a \code{lazyMatrix} object
+#' @param dim ignored if \code{x} is a (possibly lazy) matrix; otherwise, i.e. 
+#'   if \code{x} is a (possibly lazy) vector, then \code{dim} must be 
+#'   \code{NULL} or a vector of two integers, and \code{NULL} is equivalent
+#'   to \code{c(length(x), 1)} (a column matrix)
 #' @return An object of class \code{lazyMatrix}.
 #' @export
 #' @name lazyMatrix
@@ -10,16 +15,45 @@
 #' as.double(M + M)
 #' as.double(M * M)
 #' as.double(M %*% M)
-as.lazyMatrix <- function(M) UseMethod("as.lazyMatrix")
+as.lazyMatrix <- function(x) UseMethod("as.lazyMatrix")
 
 #' @rdname lazyMatrix
 #' @export
-lazymat <- function(M) as.lazyMatrix(M)
+lazymat <- function(x, dim = NULL){
+  if(inherits(x, "lazyMatrix")) {
+    x
+  } else if(is.matrix(x)) {
+    storage.mode(x) <- "double"
+    new("lazyMatrix", xptr = nm2lmx(x), nrow = nrow(x), ncol = ncol(x))
+  } else if(is.numeric(x)) {
+    if(is.null(dim)) {
+      M <- as.matrix(x)
+      new("lazyMatrix", xptr = nm2lmx(M), nrow = nrow(M), ncol = ncol(M))
+    } else {
+      dim(x) <- dim
+      new("lazyMatrix", xptr = nm2lmx(x), nrow = nrow(x), ncol = ncol(x))
+    }
+  } else if(inherits(x, "lazyVector")) {
+    if(is.null(dim)) {
+      lvx <- x@xptr
+      lmx <- lazyColumnMatrix(lvx)
+      new("lazyMatrix", xptr = lmx, nrow = lv@length, ncol = 1L)
+    } else {
+      stopifnot(length(dim) == 2L)
+      dim <- as.integer(dim)
+      lvx <- x@xptr
+      xptr <- lazyVector2lazyMatrix(lvx, dim[1L], dim[2L])
+      new("lazyMatrix", xptr = xptr, nrow = dim[1L], ncol = dim[2L])
+    }
+  } else {
+    stop("Wrong argument `x`.")
+  }
+}
 
 as.lazyMatrix.lazyMatrix <- function(M) M
 
 as.lazyMatrix.matrix <- function(M) {
-  stopifnot(is.numeric(M))
+  #stopifnot(is.numeric(M))
   storage.mode(M) <- "double"
   # if(any(is.na(M) | is.infinite(M))) {
   #   stop("Found NA/NaN/Inf values in `M`.", call. = FALSE)
