@@ -48,3 +48,26 @@ test_that("matricial product of lazy matrices", {
   lm <- lazymat(M1) %*% lazymat(M2)
   expect_identical(as.double(lm), M1 %*% M2)
 })
+
+test_that("rbind matrices", {
+  nm1 <- matrix(c(1, 2, NA, NaN, Inf, -Inf), nrow = 3L, ncol = 2L)
+  nm2 <- toeplitz(c(1, 2))
+  lm1 <- lazymat(nm1)
+  lm2 <- lazymat(nm2)
+  expect_identical(as.double(rbind(lm1, lm2)), rbind(nm1, nm2))
+})
+
+test_that("cbind matrices", {
+  nm1 <- matrix(c(1, 2, NA, NaN, Inf, -Inf), nrow = 3L, ncol = 2L)
+  nm2 <- toeplitz(c(1, 2, 3))
+  lm1 <- lazymat(nm1)
+  lm2 <- lazymat(nm2)
+  expect_identical(as.double(cbind(lm1, lm2)), cbind(nm1, nm2))
+})
+
+test_that("lazy matrix to lazy vector", {
+  nm <- matrix(c(1, 2, NA, NaN, Inf, -Inf), nrow = 3L, ncol = 2L)
+  lm <- lazymat(nm)
+  expect_identical(as.double(lazyvec(lm)), c(nm))
+  expect_identical(as.double(c(lm)), c(nm))
+})
