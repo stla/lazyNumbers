@@ -10,7 +10,7 @@ First CRAN-released version.
 
 * New functions `diag` and `diag<-`.
 
-* The function `lazymat` gain a `dim` argument.
+* The function `lazymat` gains a `dim` argument.
 
 
 # lazyNumbers 1.1.0
