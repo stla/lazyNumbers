@@ -21,6 +21,15 @@ test_that("lazy matrix with NA, NaN, and Inf values", {
   expect_identical(as.double(lm), nm)
 })
 
+test_that("check NA in a lazy matrix", {
+  x <- c(1, NA, NaN, Inf, -Inf)
+  lm <- lazymat(x)
+  expect_identical(
+    is.na(lm), 
+    as.matrix(c(FALSE, TRUE, FALSE, FALSE, FALSE))
+  )
+})
+
 test_that("check NaN/Inf in a lazy matrix", {
   x <- c(1, NA, NaN, Inf, -Inf)
   lm <- lazymat(x)

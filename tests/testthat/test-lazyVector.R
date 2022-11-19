@@ -29,6 +29,12 @@ test_that("na.omit for a lazy vector", {
   expect_length(lv, 1L)
 })
 
+test_that("check NA in a lazy vector", {
+  lv <- lazyvec(c(1, NA, NaN, Inf, -Inf))
+  expect_identical(is.na(lv), c(FALSE, TRUE, FALSE, FALSE, FALSE))
+  expect_true(anyNA(lv))
+})
+
 test_that("check NaN/Inf in a lazy vector", {
   lv <- lazyvec(c(1, NA, NaN, Inf, -Inf))
   expect_identical(isNaN_or_Inf(lv), c(FALSE, FALSE, TRUE, TRUE, TRUE))
@@ -54,4 +60,10 @@ test_that("extract from a lazy vector", {
   x <- c(1, 2, NA, NaN, Inf)
   lv <- lazyvec(x)
   expect_identical(as.double(lv[2:5]), x[2:5])
+})
+
+test_that("extract from a lazy vector with negative indices", {
+  x <- c(1, 2, NA, NaN, Inf)
+  lv <- lazyvec(x)
+  expect_identical(as.double(lv[-2]), x[-2])
 })
