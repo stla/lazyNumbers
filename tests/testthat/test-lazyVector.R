@@ -39,3 +39,19 @@ test_that("sum of a lazy vector", {
   expect_true(is.na(as.double(sum(lv))))
   expect_true(as.double(sum(lv, na.rm = TRUE)) == 3)
 })
+
+test_that("replace in a lazy vector", {
+  x1 <- c(1, 2, NA, NaN, Inf)
+  x2 <- c(9, NaN, 4, NA)
+  lv1 <- lazyvec(x1)
+  lv2 <- lazyvec(x2)
+  lv1[1:4] <- lv2
+  x1[1:4] <- x2
+  expect_identical(as.double(lv1), x1)
+})
+
+test_that("extract from a lazy vector", {
+  x <- c(1, 2, NA, NaN, Inf)
+  lv <- lazyvec(x)
+  expect_identical(as.double(lv[2:5]), x[2:5])
+})
