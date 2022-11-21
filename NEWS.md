@@ -1,3 +1,8 @@
+# lazyNumbers 1.2.1
+
+Added `include <optional>` in the header because of some errors on CRAN.
+
+
 # lazyNumbers 1.2.0
 
 First CRAN-released version.

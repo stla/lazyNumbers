@@ -11,6 +11,7 @@
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
 #include <CGAL/Interval_nt.h>
+#include <optional>
 
 typedef CGAL::Quotient<CGAL::MP_Float>                            Quotient;
 typedef CGAL::Lazy_exact_nt<Quotient>                             lazyNumber;
