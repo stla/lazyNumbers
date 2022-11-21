@@ -1,7 +1,7 @@
 Type: Package
 Package: lazyNumbers
 Title: Exact Floating-Point Arithmetic
-Version: 1.2.0
+Version: 1.2.0.9000
 Authors@R: 
     person("Stéphane", "Laurent", , "laurent_step@outlook.fr", role = c("aut", "cre"))
 Maintainer: Stéphane Laurent <laurent_step@outlook.fr>

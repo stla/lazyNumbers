@@ -58,7 +58,7 @@ test_that("matricial product of lazy matrices", {
   expect_identical(as.double(lm), M1 %*% M2)
 })
 
-test_that("rbind matrices", {
+test_that("rbind lazy matrices", {
   nm1 <- matrix(c(1, 2, NA, NaN, Inf, -Inf), nrow = 3L, ncol = 2L)
   nm2 <- toeplitz(c(1, 2))
   lm1 <- lazymat(nm1)
@@ -66,7 +66,7 @@ test_that("rbind matrices", {
   expect_identical(as.double(rbind(lm1, lm2)), rbind(nm1, nm2))
 })
 
-test_that("cbind matrices", {
+test_that("cbind lazy matrices", {
   nm1 <- matrix(c(1, 2, NA, NaN, Inf, -Inf), nrow = 3L, ncol = 2L)
   nm2 <- toeplitz(c(1, 2, 3))
   lm1 <- lazymat(nm1)
@@ -79,4 +79,31 @@ test_that("lazy matrix to lazy vector", {
   lm <- lazymat(nm)
   expect_identical(as.double(lazyvec(lm)), c(nm))
   expect_identical(as.double(c(lm)), c(nm))
+})
+
+test_that("extract from a lazy matrix", {
+  nm <- matrix(c(1, 2, NA, NaN, Inf, -Inf, 8, 9, NA), nrow = 3L, ncol = 3L)
+  lm <- lazymat(nm)[2:3, 2:3]
+  expect_identical(as.double(lm), nm[2:3, 2:3])
+})
+
+test_that("extract from a lazy matrix with negative indices", {
+  nm <- matrix(c(1, 2, NA, NaN, Inf, -Inf, 8, 9, NA), nrow = 3L, ncol = 3L)
+  lm <- lazymat(nm)[2:3, -2]
+  expect_identical(as.double(lm), nm[2:3, -2])
+})
+
+test_that("extract diagonal of a lazy matrix", {
+  nm <- matrix(c(1, 2, NA, NaN, Inf, -Inf, 8, 9, NA), nrow = 3L, ncol = 3L)
+  lv <- diag(lazymat(nm))
+  expect_identical(as.double(lv), diag(nm))
+})
+
+test_that("replace diagonal of a lazy matrix", {
+  nm <- matrix(c(1, 2, NA, NaN, Inf, -Inf, 8, 9, NA), nrow = 3L, ncol = 3L)
+  lm <- lazymat(nm)
+  x <- c(NA, 2, -Inf)
+  diag(nm) <- x
+  diag(lm) <- lazyvec(x)
+  expect_identical(as.double(lm), nm)
 })
