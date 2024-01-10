@@ -1,3 +1,9 @@
+# lazyNumbers 1.2.2
+
+No change. This is a resubmission because this package has been archived due to 
+an issue with the RcppCGAL package.
+
+
 # lazyNumbers 1.2.1
 
 Added `include <optional>` in the header because of some errors on CRAN.
