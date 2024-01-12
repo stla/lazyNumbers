@@ -24,8 +24,10 @@ lazyvec <- function(x) as.lazyVector(x)
 #' @export
 lazynb <- function(x) as.lazyVector(x)
 
+#' @exportS3Method as.lazyVector lazyVector
 as.lazyVector.lazyVector <- function(x) x
 
+#' @exportS3Method as.lazyVector numeric
 as.lazyVector.numeric <- function(x) {
   # if(any(is.na(x) | is.infinite(x))) {
   #   stop("Found NA/NaN/Inf values in `x`.", call. = FALSE)
@@ -33,19 +35,23 @@ as.lazyVector.numeric <- function(x) {
   new("lazyVector", xptr = nv2lvx(x), length = length(x))
 }
 
+#' @exportS3Method as.lazyVector integer
 as.lazyVector.integer <- function(x) {
   as.lazyVector.numeric(as.double(x))
 }
 
+#' @exportS3Method as.lazyVector logical
 as.lazyVector.logical <- function(x) {
   as.lazyVector.numeric(as.double(x))
 }
 
+#' @exportS3Method as.lazyVector matrix
 as.lazyVector.matrix <- function(x) {
   storage.mode(x) <- "double"
   as.lazyVector.numeric(c(x))
 }
 
+#' @exportS3Method as.lazyVector lazyMatrix
 as.lazyVector.lazyMatrix <- function(x) {
   new(
     "lazyVector",

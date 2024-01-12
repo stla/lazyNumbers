@@ -50,25 +50,29 @@ lazymat <- function(x, dim = NULL){
   }
 }
 
-as.lazyMatrix.lazyMatrix <- function(M) M
+#' @exportS3Method as.lazyMatrix lazyMatrix 
+as.lazyMatrix.lazyMatrix <- function(x) x
 
-as.lazyMatrix.matrix <- function(M) {
+#' @exportS3Method as.lazyMatrix matrix
+as.lazyMatrix.matrix <- function(x) {
   #stopifnot(is.numeric(M))
-  storage.mode(M) <- "double"
+  storage.mode(x) <- "double"
   # if(any(is.na(M) | is.infinite(M))) {
   #   stop("Found NA/NaN/Inf values in `M`.", call. = FALSE)
   # }
-  new("lazyMatrix", xptr = nm2lmx(M), nrow = nrow(M), ncol = ncol(M))
+  new("lazyMatrix", xptr = nm2lmx(x), nrow = nrow(x), ncol = ncol(x))
 }
 
+#' @exportS3Method as.lazyMatrix numeric
 as.lazyMatrix.numeric <- function(x) {
   as.lazyMatrix.matrix(as.matrix(x))
 }
 
-as.lazyMatrix.lazyVector <- function(lv) {
-  lvx <- lv@xptr
+#' @exportS3Method as.lazyMatrix lazyVector
+as.lazyMatrix.lazyVector <- function(x) {
+  lvx <- x@xptr
   lmx <- lazyColumnMatrix(lvx)
-  new("lazyMatrix", xptr = lmx, nrow = lv@length, ncol = 1L)
+  new("lazyMatrix", xptr = lmx, nrow = x@length, ncol = 1L)
 }
 
 #' @exportS3Method as.double lazyMatrix
